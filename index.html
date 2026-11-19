@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#185ABD">
-<title>Scuola di Word</title>
+<title>Impara Word da smartphone</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -155,9 +155,15 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 .coach{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px;box-shadow:var(--shadow)}
 .coach .lbl{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.coach .txt{font-size:1.12rem;line-height:1.5}
-.coach .txt b{background:linear-gradient(transparent 55%,var(--marker) 55%);color:inherit;padding:0 2px}
-.hc .coach .txt b{background:var(--marker);color:#000}
+.coach .txt{font-size:1.15rem;line-height:1.85}
+/* Testo delle istruzioni: pulsanti = etichetta blu, parole del foglio = riquadro bianco */
+.rich b{font-weight:700;color:var(--ink);background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:7px;padding:.05em .45em;white-space:nowrap;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.rich em{font-style:normal;font-weight:700;font-family:var(--f-doc);color:#1B1B1B;background:#FFFFFF;border:1.5px solid #6B7488;border-radius:4px;padding:.05em .4em;white-space:nowrap}
+.rich strong{font-weight:700;color:var(--ink)}
+.hc .rich b{background:#FFFFFF;border:2px solid #000;color:#000}
+.hc .rich em{border:2px solid #000}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.88rem;color:var(--muted);line-height:2;padding-top:10px;border-top:1px solid var(--line)}
+.brand-t{line-height:1.15;font-size:1rem}
 .coach .txt.in{animation:txtIn calc(.4s * var(--dur)) both}
 @keyframes txtIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
 .coach .actions{display:flex;flex-wrap:wrap;gap:8px}
@@ -218,10 +224,10 @@ kbd{font-family:var(--f-word);font-size:.85em;padding:2px 7px;border-radius:6px;
 .wb.big svg{width:30px;height:30px}
 .gl{font-family:"Segoe UI",Arial,sans-serif;font-size:1rem;width:18px;text-align:center;line-height:1}
 .gl-b{font-weight:800}.gl-i{font-style:italic;font-family:Georgia,"Times New Roman",serif;font-size:1.05rem}.gl-u{text-decoration:underline;text-underline-offset:2px}
-.w-sel{height:30px;border:1px solid var(--w-line);border-radius:4px;background:var(--w-page);color:#1B1B1B;font-size:.78rem;padding:0 4px;font-family:var(--f-word)}
+.w-sel{height:32px;border:1px solid var(--w-line);border-radius:4px;background:var(--w-page);color:#1B1B1B;font-size:16px;padding:0 4px;font-family:var(--f-word)}
 :root[data-theme="dark"] .w-sel{background:#1F1F1F;color:#F0F0F0}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .w-sel{background:#1F1F1F;color:#F0F0F0}}
-.w-sel.fn{width:7.2rem}.w-sel.fs{width:3.6rem}
+.w-sel.fn{width:8.4rem}.w-sel.fs{width:4.2rem}
 .w-gallery{display:flex;gap:4px;padding:2px;border:1px solid var(--w-line);border-radius:5px;background:var(--w-page)}
 .w-style{border:1px solid transparent;background:#fff;color:#1b1b1b;border-radius:3px;width:76px;height:64px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:4px 6px;font-size:.7rem;text-align:left}
 .w-style .pv{font-family:var(--f-doc);font-size:.95rem;white-space:nowrap;overflow:hidden;max-width:100%}
@@ -247,7 +253,8 @@ kbd{font-family:var(--f-word);font-size:.85em;padding:2px 7px;border-radius:6px;
 .tgrid button{aspect-ratio:1;max-width:100%;border:1px solid #9a9a9a;background:#fff;border-radius:2px;min-height:30px}
 .tgrid button.on{background:#FFE7A8;border-color:#C9871A}
 
-.w-canvas{background:var(--w-canvas);padding:14px 12px 18px;height:18rem;overflow-y:auto;position:relative}
+.w-canvas{background:var(--w-canvas);padding:14px 12px 18px;height:18rem;overflow-y:auto;position:relative;overscroll-behavior:contain;overflow-anchor:none}
+button,select,textarea,input{touch-action:manipulation}
 .w-page{background:var(--w-page);color:var(--w-page-ink);min-height:100%;padding:22px 20px 26px;box-shadow:0 1px 3px rgba(0,0,0,.15);font-family:var(--f-doc);font-size:.95rem;line-height:1.45;border-radius:1px}
 .w-page.shake{animation:shake calc(.4s * var(--dur))}
 @keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
@@ -261,8 +268,12 @@ kbd{font-family:var(--f-word);font-size:.85em;padding:2px 7px;border-radius:6px;
 @keyframes mkIn{from{opacity:0;transform:translateX(-8px)}}
 .pp.al-change{animation:alc calc(.45s * var(--dur))}
 @keyframes alc{from{opacity:.3}}
-.wd{border-radius:2px;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;transition:background calc(.12s * var(--dur)),font-size calc(.25s * var(--dur)),color calc(.25s * var(--dur))}
+.wd{border-radius:2px;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:background calc(.12s * var(--dur)),font-size calc(.25s * var(--dur)),color calc(.25s * var(--dur))}
 .wd.sel,.sp.sel{background:var(--w-sel)}
+.wd.sel{touch-action:none}
+.w-ext{border:1px solid var(--w-line);background:var(--w-page);color:#1B1B1B;border-radius:5px;min-height:30px;padding:0 8px;font-size:.72rem;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.w-ext[aria-pressed="true"]{background:#185ABD;color:#fff;border-color:#185ABD}
+.w-ext svg{width:14px;height:14px}
 .wd:focus-visible{outline:2px solid #185ABD;outline-offset:1px}
 .wd.pop{display:inline-block;animation:pop calc(.45s * var(--dur)) cubic-bezier(.3,1.6,.5,1)}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.22)}100%{transform:scale(1)}}
@@ -271,18 +282,36 @@ kbd{font-family:var(--f-word);font-size:.85em;padding:2px 7px;border-radius:6px;
 .caret{display:inline-block;width:1.5px;height:1.15em;background:#000;vertical-align:text-bottom;margin-left:1px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 :root.rm .caret{animation:none}
-.w-tbl{border-collapse:collapse;width:100%;margin:0 0 .6em;animation:objIn calc(.5s * var(--dur)) cubic-bezier(.2,.8,.2,1) both}
-.w-tbl td{border:1px solid #000;height:1.6em}
-.w-img{display:block;width:78%;margin:0 auto .6em;border-radius:2px;animation:objIn calc(.5s * var(--dur)) cubic-bezier(.2,.8,.2,1) both}
+.w-tbl{border-collapse:collapse;width:100%;margin:0 0 .6em}
+.w-tbl.fresh,.w-img.fresh{animation:objIn calc(.5s * var(--dur)) cubic-bezier(.2,.8,.2,1) both}
+.w-tbl td{border:1px solid #000;height:1.9em;padding:3px 6px;vertical-align:top;min-width:2.6em;cursor:text;transition:border-color calc(.3s * var(--dur))}
+.w-tbl.nob td{border:1px dashed #B5C3D6}
+.w-tbl.outb td{border:1px dashed #B5C3D6}.w-tbl.outb{outline:1px solid #000;outline-offset:-1px}
+.w-tbl td.al-center{text-align:center}.w-tbl td.al-right{text-align:right}.w-tbl td.al-justify{text-align:justify}
+.w-tbl td.editing{box-shadow:inset 0 0 0 2px #185ABD;background:#F5F9FF}
+.w-tbl td.hint{box-shadow:inset 0 0 0 3px #14213D;background:var(--marker);animation:none}
+.w-cellin{display:block;width:100%;min-width:3em;border:0;outline:none;resize:none;background:transparent;color:inherit;font-family:var(--f-doc);font-size:16px;line-height:1.35;padding:0;overflow:hidden;text-align:inherit}
+.w-page{transition:background-color calc(.5s * var(--dur)),outline-color calc(.5s * var(--dur))}
+.w-tab.ctx{color:var(--w-on-ink)}
+.w-tab.ctx::before{content:"";position:absolute;left:6px;right:6px;top:0;height:3px;border-radius:0 0 3px 3px;background:#2E9E5B}
+.w-tab.ctx:not([aria-selected="true"]){animation:grpIn calc(.35s * var(--dur)) both}
+.sw-col,.sw-bor{display:inline-block;width:22px;height:22px;border-radius:4px;border:1px solid #bbb;flex:none}
+.sw-bor{background:#fff;border:0}
+.w-img{display:block;width:78%;margin:0 auto .6em;border-radius:2px}
 @keyframes objIn{from{opacity:0;transform:scale(.85)}}
 
+.w-write{display:block;width:100%;margin:0;padding:2px 4px;border:1.5px dashed transparent;border-radius:3px;background:transparent;color:var(--w-page-ink);font-family:var(--f-doc);font-size:16px;line-height:1.45;resize:none;overflow:hidden;outline:none;caret-color:#185ABD;min-height:2.2em;transition:border-color calc(.2s * var(--dur)),background calc(.2s * var(--dur))}
+.w-write::placeholder{color:#6B7488;opacity:1}
+.w-write:placeholder-shown{border-color:#9AA6BC;background:#F5F8FD}
+.w-write:focus{border-color:#185ABD;background:#FFFFFF}
+.w-write.hint{border:2px solid #14213D;background:var(--marker);animation:none}
 .w-type{display:flex;gap:6px;padding:8px;background:var(--w-ribbon);border-top:1px solid var(--w-line)}
 .w-type label{display:flex;flex-direction:column;flex:1;min-width:0;font-size:.72rem;color:var(--w-sub);gap:2px}
 .w-type input{height:42px;border:1px solid var(--w-line);border-radius:6px;padding:0 10px;background:var(--w-page);color:#1b1b1b;font-family:var(--f-doc);font-size:1rem;width:100%}
 .w-type button{align-self:flex-end;height:42px;border-radius:6px;border:1px solid var(--w-line);background:var(--w-page);color:#1b1b1b;padding:0 12px;font-weight:600;display:flex;align-items:center;gap:6px}
 .w-type button svg{width:16px;height:16px}
 
-.w-status{display:flex;justify-content:space-between;gap:8px;background:var(--w-ribbon);color:var(--w-sub);font-size:.68rem;padding:5px 10px;border-top:1px solid var(--w-line);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
+.w-status{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--w-ribbon);color:var(--w-sub);font-size:.68rem;padding:5px 10px;border-top:1px solid var(--w-line);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
 
 /* Backstage (File) */
 .w-bs{position:absolute;inset:0;z-index:8;display:grid;grid-template-columns:7.4rem 1fr;background:var(--w-page);color:#1b1b1b;animation:bsIn calc(.35s * var(--dur)) cubic-bezier(.2,.8,.2,1)}
@@ -297,7 +326,7 @@ kbd{font-family:var(--f-word);font-size:.85em;padding:2px 7px;border-radius:6px;
 .bs-main h3{font-family:var(--f-word);font-weight:400;font-size:1.5rem;letter-spacing:0}
 .bs-main .muted{color:#555;font-size:.8rem}
 .bs-field{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:#444}
-.bs-field input,.bs-field .fake{height:40px;border:1px solid #8a8a8a;border-radius:4px;padding:0 10px;font-size:.92rem;background:#fff;color:#1b1b1b;display:flex;align-items:center}
+.bs-field input,.bs-field .fake{height:40px;border:1px solid #8a8a8a;border-radius:4px;padding:0 10px;font-size:16px;background:#fff;color:#1b1b1b;display:flex;align-items:center}
 .bs-go{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:5px;border:0;background:#185ABD;color:#fff;font-weight:600}
 .bs-go svg{width:20px;height:20px}
 .bs-go.big{flex-direction:column;min-height:84px;width:96px;justify-content:center;border:1px solid #c8c8c8;background:#fff;color:#1b1b1b}
@@ -434,25 +463,25 @@ let toastT;
 function toast(t){const h=$('#toastHost');h.innerHTML='<div class="toast" role="status">'+esc(t)+'</div>';clearTimeout(toastT);toastT=setTimeout(()=>h.innerHTML='',3200)}
 
 /* ---------- Preferenze ---------- */
+const hostTheme=root.getAttribute('data-theme');
 const prefs=Object.assign({fs:1,th:'auto',hc:false,rm:false,tts:false},store.get('prefs',{}));
 function applyPrefs(){
   root.classList.remove('fs2','fs3'); if(prefs.fs>1) root.classList.add('fs'+prefs.fs);
   root.classList.toggle('hc',prefs.hc); root.classList.toggle('rm',prefs.rm);
-  if(prefs.th==='auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme',prefs.th);
+  if(prefs.th!=='auto') root.setAttribute('data-theme',prefs.th); else if(hostTheme) root.setAttribute('data-theme',hostTheme); else root.removeAttribute('data-theme');
   $$('[data-fs]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.fs===prefs.fs)));
   $$('[data-th]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.th===prefs.th)));
   $$('[data-sw]').forEach(b=>b.setAttribute('aria-checked',String(!!prefs[b.dataset.sw])));
   store.set('prefs',prefs);
 }
-const hostTheme=root.getAttribute('data-theme');
-if(prefs.th==='auto'&&hostTheme) prefs.th='auto';
+if(![1,2,3].includes(prefs.fs))prefs.fs=1;if(!['auto','light','dark'].includes(prefs.th))prefs.th='auto';
 applyPrefs();
 $('#acc').addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   if(b.dataset.fs){prefs.fs=+b.dataset.fs;applyPrefs()}
   else if(b.dataset.th){prefs.th=b.dataset.th;applyPrefs()}
   else if(b.dataset.sw){prefs[b.dataset.sw]=!prefs[b.dataset.sw];applyPrefs(); if(b.dataset.sw==='tts'&&!prefs.tts) stopSpeak();}
-  else if(b.id==='accClose') $('#acc').close();
+  else if(b.id==='accClose'){const d=$('#acc');try{d.close()}catch(_){d.removeAttribute('open')}}
 });
 $('#acc').addEventListener('click',e=>{if(e.target.id==='acc')$('#acc').close()});
 
@@ -534,6 +563,13 @@ const IC={
   read:S('<path d="M2.5 4.5h6a2 2 0 0 1 1.5 1v11a2 2 0 0 0-1.5-1h-6zM17.5 4.5h-6a2 2 0 0 0-1.5 1v11a2 2 0 0 1 1.5-1h6z"/>'),
   layoutp:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/><path d="M7 6h6M7 9h6M7 12h4"/>'),
   zoom:S('<circle cx="8.5" cy="8.5" r="5"/><path d="m12.3 12.3 5 5M6.5 8.5h4M8.5 6.5v4"/>'),
+  rowabove:S('<rect x="2.5" y="8.5" width="15" height="9" rx="1"/><path d="M2.5 13h15M10 8.5v9M10 1.8v4.6M7.7 4.1h4.6"/>'),
+  rowbelow:S('<rect x="2.5" y="2.5" width="15" height="9" rx="1"/><path d="M2.5 7h15M10 2.5v9M10 13.6v4.6M7.7 15.9h4.6"/>'),
+  colleft:S('<rect x="8.5" y="2.5" width="9" height="15" rx="1"/><path d="M13 2.5v15M8.5 10h9M1.8 10h4.6M4.1 7.7v4.6"/>'),
+  colright:S('<rect x="2.5" y="2.5" width="9" height="15" rx="1"/><path d="M7 2.5v15M2.5 10h9M13.6 10h4.6M15.9 7.7v4.6"/>'),
+  tdel:S('<rect x="2.5" y="3.5" width="12" height="11" rx="1"/><path d="M2.5 9h12M8.5 3.5v11M13 13l5 5M18 13l-5 5"/>'),
+  tplain:S('<path d="M3 5h5M11 5h6M3 10h5M11 10h6M3 15h5M11 15h6"/>'),
+  pageborder:S('<rect x="3.5" y="2.5" width="13" height="15" rx="1"/><rect x="6" y="5" width="8" height="10" stroke-dasharray="1.4 1.4"/>'),
   window:S('<rect x="2.5" y="3.5" width="15" height="13" rx="1.2"/><path d="M2.5 7h15"/>'),
   help:S('<circle cx="10" cy="10" r="7.5"/><path d="M8 8a2 2 0 0 1 3.9.6c0 1.4-1.9 1.7-1.9 3M10 14.2v.1"/>'),
   mail:S('<rect x="2.5" y="4.5" width="15" height="11" rx="1"/><path d="m3 5 7 6 7-6"/>'),
@@ -575,7 +611,7 @@ const CMD={
   paste:{l:'Incolla',k:'CTRL+V',d:'Inserisce il testo copiato o tagliato.'},
   cut:{l:'Taglia',k:'CTRL+X',d:'Toglie il testo selezionato e lo mette negli Appunti.'},
   copy:{l:'Copia',k:'CTRL+C',d:'Copia il testo selezionato negli Appunti.'},
-  painter:{l:'Copia formato',d:'Copia l’aspetto di un testo per applicarlo a un altro.'},
+  painter:{l:'Copia formato',k:'CTRL+MAIUSC+C',d:'Copia l’aspetto di una parola. Poi tocca un’altra parola per darle lo stesso aspetto.'},
   font:{l:'Tipo di carattere',d:'Sceglie la forma delle lettere.'},
   size:{l:'Dimensione carattere',d:'Sceglie quanto è grande il testo.'},
   grow:{l:'Aumenta dimensione carattere',k:'CTRL+>',d:'Rende il testo un po’ più grande.'},
@@ -612,6 +648,16 @@ const CMD={
   editor:{l:'Editor',d:'Controlla l’ortografia e la grammatica.'},
   table:{l:'Tabella',d:'Inserisce una tabella con righe e colonne.'},
   pictures:{l:'Immagini',d:'Inserisce una foto o un disegno.'},
+  pcolor:{l:'Colore pagina',d:'Colora lo sfondo di tutto il foglio.'},
+  pborder:{l:'Bordi pagina',d:'Aggiunge una cornice intorno al foglio.'},
+  'tstyle-grid':{l:'Griglia tabella',d:'Tabella con tutte le linee.'},
+  'tstyle-plain':{l:'Tabella semplice',d:'Tabella senza linee: solo il testo in colonna.'},
+  tborders:{l:'Bordi',d:'Sceglie le linee della tabella: tutte, solo esterne o nessuna.'},
+  rowabove:{l:'Inserisci sopra',d:'Aggiunge una riga sopra la cella in cui ti trovi.'},
+  rowbelow:{l:'Inserisci sotto',d:'Aggiunge una riga sotto la cella in cui ti trovi.'},
+  colleft:{l:'Inserisci a sinistra',d:'Aggiunge una colonna a sinistra.'},
+  colright:{l:'Inserisci a destra',d:'Aggiunge una colonna a destra.'},
+  tdelete:{l:'Elimina',d:'Elimina righe, colonne o tutta la tabella.'},
   'st-normal':{l:'Normale',d:'Lo stile del testo semplice.'},
   'st-nospace':{l:'Nessuna spaziatura',d:'Testo semplice senza spazio tra i paragrafi.'},
   'st-h1':{l:'Titolo 1',d:'Stile per i titoli principali.'},
@@ -619,7 +665,7 @@ const CMD={
   'st-title':{l:'Titolo',d:'Stile per il titolo del documento.'},
 };
 const SIZES=[8,9,10,11,12,14,16,18,20,22,24,26,28,36];
-const FONTS=['Aptos','Arial','Calibri','Georgia','Times New Roman','Verdana'];
+const FONTS=['Aptos','Arial','Calibri','Courier New','Georgia','Times New Roman','Verdana'];
 const b=(id,o={})=>Object.assign({id},o);
 const RIB={
  Home:[
@@ -643,7 +689,9 @@ const RIB={
   {n:'Simboli',big:[b('x-eq',{l:'Equazione',i:'equation'}),b('x-sym',{l:'Simbolo',i:'symbol'})]},
  ],
  Disegno:[{n:'Strumenti di disegno',big:[b('x-pen',{l:'Penna',i:'pen'}),b('x-hl',{l:'Evidenziatore',i:'highlight'})]},{n:'Converti',big:[b('x-ink',{l:'Input penna in forma',i:'shapes'})]}],
- Progettazione:[{n:'Formattazione documento',big:[b('x-theme',{l:'Temi',i:'theme'}),b('x-colors',{l:'Colori',i:'shading'}),b('x-fonts',{l:'Tipi di carattere',i:'case'})]},{n:'Sfondo pagina',big:[b('x-wm',{l:'Filigrana',i:'layoutp'}),b('x-pcol',{l:'Colore pagina',i:'shading'}),b('x-pb',{l:'Bordi pagina',i:'borders'})]}],
+ Progettazione:[{n:'Sfondo pagina',big:[b('x-wm',{l:'Filigrana',i:'layoutp'}),b('pcolor',{i:'shading'}),b('pborder',{i:'pageborder'})]},{n:'Formattazione documento',big:[b('x-theme',{l:'Temi',i:'theme'}),b('x-colors',{l:'Colori',i:'shading'}),b('x-fonts',{l:'Tipi di carattere',i:'case'})]}],
+ 'Struttura tabella':[{n:'Stili tabella',big:[b('tstyle-grid',{i:'table'}),b('tstyle-plain',{i:'tplain'})]},{n:'Bordi',big:[b('tborders',{i:'borders'})]}],
+ 'Layout tabella':[{n:'Righe e colonne',big:[b('rowabove'),b('rowbelow'),b('colleft'),b('colright')]},{n:'Elimina',big:[b('tdelete',{i:'tdel'})]}],
  Layout:[{n:'Imposta pagina',big:[b('x-marg',{l:'Margini',i:'margins'}),b('x-orient',{l:'Orientamento',i:'orient'}),b('x-size',{l:'Dimensioni',i:'size'}),b('x-col',{l:'Colonne',i:'columns'})]},{n:'Paragrafo',big:[b('x-ind',{l:'Rientro',i:'indent'}),b('x-sp',{l:'Spaziatura',i:'spacing'})]}],
  Riferimenti:[{n:'Sommario',big:[b('x-toc',{l:'Sommario',i:'toc'})]},{n:'Note a piè di pagina',big:[b('x-fn',{l:'Inserisci nota a piè di pagina',i:'footnote'})]}],
  Lettere:[{n:'Crea',big:[b('x-env',{l:'Buste',i:'mail'}),b('x-lab',{l:'Etichette',i:'layoutp'})]},{n:'Avvia stampa unione',big:[b('x-mm',{l:'Inizia stampa unione',i:'mail'}),b('x-rec',{l:'Seleziona destinatari',i:'user'})]}],
@@ -651,6 +699,11 @@ const RIB={
  Visualizza:[{n:'Visualizzazioni',big:[b('x-rd',{l:'Modalità lettura',i:'read'}),b('x-pl',{l:'Layout di stampa',i:'layoutp'}),b('x-web',{l:'Layout Web',i:'globe'})]},{n:'Zoom',big:[b('x-zoom',{l:'Zoom',i:'zoom'}),b('x-100',{l:'100%',i:'zoom'})]}],
  Guida:[{n:'Guida',big:[b('x-help',{l:'Guida',i:'help'}),b('x-sup',{l:'Contatta il supporto',i:'user'}),b('x-fb',{l:'Commenti e suggerimenti',i:'comment'})]}],
 };
+const FMT=['b','i','u','s','sub','sup','size','color','hl','font'];
+const TOGGLES=['bold','italic','underline','strike','sub','sup','left','center','right','justify','bullets','numbering','painter'];
+const CTX_TABS=['Struttura tabella','Layout tabella'];
+const PAGE_COL={none:{l:'Nessun colore',v:null},crema:{l:'Crema',v:'#FBF3E2'},salvia:{l:'Verde salvia',v:'#EAF2E3'},cielo:{l:'Azzurro cielo',v:'#E7F0FA'},cipria:{l:'Rosa cipria',v:'#FAEBEC'}};
+const PAGE_BOR={none:{l:'Nessuno',v:null},single:{l:'Linea semplice',v:'1.5px solid #3A3A3A'},double:{l:'Doppia linea',v:'4px double #3A3A3A'},dotted:{l:'Puntini',v:'2.5px dotted #7A5C2E'}};
 const TABS=['File','Home','Inserisci','Disegno','Progettazione','Layout','Riferimenti','Lettere','Revisione','Visualizza','Guida'];
 const STY={'st-normal':'normal','st-nospace':'nospace','st-h1':'h1','st-h2':'h2','st-title':'title'};
 const STY_PV={'st-normal':'AaBbCcDd','st-nospace':'AaBbCcDd','st-h1':'AaBbCc','st-h2':'AaBbCcD','st-title':'AaB'};
@@ -665,10 +718,11 @@ const clean=t=>String(t).toLowerCase().replace(/[.,;:!?«»"]/g,'');
 class Sim{
   constructor(){this.el=document.createElement('section');this.el.className='sim';this.el.setAttribute('aria-label','Simulazione di Microsoft Word');this.onChange=()=>{};this.hintOn=null;this.bind()}
   load(cfg){
-    this.s={doc:JSON.parse(JSON.stringify(cfg.doc)),sel:null,curP:cfg.curP||0,tab:cfg.tab||'Home',clip:null,undo:[],redo:[],
-      fileName:'Documento1',saved:false,printed:false,bs:null,menu:null,typing:!!cfg.typing,draft:'',events:[],mark:0};
-    this.hintOn=null;this.spotReg=null;this.build();
+    this.s={doc:JSON.parse(JSON.stringify(cfg.doc)),page:{color:null,border:null},sel:null,curP:cfg.curP||0,tab:cfg.tab||'Home',clip:null,undo:[],redo:[],
+      fileName:'Documento1',saved:false,printed:false,bs:null,menu:null,typing:!!cfg.typing,draft:'',events:[],mark:0,tbl:null,cellEdit:null,painter:null};
+    clearTimeout(this.typeT);clearTimeout(this.tipT);this.hintOn=null;this.spotReg=null;this.ext=false;this.pend=false;this.norm();this.build();
   }
+  norm(){this.s.doc.forEach(p=>{if(p.type==='table'){if(!p.borders)p.borders='all';if(!p.cells)p.cells=Array.from({length:p.rows},()=>Array.from({length:p.cols},()=>P('')));p.rows=p.cells.length;p.cols=p.cells[0].length}})}
   build(){
     const s=this.s;
     this.el.innerHTML=`
@@ -680,14 +734,13 @@ class Sim{
       <div class="w-name" aria-live="polite"></div><span class="w-av" aria-hidden="true">TU</span>
     </div>
     <div data-region="ribbon">
-      <div class="w-tabs" role="tablist" aria-label="Schede della barra multifunzione">${TABS.map(t=>`<button class="w-tab${t==='File'?' file':''}" role="tab" data-tab="${t}" data-id="tab-${t}" aria-selected="false">${t}</button>`).join('')}</div>
+      <div class="w-tabs" role="tablist" aria-label="Schede della barra multifunzione"></div>
       <div class="w-ribbon" role="toolbar" aria-label="Comandi"></div>
     </div>
     <div class="w-tip" aria-hidden="true"></div>
     <div class="w-menuhost"></div>
-    <div class="w-canvas" data-region="page"><div class="w-page" role="document" aria-label="Foglio del documento"></div></div>
-    ${s.typing?`<div class="w-type"><label>Scrivi qui<input id="sim-type" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" data-id="type"></label><button data-cmd="enter" data-id="enter" aria-label="Invio: vai a capo">${IC.enter}Invio</button></div>`:''}
-    <div class="w-status" aria-hidden="true"><span class="st-l"></span><span>Italiano (Italia) · 100%</span></div>
+    <div class="w-canvas" data-region="page"><div class="w-page" role="document" aria-label="Foglio del documento"><div class="w-doc"></div>${s.typing?`<textarea class="w-write" id="sim-type" data-id="type" rows="1" enterkeyhint="enter" autocomplete="off" autocapitalize="sentences" spellcheck="false" aria-label="Scrivi sul foglio" placeholder="Tocca qui e scrivi…"></textarea>`:''}</div></div>
+    <div class="w-status"><span class="st-l" aria-hidden="true"></span><button class="w-ext" data-ext data-id="ext" aria-pressed="false">${IC.select}Estendi selezione</button></div>
     <div class="w-bshost"></div>`;
     this.renderTabs();this.renderRibbon();this.renderDoc();this.renderTitle();this.refresh();
   }
@@ -706,47 +759,86 @@ class Sim{
       if(e.target.dataset.sel==='size') this.setSize(+e.target.value);
     });
     el.addEventListener('input',e=>{
-      if(e.target.id==='sim-type'){const prev=this.s.draft;this.s.draft=e.target.value; if(this.s.draft.length<prev.length) this.ev('delete'); else this.ev('type'); this.renderDoc(true); this.onChange()}
-      if(e.target.id==='bs-name'){this.s.nameDraft=e.target.value}
+      const ta=e.target;
+      if(ta.id==='sim-type'){if(ta.value.includes('\n')){ta.value=ta.value.replace(/\n/g,'');this.s.draft=ta.value;this.cmd('enter');return}
+        const prev=this.s.draft;this.s.draft=ta.value;this.ev(this.s.draft.length<prev.length?'delete':'type');this.fitWrite();this.countWords();
+        clearTimeout(this.typeT);this.typeT=setTimeout(()=>this.onChange(),900)}
+      if(ta.classList.contains('w-cellin')){if(ta.value.includes('\n')){ta.value=ta.value.replace(/\n/g,' ');ta.blur();return}
+        this.cellText(ta.value);ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';this.countWords();
+        clearTimeout(this.typeT);this.typeT=setTimeout(()=>this.onChange(),900)}
+      if(ta.id==='bs-name'){this.s.nameDraft=ta.value}
     });
+    el.addEventListener('focusout',e=>{if(e.target.classList.contains('w-cellin'))this.endCell()});
     el.addEventListener('keydown',e=>{
-      if(e.target.id==='sim-type'&&e.key==='Enter'){e.preventDefault();this.cmd('enter')}
+      if(e.target.id==='sim-type'&&e.key==='Enter'&&!e.isComposing){e.preventDefault();this.cmd('enter')}
+      if(e.target.classList.contains('w-cellin')&&(e.key==='Enter'||e.key==='Escape')&&!e.isComposing){e.preventDefault();e.target.blur()}
       if(e.target.id==='bs-name'&&e.key==='Enter'){e.preventDefault();this.bsGo('do-save')}
-      if(e.target.classList.contains('wd')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();const i=+e.target.dataset.i;
-        if(e.shiftKey&&this.s.sel){this.setSel(Math.min(this.s.sel.a,i),Math.max(this.s.sel.b,i))}else this.setSel(i,i);this.selDone()}
+      if(e.target.classList.contains('wd')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();const i=this.linOf(e.target);if(i<0)return;
+        if((e.shiftKey||this.ext)&&this.s.sel){this.setSel(Math.min(this.s.sel.a,i),Math.max(this.s.sel.b,i))}else this.setSel(i,i);this.selDone()}
+      if(e.target.tagName==='TD'&&(e.key==='Enter'||e.key===' ')){e.preventDefault();const[d,r,c]=e.target.dataset.cell.split('-').map(Number);this.editCell(d,r,c)}
       if(e.key==='Escape'&&(this.s.menu||this.s.bs)){this.closeMenu();if(this.s.bs){this.s.bs=null;this.renderBs();this.onChange()}}
     });
-    let drag=null;
+    let drag=null;this.ext=false;
     el.addEventListener('pointerdown',e=>{
       const w=e.target.closest('.wd'); if(!w) return;
       if(this.s.menu) this.closeMenu();
-      e.preventDefault(); const i=+w.dataset.i; const sel=this.s.sel;
-      drag={start:i,moved:false,was:sel&&sel.a===i&&sel.b===i};
-      this.setSel(i,i);
-      try{w.releasePointerCapture&&w.releasePointerCapture(e.pointerId)}catch(_){}
+      if(e.pointerType==='touch'&&!w.classList.contains('sel')) return; // tocco semplice: gestito dal click, così il foglio può scorrere
+      const i=this.linOf(w);if(i<0)return;
+      e.preventDefault(); const sel=this.s.sel;
+      drag={start:i,i,moved:false,was:!!sel&&sel.a===i&&sel.b===i};
+      if(sel&&i>=sel.a&&i<=sel.b&&sel.a!==sel.b) drag.start=(i===sel.b?sel.a:i===sel.a?sel.b:i);
+      if(!(sel&&i>=sel.a&&i<=sel.b)) this.setSel(i,i);
     });
     el.addEventListener('pointermove',e=>{
       if(!drag) return; const x=document.elementFromPoint(e.clientX,e.clientY); const w=x&&x.closest&&x.closest('.wd'); if(!w||!this.el.contains(w)) return;
-      const i=+w.dataset.i; if(i!==drag.start) drag.moved=true; this.setSel(Math.min(drag.start,i),Math.max(drag.start,i));
+      const i=this.linOf(w); if(i<0||i===drag.last) return; drag.last=i; drag.moved=true; this.setSel(Math.min(drag.start,i),Math.max(drag.start,i));
     });
-    const up=()=>{ if(!drag) return; if(!drag.moved&&drag.was){this.s.sel=null;this.paintSel()} drag=null; this.selDone() };
-    el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up);
-    el.addEventListener('click',e=>{ if(this.s&&this.s.menu&&!e.target.closest('.w-menu,[data-cmd]')) this.closeMenu() });
+    const up=()=>{ setTimeout(()=>this.flush(),350); if(!drag) return; const d=drag; drag=null; this.skipClick=true; setTimeout(()=>this.skipClick=false,350);
+      if(!d.moved){ if(d.was){this.s.sel=null;this.paintSel()} else this.setSel(d.i,d.i) } this.selDone() };
+    window.addEventListener('pointerup',up); window.addEventListener('pointercancel',up);
+    el.addEventListener('click',e=>{
+      const ex=e.target.closest('[data-ext]');
+      if(ex){this.ext=!this.ext;ex.setAttribute('aria-pressed',String(this.ext));toast(this.ext?'Estendi selezione attivo: tocca un’altra parola per allargare la selezione.':'Estendi selezione disattivato.');return}
+      const w=e.target.closest('.wd');
+      if(w){ if(this.skipClick){this.skipClick=false;return}
+        const i=this.linOf(w),sel=this.s.sel;if(i<0)return;
+        if(this.ext&&sel) this.setSel(Math.min(sel.a,i),Math.max(sel.b,i));
+        else if(sel&&sel.a===i&&sel.b===i){this.s.sel=null;this.paintSel()}
+        else this.setSel(i,i);
+        this.selDone();return}
+      const td=e.target.closest('td[data-cell]');
+      if(td&&!e.target.closest('textarea')){const[d,r,c]=td.dataset.cell.split('-').map(Number);this.editCell(d,r,c);return}
+      if(this.s.menu&&!e.target.closest('.w-menu,[data-cmd]')) this.closeMenu();
+      if(e.target.closest('.w-canvas')&&!e.target.closest('textarea,.w-tbl,.w-img')){
+        if(this.s.tbl){this.s.tbl=null;this.ctxCheck()}
+        if(this.s.typing){const ta=$('#sim-type',this.el);ta&&ta.focus({preventScroll:true})}}
+    });
+    el.addEventListener('click',()=>this.flush());
   }
   ev(n){this.s.events.push(n)}
   since(n){return this.s.events.slice(this.s.mark).includes(n)}
-  flat(){const out=[];this.s.doc.forEach((p,pi)=>{if(p.type==='text')p.words.forEach((w,wi)=>out.push([pi,wi]))});return out}
+  /* blocchi di testo: paragrafi e celle delle tabelle, nell'ordine del foglio */
+  blocks(){const out=[];this.s.doc.forEach((p,di)=>{if(p.type==='text')out.push({p,di});else if(p.type==='table')p.cells.forEach((row,r)=>row.forEach((c,ci)=>out.push({p:c,di,cell:[r,ci]})))});return out}
+  blk(i){const b=this.blocks()[i];return b&&b.p}
+  cellBlock(di,r,c){return this.blocks().findIndex(b=>b.di===di&&b.cell&&b.cell[0]===r&&b.cell[1]===c)}
+  flat(){const out=[];this.blocks().forEach((b,bi)=>b.p.words.forEach((w,wi)=>out.push([bi,wi])));return out}
+  linOf(el){const b=+el.dataset.b,w=+el.dataset.w;return this.flat().findIndex(x=>x[0]===b&&x[1]===w)}
   selPairs(){const s=this.s;if(!s.sel)return[];return this.flat().slice(s.sel.a,s.sel.b+1)}
-  selWords(){return this.selPairs().map(([p,w])=>this.s.doc[p].words[w])}
+  selWords(){const B=this.blocks();return this.selPairs().map(([p,w])=>B[p].p.words[w]).filter(Boolean)}
   selText(){return this.selWords().map(w=>clean(w.t)).join(' ')}
   selParas(){const ps=[...new Set(this.selPairs().map(x=>x[0]))];return ps.length?ps:[this.s.curP]}
-  setSel(a,b){this.s.sel={a,b};const f=this.flat();if(f[b])this.s.curP=f[b][0];this.paintSel()}
+  inTable(){const t=this.s.tbl;return !!t&&!!this.s.doc[t.di]&&this.s.doc[t.di].type==='table'}
+  setSel(a,b){const s=this.s;s.sel={a,b};const f=this.flat();if(f[b]){s.curP=f[b][0];const B=this.blocks()[f[b][0]];s.tbl=B&&B.cell?{di:B.di,r:B.cell[0],c:B.cell[1]}:null}this.paintSel();this.ctxCheck()}
   paintSel(){
     const s=this.s;$$('.wd',this.el).forEach(w=>{const i=+w.dataset.i;w.classList.toggle('sel',!!s.sel&&i>=s.sel.a&&i<=s.sel.b)});
     $$('.sp',this.el).forEach(sp=>{const i=+sp.dataset.i;sp.classList.toggle('sel',!!s.sel&&i>=s.sel.a&&i<s.sel.b)});
   }
-  selDone(){const t=this.selText();this.ev('sel');this.refresh();if(t)announce('Selezionato: '+t);this.onChange()}
-  snap(){this.s.undo.push(JSON.stringify(this.s.doc));this.s.redo=[]}
+  selDone(){
+    const s=this.s,t=this.selText();this.ev('sel');
+    if(s.painter&&s.sel&&this.selWords().length){const f=s.painter;this.snap();this.selWords().forEach(w=>{FMT.forEach(k=>delete w[k]);Object.assign(w,JSON.parse(JSON.stringify(f)))});s.painter=null;toast('Formato applicato.');this.changed('painted','Formato copiato su: '+t,true);return}
+    this.refresh();if(t)announce('Selezionato: '+t);this.onChange()}
+  snap(){this.s.undo.push(JSON.stringify({doc:this.s.doc,page:this.s.page}));if(this.s.undo.length>80)this.s.undo.shift();this.s.redo=[]}
+  restore(json){const o=JSON.parse(json);this.s.doc=o.doc;this.s.page=o.page;this.s.sel=null;this.s.cellEdit=null;this.norm();if(!this.inTable())this.s.tbl=null}
   nudge(msg){const pg=$('.w-page',this.el);pg.classList.remove('shake');void pg.offsetWidth;pg.classList.add('shake');toast(msg);announce(msg)}
   tip(id){
     const c=CMD[id];if(!c)return;const tip=$('.w-tip',this.el);const rib=$('[data-region="ribbon"]',this.el);
@@ -754,18 +846,28 @@ class Sim{
     tip.innerHTML=`<b>${esc(c.l)}${c.k?' ('+esc(c.k)+')':''}</b>${esc(c.d)}`;tip.classList.add('show');
     clearTimeout(this.tipT);this.tipT=setTimeout(()=>tip.classList.remove('show'),2600);
   }
+  tabs(){return this.inTable()?TABS.concat(CTX_TABS):TABS}
+  ctxCheck(){const has=this.inTable();const shown=!!$('.w-tab.ctx',this.el);
+    if(!has&&CTX_TABS.includes(this.s.tab)){this.s.tab='Home';this.renderTabs();this.renderRibbon();this.refresh();return}
+    if(has!==shown)this.renderTabs()}
   setTab(t){
     const s=this.s; this.closeMenu();
     if(t==='File'){s.bs='home';this.ev('file');this.renderBs();announce('Menu File aperto');this.onChange();return}
     s.tab=t;this.ev('tab:'+t);this.renderTabs();this.renderRibbon();$('.w-ribbon',this.el).scrollLeft=0;this.refresh();announce('Scheda '+t);this.onChange();
   }
-  renderTabs(){$$('.w-tab',this.el).forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===this.s.tab)))}
+  renderTabs(){
+    const s=this.s;if(!this.tabs().includes(s.tab))s.tab='Home';
+    const box=$('.w-tabs',this.el),sl=box.scrollLeft;
+    box.innerHTML=this.tabs().map(t=>`<button class="w-tab${t==='File'?' file':''}${CTX_TABS.includes(t)?' ctx':''}" role="tab" data-tab="${t}" data-id="tab-${t}" aria-selected="${t===s.tab}">${t}</button>`).join('');
+    box.scrollLeft=sl;
+    if(this.hintOn)this.showHint(this.hintOn,true);
+  }
   btn(it){
     const id=it.id,c=CMD[id]||{l:it.l},icon=c.g?`<span class="gl ${c.gc}" aria-hidden="true">${c.g}</span>`:(IC[it.i||id]||IC.layoutp);
     const lab=c.l||it.l, key=c.k?` (${c.k})`:'';
     if(it.k==='font') return `<select class="w-sel fn" data-sel="font" data-id="font" aria-label="Tipo di carattere">${FONTS.map(f=>`<option ${f==='Aptos'?'selected':''}>${f}</option>`).join('')}</select>`;
     if(it.k==='size') return `<select class="w-sel fs" data-sel="size" data-id="size" aria-label="Dimensione carattere">${SIZES.map(n=>`<option ${n===12?'selected':''}>${n}</option>`).join('')}</select>`;
-    const toggle=['bold','italic','underline','strike','sub','sup','left','center','right','justify','bullets','numbering'].includes(id);
+    const toggle=TOGGLES.includes(id);
     return `<button class="wb${it.big?' big':''}${it.lab?' lab':''}" data-cmd="${id}" data-id="${id}" aria-label="${esc(lab+key)}"${toggle?' aria-pressed="false"':''}>${icon}${it.big||it.lab?`<span>${esc(lab)}</span>`:''}</button>`;
   }
   renderRibbon(){
@@ -780,88 +882,139 @@ class Sim{
     }).join('');
     $('.w-ribbon',this.el).innerHTML=html;
   }
-  renderTitle(){
-    const s=this.s,n=$('.w-name',this.el);n.innerHTML=`${esc(s.fileName)} <em>· ${s.saved?'Salvato':'Word'}</em>`;
+  renderTitle(){const s=this.s,n=$('.w-name',this.el);n.innerHTML=`${esc(s.fileName)} <em>· ${s.saved?'Salvato':'Word'}</em>`}
+  wordsHTML(p,bi,ctr){
+    return p.words.map((w,wi)=>{
+      const i=ctr.i++;const st=[];
+      if(w.b)st.push('font-weight:700');if(w.i)st.push('font-style:italic');
+      const dec=[w.u?'underline':'',w.s?'line-through':''].filter(Boolean).join(' ');if(dec)st.push('text-decoration:'+dec);
+      if(w.size)st.push(`font-size:${(w.size*0.08).toFixed(2)}rem`);if(w.color)st.push('color:'+w.color);if(w.hl)st.push('background:'+w.hl);
+      if(w.font)st.push(`font-family:'${w.font}',var(--f-doc)`);if(w.sub)st.push('vertical-align:sub;font-size:.7em');if(w.sup)st.push('vertical-align:super;font-size:.7em');
+      const sp=wi<p.words.length-1?`<span class="sp" data-i="${i}"> </span>`:'';
+      const nw=w._new;delete w._new;
+      return `<span class="wd${nw?' new':''}" data-i="${i}" data-b="${bi}" data-w="${wi}" tabindex="0" role="button" style="${st.join(';')}">${esc(w.t)}</span>${sp}`;
+    }).join('');
   }
-  renderDoc(typingOnly){
-    const s=this.s,pg=$('.w-page',this.el);let idx=0,num=0,html='';
-    s.doc.forEach((p,pi)=>{
-      if(p.type==='table'){num=0;html+=`<table class="w-tbl" aria-label="Tabella ${p.cols} colonne per ${p.rows} righe">${Array.from({length:p.rows},()=>'<tr>'+'<td></td>'.repeat(p.cols)+'</tr>').join('')}</table>`;return}
-      if(p.type==='image'){num=0;html+=`<img class="w-img" src="${IMG}" alt="Immagine inserita: un paesaggio di mare">`;return}
+  renderDoc(){
+    const s=this.s;this.pend=false;
+    const nb=this.blocks().length;if(s.curP>=nb)s.curP=Math.max(0,nb-1);
+    if(s.sel&&s.sel.b>=this.flat().length)s.sel=null;
+    if(s.tbl&&!this.inTable())s.tbl=null;
+    const pg=$('.w-doc',this.el),ctr={i:0};let bi=0,num=0,html='';
+    s.doc.forEach((p,di)=>{
+      if(p.type==='table'){num=0;
+        const fr=p._new?' fresh':'';delete p._new;html+=`<table class="w-tbl${fr}${p.borders==='none'?' nob':p.borders==='out'?' outb':''}" aria-label="Tabella ${p.cols} colonne per ${p.rows} righe"><tbody>`+p.cells.map((row,r)=>'<tr>'+row.map((cp,c)=>{
+          const b=bi++,ed=s.cellEdit&&s.cellEdit.di===di&&s.cellEdit.r===r&&s.cellEdit.c===c;
+          const inner=ed?(ctr.i+=cp.words.length,`<textarea class="w-cellin" rows="1" aria-label="Cella riga ${r+1} colonna ${c+1}" autocapitalize="sentences" spellcheck="false">${esc(cp.words.map(w=>w.t).join(' '))}</textarea>`):this.wordsHTML(cp,b,ctr);
+          return `<td data-cell="${di}-${r}-${c}" data-id="cell-${r}-${c}" data-p="${b}" class="al-${cp.align}${ed?' editing':''}" tabindex="${ed?-1:0}" aria-label="Cella riga ${r+1} colonna ${c+1}">${inner}</td>`}).join('')+'</tr>').join('')+'</tbody></table>';return}
+      if(p.type==='image'){num=0;const fr=p._new?' fresh':'';delete p._new;html+=`<img class="w-img${fr}" src="${IMG}" alt="Immagine inserita: un paesaggio di mare">`;return}
+      const b=bi++;
       const cls=['pp',p.style!=='normal'?p.style:'','al-'+p.align,p.list?'lst':''].filter(Boolean).join(' ');
       let mk='';if(p.list==='bullet'){mk='<span class="mk" aria-hidden="true">•</span>';num=0}else if(p.list==='number'){num++;mk=`<span class="mk" aria-hidden="true">${num}.</span>`}else num=0;
-      const words=p.words.map((w,wi)=>{
-        const i=idx++;const st=[];
-        if(w.b)st.push('font-weight:700');if(w.i)st.push('font-style:italic');
-        const dec=[w.u?'underline':'',w.s?'line-through':''].filter(Boolean).join(' ');if(dec)st.push('text-decoration:'+dec);
-        if(w.size)st.push(`font-size:${(w.size*0.08).toFixed(2)}rem`);if(w.color)st.push('color:'+w.color);if(w.hl)st.push('background:'+w.hl);
-        if(w.font)st.push(`font-family:'${w.font}',var(--f-doc)`);if(w.sub)st.push('vertical-align:sub;font-size:.7em');if(w.sup)st.push('vertical-align:super;font-size:.7em');
-        const sp=wi<p.words.length-1?`<span class="sp" data-i="${i}"> </span>`:'';
-        return `<span class="wd${w._new?' new':''}" data-i="${i}" tabindex="0" role="button" style="${st.join(';')}">${esc(w.t)}</span>${sp}`;
-      }).join('');
-      p.words.forEach(w=>delete w._new);
-      html+=`<p class="${cls}" data-p="${pi}">${mk}<span>${words}${(s.typing&&pi===s.doc.length-1&&!s.draft)?'<span class="caret"></span>':''}</span></p>`;
+      html+=`<p class="${cls}" data-p="${b}">${mk}<span>${this.wordsHTML(p,b,ctr)}</span></p>`;
     });
-    if(s.typing&&s.draft) html+=`<p class="pp">${esc(s.draft)}<span class="caret"></span></p>`;
-    pg.innerHTML=html;this.paintSel();
-    const n=this.flat().length+(s.draft?s.draft.split(/\s+/).filter(Boolean).length:0);
-    $('.st-l',this.el).textContent=`Pagina 1 di 1   ${n} parole`;
+    pg.innerHTML=html;
+    const page=$('.w-page',this.el),pc=PAGE_COL[s.page.color],pb=PAGE_BOR[s.page.border];
+    page.style.background=pc?pc.v:'';page.style.outline=pb?pb.v:'';page.style.outlineOffset=pb?'-10px':'';
+    this.paintSel();this.countWords();
+    const ta=$('.w-cellin',this.el);if(ta){ta.style.height=ta.scrollHeight+'px';ta.focus({preventScroll:true});const n=ta.value.length;try{ta.setSelectionRange(n,n)}catch(_){}}
     if(this.hintOn) this.showHint(this.hintOn,true);
   }
-  pop(idxs){requestAnimationFrame(()=>idxs.forEach(i=>{const w=$(`.wd[data-i="${i}"]`,this.el);if(w){w.classList.remove('pop');void w.offsetWidth;w.classList.add('pop')}}))}
+  flush(){if(this.pend)this.renderDoc()}
+  /* scrittura nelle celle */
+  editCell(di,r,c){
+    const s=this.s,t=s.doc[di];if(!t||t.type!=='table'||!t.cells[r]||!t.cells[r][c])return;
+    if(s.cellEdit)this.endCell(true);
+    this.closeMenu();this.snap();this.cellSnap=s.undo.length;
+    s.cellEdit={di,r,c};s.tbl={di,r,c};s.sel=null;s.curP=this.cellBlock(di,r,c);
+    this.ev('celledit');this.renderDoc();this.ctxCheck();this.refresh();announce(`Cella riga ${r+1}, colonna ${c+1}. Scrivi.`);this.onChange();
+  }
+  cellText(v){
+    const ce=this.s.cellEdit;if(!ce)return;const cp=this.s.doc[ce.di].cells[ce.r][ce.c];
+    const toks=v.split(/\s+/).filter(Boolean);
+    cp.words=toks.map((t,i)=>Object.assign({},cp.words[i]||(cp.words[cp.words.length-1]||{}),{t}));
+    this.ev('celltype');
+  }
+  endCell(now){
+    const s=this.s,ce=s.cellEdit;if(!ce)return;s.cellEdit=null;clearTimeout(this.typeT);
+    const top=s.undo[this.cellSnap-1];
+    if(top&&JSON.stringify(JSON.parse(top).doc)===JSON.stringify(s.doc)&&s.undo.length===this.cellSnap)s.undo.pop();
+    this.ev('celltext');
+    if(now)return;
+    this.pend=true;setTimeout(()=>{if(!document.activeElement||!this.el.contains(document.activeElement)||document.activeElement===document.body)this.flush()},0);
+    this.onChange();
+  }
+  countWords(){const s=this.s,n=this.flat().length+(s.draft?s.draft.split(/\s+/).filter(Boolean).length:0);const el=$('.st-l',this.el);if(el)el.textContent=`Pagina 1 di 1   ${n} parole`}
+  fitWrite(){const ta=$('#sim-type',this.el);if(!ta)return;ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';
+    const cv=$('.w-canvas',this.el),r=ta.getBoundingClientRect(),c=cv.getBoundingClientRect();if(r.bottom>c.bottom-8)cv.scrollTop+=r.bottom-c.bottom+16}
+  pop(idxs){requestAnimationFrame(()=>idxs.forEach(i=>{const w=$(`.wd[data-i="${i}"]`,this.el);if(w&&!prefs.rm){w.classList.remove('pop');void w.offsetWidth;w.classList.add('pop');w.addEventListener('animationend',()=>w.classList.remove('pop'),{once:true})}}))}
   refresh(){
-    const s=this.s,ws=this.selWords(),ps=this.selParas().map(i=>s.doc[i]).filter(p=>p&&p.type==='text');
+    const s=this.s,ws=this.selWords(),B=this.blocks(),ps=this.selParas().map(i=>B[i]&&B[i].p).filter(Boolean);
     const all=k=>ws.length>0&&ws.every(w=>w[k]);
     const set=(id,v)=>$$(`[data-cmd="${id}"]`,this.el).forEach(x=>x.hasAttribute('aria-pressed')&&x.setAttribute('aria-pressed',String(!!v)));
     set('bold',all('b'));set('italic',all('i'));set('underline',all('u'));set('strike',all('s'));set('sub',all('sub'));set('sup',all('sup'));
     const al=ps[0]?ps[0].align:'left';['left','center','right','justify'].forEach(a=>set(a,al===a));
-    set('bullets',ps[0]&&ps[0].list==='bullet');set('numbering',ps[0]&&ps[0].list==='number');
+    set('bullets',ps[0]&&ps[0].list==='bullet');set('numbering',ps[0]&&ps[0].list==='number');set('painter',!!s.painter);
     const st=ps[0]?ps[0].style:'normal';Object.keys(STY).forEach(k=>set(k,STY[k]===st));
     const sz=$('[data-sel="size"]',this.el);if(sz)sz.value=String((ws[0]&&ws[0].size)||12);
     const fn=$('[data-sel="font"]',this.el);if(fn)fn.value=(ws[0]&&ws[0].font)||'Aptos';
   }
-  changed(ev,msg,popIt){this.ev(ev);this.renderDoc();this.refresh();if(popIt&&this.s.sel){const a=[];for(let i=this.s.sel.a;i<=this.s.sel.b;i++)a.push(i);this.pop(a)}if(msg){announce(msg)}this.onChange()}
+  changed(ev,msg,popIt){this.ev(ev);this.renderDoc();this.ctxCheck();this.refresh();if(popIt&&this.s.sel){const a=[];for(let i=this.s.sel.a;i<=this.s.sel.b;i++)a.push(i);this.pop(a)}if(msg){announce(msg)}this.onChange()}
   needSel(){if(!this.s.sel||!this.selWords().length){this.nudge('Prima seleziona il testo: tocca una parola nel foglio.');return true}return false}
+  needTable(){if(!this.inTable()){this.nudge('Prima tocca una cella della tabella.');return true}return false}
   cmd(id){
     const s=this.s;this.tip(id);
+    if(s.cellEdit){const ta=$('.w-cellin',this.el);if(ta)ta.blur();this.endCell(true)}
     const fmt={bold:'b',italic:'i',underline:'u',strike:'s',sub:'sub',sup:'sup'};
     if(fmt[id]){if(this.needSel())return;const k=fmt[id],ws=this.selWords(),on=!ws.every(w=>w[k]);this.snap();ws.forEach(w=>{w[k]=on;if(on&&k==='sub')w.sup=false;if(on&&k==='sup')w.sub=false});this.changed(id,(on?'Applicato ':'Tolto ')+CMD[id].l,true);return}
     if(id==='grow'||id==='shrink'){if(this.needSel())return;this.snap();this.selWords().forEach(w=>{const c=w.size||12;let i=SIZES.indexOf(c);if(i<0)i=4;w.size=SIZES[Math.max(0,Math.min(SIZES.length-1,i+(id==='grow'?1:-1)))]});this.changed('size',CMD[id].l,true);return}
     if(id==='color'){if(this.needSel())return;this.snap();this.selWords().forEach(w=>w.color='#E0201B');this.changed('color','Testo colorato di rosso',true);return}
     if(id==='highlight'){if(this.needSel())return;this.snap();const ws=this.selWords(),on=!ws.every(w=>w.hl);ws.forEach(w=>w.hl=on?'#FFF200':null);this.changed('highlight',on?'Testo evidenziato in giallo':'Evidenziazione tolta',true);return}
-    if(id==='clear'){if(this.needSel())return;this.snap();this.selWords().forEach(w=>['b','i','u','s','sub','sup','size','color','hl','font'].forEach(k=>delete w[k]));this.changed('clear','Formattazione cancellata',true);return}
-    if(['left','center','right','justify'].includes(id)){this.snap();this.selParas().forEach(i=>{if(s.doc[i])s.doc[i].align=id});this.changed('align:'+id,CMD[id].l);this.flashParas();return}
-    if(id==='bullets'||id==='numbering'){this.snap();const t=id==='bullets'?'bullet':'number',ps=this.selParas().filter(i=>s.doc[i]&&s.doc[i].type==='text');const on=!ps.every(i=>s.doc[i].list===t);ps.forEach(i=>s.doc[i].list=on?t:null);this.changed(id,on?CMD[id].l+' applicato':'Elenco tolto');return}
-    if(STY[id]){this.snap();this.selParas().forEach(i=>{if(s.doc[i])s.doc[i].style=STY[id]});this.changed('style:'+STY[id],'Stile '+CMD[id].l);this.flashParas();return}
+    if(id==='clear'){if(this.needSel())return;this.snap();this.selWords().forEach(w=>FMT.forEach(k=>delete w[k]));this.changed('clear','Formattazione cancellata',true);return}
+    if(id==='painter'){if(s.painter){s.painter=null;this.refresh();toast('Copia formato annullato.');return}
+      if(this.needSel())return;const w=this.selWords()[0],f={};FMT.forEach(k=>{if(w[k])f[k]=w[k]});s.painter=f;this.ev('painter');this.refresh();
+      toast('Ora tocca la parola che deve avere lo stesso aspetto.');announce('Copia formato attivo. Tocca la parola a cui dare lo stesso aspetto.');this.onChange();return}
+    const B=this.blocks();
+    if(['left','center','right','justify'].includes(id)){this.snap();this.selParas().forEach(i=>{if(B[i])B[i].p.align=id});this.changed('align:'+id,CMD[id].l);this.flashParas();return}
+    if(id==='bullets'||id==='numbering'){const t=id==='bullets'?'bullet':'number',ps=this.selParas().filter(i=>B[i]&&!B[i].cell);if(!ps.length){toast('Gli elenchi si usano sui paragrafi, fuori dalla tabella.');return}this.snap();const on=!ps.every(i=>B[i].p.list===t);ps.forEach(i=>B[i].p.list=on?t:null);this.changed(id,on?CMD[id].l+' applicato':'Elenco tolto');return}
+    if(STY[id]){this.snap();this.selParas().forEach(i=>{if(B[i])B[i].p.style=STY[id]});this.changed('style:'+STY[id],'Stile '+CMD[id].l);this.flashParas();return}
     if(id==='copy'){if(this.needSel())return;s.clip=JSON.parse(JSON.stringify(this.selWords()));this.ev('copy');announce('Copiato negli Appunti: '+this.selText());toast('Copiato: «'+s.clip.map(w=>w.t).join(' ')+'»');this.onChange();return}
-    if(id==='cut'){if(this.needSel())return;this.snap();s.clip=JSON.parse(JSON.stringify(this.selWords()));const txt=this.selText();this.selPairs().reverse().forEach(([p,w])=>s.doc[p].words.splice(w,1));s.sel=null;this.changed('cut','Tagliato: '+txt);toast('Tagliato: «'+txt+'». Ora è negli Appunti.');return}
+    if(id==='cut'){if(this.needSel())return;this.snap();s.clip=JSON.parse(JSON.stringify(this.selWords()));const txt=this.selText();this.selPairs().reverse().forEach(([p,w])=>B[p].p.words.splice(w,1));s.sel=null;this.changed('cut','Tagliato: '+txt);toast('Tagliato: «'+txt+'». Ora è negli Appunti.');return}
     if(id==='paste'){
       if(!s.clip){this.nudge('Gli Appunti sono vuoti. Prima usa Copia o Taglia.');return}
-      this.snap();let p,w;const pairs=this.selPairs();
-      if(pairs.length){[p,w]=pairs[pairs.length-1];w++}else{p=s.curP;while(s.doc[p]&&s.doc[p].type!=='text')p--;if(p<0)p=0;w=s.doc[p].words.length}
-      const ins=JSON.parse(JSON.stringify(s.clip)).map(x=>Object.assign(x,{_new:1}));s.doc[p].words.splice(w,0,...ins);s.sel=null;this.changed('paste','Incollato: '+ins.map(x=>x.t).join(' '));return}
-    if(id==='undo'){if(!s.undo.length){toast('Non c’è niente da annullare.');return}s.redo.push(JSON.stringify(s.doc));s.doc=JSON.parse(s.undo.pop());s.sel=null;this.tip('undo');this.changed('undo','Annullato');return}
-    if(id==='redo'){if(!s.redo.length){toast('Non c’è niente da ripetere.');return}s.undo.push(JSON.stringify(s.doc));s.doc=JSON.parse(s.redo.pop());s.sel=null;this.tip('redo');this.changed('redo','Ripetuto');return}
-    if(id==='select'){this.openMenu('select');return}
-    if(id==='table'){this.openMenu('table');return}
-    if(id==='pictures'){this.openMenu('pictures');return}
+      this.snap();let p,w;const pairs=this.selPairs();let Bx=B;
+      if(pairs.length){[p,w]=pairs[pairs.length-1];w++}else{if(!Bx.length){s.doc.push(P(''));Bx=this.blocks()}p=Math.min(s.curP,Bx.length-1);w=Bx[p].p.words.length}
+      const ins=JSON.parse(JSON.stringify(s.clip)).map(x=>Object.assign(x,{_new:1}));Bx[p].p.words.splice(w,0,...ins);s.sel=null;this.changed('paste','Incollato: '+ins.map(x=>x.t).join(' '));return}
+    if(id==='undo'){if(!s.undo.length){toast('Non c’è niente da annullare.');return}s.redo.push(JSON.stringify({doc:s.doc,page:s.page}));this.restore(s.undo.pop());this.tip('undo');this.changed('undo','Annullato');return}
+    if(id==='redo'){if(!s.redo.length){toast('Non c’è niente da ripetere.');return}s.undo.push(JSON.stringify({doc:s.doc,page:s.page}));this.restore(s.redo.pop());this.tip('redo');this.changed('redo','Ripetuto');return}
+    if(['select','table','pictures','pcolor','pborder','tborders','tdelete'].includes(id)){if((id==='tborders'||id==='tdelete')&&this.needTable())return;this.openMenu(id);return}
+    if(id==='tstyle-grid'||id==='tstyle-plain'){if(this.needTable())return;this.snap();s.doc[s.tbl.di].borders=id==='tstyle-grid'?'all':'none';this.changed('tborders:'+s.doc[s.tbl.di].borders,CMD[id].l);return}
+    if(['rowabove','rowbelow','colleft','colright'].includes(id)){if(this.needTable())return;this.snap();const t=s.doc[s.tbl.di],{r,c}=s.tbl;
+      if(id==='rowabove'||id==='rowbelow'){const at=id==='rowabove'?r:r+1;t.cells.splice(at,0,Array.from({length:t.cols},()=>P('')));if(id==='rowabove')s.tbl.r++}
+      else{const at=id==='colleft'?c:c+1;t.cells.forEach(row=>row.splice(at,0,P('')));if(id==='colleft')s.tbl.c++}
+      t.rows=t.cells.length;t.cols=t.cells[0].length;s.sel=null;this.changed(id,CMD[id].l+': fatto');this.flashTable();return}
     if(id==='save'){if(!s.saved){s.bs='saveas';this.ev('file');this.renderBs();this.onChange()}else{toast('Documento salvato.');this.ev('save')}return}
-    if(id==='enter'){if(!s.typing)return;const inp=$('#sim-type',this.el);const t=s.draft.trim();this.snap();
+    if(id==='enter'){if(!s.typing)return;clearTimeout(this.typeT);const inp=$('#sim-type',this.el);const t=s.draft.trim();this.snap();
       if(t){s.doc.push(P(t,{words:t.split(/\s+/).map(x=>({t:x,_new:1}))}))}else s.doc.push(P(''));
-      s.draft='';if(inp){inp.value='';inp.focus()}this.changed('enter','A capo');return}
+      s.draft='';if(inp){inp.value='';inp.focus({preventScroll:true})}this.changed('enter','A capo');this.fitWrite();return}
     const lbl=(CMD[id]&&CMD[id].l)||(this.findItem(id)||{}).l||'Questo comando';
     toast(`«${lbl}»: in questo corso usiamo solo i comandi di base.`);
   }
   findItem(id){for(const t in RIB)for(const g of RIB[t])for(const x of (g.big||[]))if(x.id===id)return x}
-  flashParas(){requestAnimationFrame(()=>this.selParas().forEach(i=>{const p=$(`.pp[data-p="${i}"]`,this.el);if(p){p.classList.remove('al-change');void p.offsetWidth;p.classList.add('al-change')}}))}
+  flashParas(){requestAnimationFrame(()=>this.selParas().forEach(i=>{const p=$(`[data-p="${i}"]`,this.el);if(p&&!prefs.rm){p.classList.remove('al-change');void p.offsetWidth;p.classList.add('al-change')}}))}
+  flashTable(){}
   setFont(f){if(this.needSel()){this.refresh();return}this.snap();this.selWords().forEach(w=>w.font=f==='Aptos'?null:f);this.changed('font','Carattere '+f,true)}
   setSize(n){this.tip('size');if(this.needSel()){this.refresh();return}this.snap();this.selWords().forEach(w=>w.size=n);this.changed('size','Dimensione '+n,true)}
   openMenu(m){
     const s=this.s;s.menu=m;this.ev('menu:'+m);const host=$('.w-menuhost',this.el);const rib=$('[data-region="ribbon"]',this.el);
-    let h='';
-    if(m==='select')h=`<h4>Seleziona</h4><button class="w-mi" data-mi="all" data-id="m-all">${IC.select}Seleziona tutto</button><button class="w-mi" data-mi="x">${IC.shapes}Seleziona oggetti</button><button class="w-mi" data-mi="x">${IC.case}Seleziona tutto il testo con formattazione simile</button>`;
+    let h='';const mi=(k,id,ic,l,extra='')=>`<button class="w-mi" role="menuitem" data-mi="${k}" data-id="${id}">${ic}${extra}${l}</button>`;
+    if(m==='select')h=`<h4>Seleziona</h4>`+mi('all','m-all',IC.select,'Seleziona tutto')+mi('x','m-x1',IC.shapes,'Seleziona oggetti')+mi('x','m-x2',IC.case,'Seleziona tutto il testo con formattazione simile');
     if(m==='table'){h=`<h4 id="tg-l">Inserisci tabella</h4><div class="tgrid">`;for(let r=1;r<=5;r++)for(let c=1;c<=6;c++)h+=`<button data-tg="${c}x${r}" data-id="tg-${c}x${r}" aria-label="${c} colonne, ${r} righe"></button>`;h+=`</div>`}
-    if(m==='pictures')h=`<h4>Inserisci immagine da</h4><button class="w-mi" data-mi="img" data-id="m-dev">${IC.pc}Questo dispositivo...</button><button class="w-mi" data-mi="img" data-id="m-stock">${IC.stock}Immagini stock...</button><button class="w-mi" data-mi="img" data-id="m-online">${IC.globe}Immagini online...</button>`;
+    if(m==='pictures')h=`<h4>Inserisci immagine da</h4>`+mi('img','m-dev',IC.pc,'Questo dispositivo...')+mi('img','m-stock',IC.stock,'Immagini stock...')+mi('img','m-online',IC.globe,'Immagini online...');
+    if(m==='pcolor')h=`<h4>Colori pagina</h4>`+Object.keys(PAGE_COL).map(k=>mi('pc:'+k,'m-pc-'+k,'',PAGE_COL[k].l,`<i class="sw-col" style="background:${PAGE_COL[k].v||'#fff'}"></i>`)).join('');
+    if(m==='pborder')h=`<h4>Bordi pagina</h4>`+Object.keys(PAGE_BOR).map(k=>mi('pb:'+k,'m-pb-'+k,'',PAGE_BOR[k].l,`<i class="sw-bor" style="outline:${PAGE_BOR[k].v||'1px dashed #bbb'};outline-offset:-3px"></i>`)).join('');
+    if(m==='tborders')h=`<h4>Bordi</h4>`+mi('tb:all','m-tb-all',IC.table,'Tutti i bordi')+mi('tb:out','m-tb-out',IC.borders,'Bordi esterni')+mi('tb:none','m-tb-none',IC.blank,'Nessun bordo');
+    if(m==='tdelete')h=`<h4>Elimina</h4>`+mi('td:row','m-td-row',IC.close,'Elimina righe')+mi('td:col','m-td-col',IC.close,'Elimina colonne')+mi('td:tbl','m-td-tbl',IC.close,'Elimina tabella');
     host.innerHTML=`<div class="w-menu" role="menu" style="top:${rib.offsetTop+rib.offsetHeight-4}px">${h}</div>`;
     const menu=$('.w-menu',host);
     if(m==='table'){$$('[data-tg]',menu).forEach(bt=>{const hv=()=>{const[c,r]=bt.dataset.tg.split('x').map(Number);$$('[data-tg]',menu).forEach(x=>{const[cc,rr]=x.dataset.tg.split('x').map(Number);x.classList.toggle('on',cc<=c&&rr<=r)});$('#tg-l',menu).textContent=`Tabella ${c}x${r}`};bt.addEventListener('pointerenter',hv);bt.addEventListener('focus',hv)})}
@@ -871,28 +1024,38 @@ class Sim{
   }
   closeMenu(){if(!this.s||!this.s.menu)return;this.s.menu=null;$('.w-menuhost',this.el).innerHTML=''}
   menuItem(m){
-    const s=this.s;
-    if(m==='all'){this.closeMenu();const n=this.flat().length;if(n)this.setSel(0,n-1);this.ev('selectall');this.selDone();return}
-    if(m==='img'){this.closeMenu();this.snap();s.doc.splice(this.insAt(),0,{type:'image'});this.changed('image','Immagine inserita');return}
-    this.closeMenu();toast('In questo corso usiamo solo «Seleziona tutto».');
+    const s=this.s;this.closeMenu();
+    if(m==='all'){const n=this.flat().length;if(n)this.setSel(0,n-1);this.ev('selectall');this.selDone();return}
+    if(m==='img'){this.snap();s.doc.splice(this.insAt(),0,{type:'image',_new:1});this.changed('image','Immagine inserita');return}
+    const [k,v]=m.split(':');
+    if(k==='pc'){this.snap();s.page.color=v==='none'?null:v;this.changed('pcolor','Colore pagina: '+PAGE_COL[v].l);return}
+    if(k==='pb'){this.snap();s.page.border=v==='none'?null:v;this.changed('pborder','Bordo pagina: '+PAGE_BOR[v].l);return}
+    if(k==='tb'&&this.inTable()){this.snap();s.doc[s.tbl.di].borders=v;this.changed('tborders:'+v,'Bordi della tabella cambiati');return}
+    if(k==='td'&&this.inTable()){this.snap();const t=s.doc[s.tbl.di],{r,c}=s.tbl;
+      if(v==='tbl'||(v==='row'&&t.rows===1)||(v==='col'&&t.cols===1)){s.doc.splice(s.tbl.di,1);s.tbl=null}
+      else if(v==='row'){t.cells.splice(r,1);t.rows--;s.tbl.r=Math.min(r,t.rows-1)}
+      else{t.cells.forEach(row=>row.splice(c,1));t.cols--;s.tbl.c=Math.min(c,t.cols-1)}
+      s.sel=null;this.changed('tdelete','Eliminato');return}
+    toast('In questo corso usiamo solo «Seleziona tutto».');
   }
-  insAt(){const ps=this.selParas();return Math.min(this.s.doc.length,Math.max(...ps)+1)}
-  insertTable(r,c){this.closeMenu();this.snap();this.s.doc.splice(this.insAt(),0,{type:'table',rows:r,cols:c});this.changed('table',`Tabella ${c} colonne per ${r} righe inserita`)}
+  insAt(){const B=this.blocks(),ps=this.selParas().map(i=>B[i]?B[i].di:-1);const m=Math.max(-1,...ps);return m<0?this.s.doc.length:Math.min(this.s.doc.length,m+1)}
+  insertTable(r,c){this.closeMenu();this.snap();const at=this.insAt();this.s.doc.splice(at,0,{type:'table',_new:1,rows:r,cols:c,borders:'all',cells:Array.from({length:r},()=>Array.from({length:c},()=>P('')))});this.changed('table',`Tabella ${c} colonne per ${r} righe inserita. Tocca una cella per scrivere.`)}
   bsGo(k){
     const s=this.s;
     if(k==='back'){s.bs=null;this.renderBs();announce('Tornato al documento');this.onChange();return}
     if(k==='save'&&!s.saved)k='saveas';
     if(k==='save'){s.bs=null;this.renderBs();this.ev('save');toast('Documento salvato.');this.onChange();return}
-    if(k==='do-save'){const inp=$('#bs-name',this.el);const n=(inp&&inp.value.trim())||'';if(!n){toast('Scrivi un nome per il file.');inp&&inp.focus();return}
+    if(k==='do-save'){const inp=$('#bs-name',this.el);const n=(inp&&inp.value.trim().replace(/[\\/:*?"<>|]/g,''))||'';if(!n){toast('Scrivi un nome per il file.');inp&&inp.focus();return}
       s.fileName=n;s.saved=true;s.bs=null;this.ev('saved');this.renderBs();this.renderTitle();const nm=$('.w-name',this.el);nm.classList.add('flash');toast(`Salvato come «${n}.docx» in Documenti.`);announce('Documento salvato con il nome '+n);this.onChange();return}
-    if(k==='do-print'){const pv=$('.prn-prev',this.el);if(pv)pv.classList.add('fly');s.printed=true;this.ev('printed');announce('Stampa inviata alla stampante');
-      setTimeout(()=>{toast('Il documento è stato inviato alla stampante.');},300);setTimeout(()=>{if(s.bs==='print'){s.bs=null;this.renderBs()}this.onChange()},prefs.rm?50:1300);return}
+    if(k==='do-print'){if(s.printing)return;s.printing=true;const pv=$('.prn-prev',this.el);if(pv)pv.classList.add('fly');s.printed=true;this.ev('printed');announce('Stampa inviata alla stampante');
+      toast('Il documento è stato inviato alla stampante.');this.onChange();
+      setTimeout(()=>{s.printing=false;if(this.s!==s)return;if(s.bs==='print'){s.bs=null;this.renderBs()}},prefs.rm?50:1300);return}
     if(k==='new'){toast('Nuovo documento: in questo corso continuiamo con il foglio aperto.');}
     s.bs=k;this.ev('bs:'+k);this.renderBs();this.onChange();
   }
   renderBs(){
     const s=this.s,host=$('.w-bshost',this.el);if(!s.bs){host.innerHTML='';return}
-    const nav=[['home','Home',IC.home],['new','Nuovo',IC.newdoc],['open','Apri',IC.folder],null,['info','Informazioni',IC.info],['save','Salva',IC.save],['saveas','Salva con nome',IC.save],['print','Stampa',IC.printer],['share','Condividi',IC.share],['export','Esporta',IC.export],['close','Chiudi',IC.close],null,['account','Account',IC.user],['options','Opzioni',IC.gear]];
+    const nav=[['home','Home'],['new','Nuovo'],['open','Apri'],null,['info','Informazioni'],['save','Salva'],['saveas','Salva con nome'],['print','Stampa'],['share','Condividi'],['export','Esporta'],['close','Chiudi'],null,['account','Account'],['options','Opzioni']];
     const navH=`<button class="back" data-bs="back" data-id="bs-back" aria-label="Torna al documento">${IC.back}</button>`+nav.map(n=>n?`<button data-bs="${n[0]}" data-id="bs-${n[0]}" ${s.bs===n[0]?'aria-current="true"':''}>${n[1]}</button>`:'<hr>').join('');
     let main='';
     if(s.bs==='home')main=`<h3>Buongiorno</h3><p class="muted">Da qui gestisci il file: salvarlo, stamparlo, aprirne uno nuovo.</p><div class="bs-loc"><div>${IC.newdoc}Documento vuoto</div><div>${IC.folder}Recenti: ${esc(s.fileName)}</div></div>`;
@@ -900,7 +1063,7 @@ class Sim{
       <label class="bs-field">Nome file<input id="bs-name" data-id="bs-name" value="${esc(s.nameDraft!=null?s.nameDraft:s.fileName)}" autocomplete="off"></label>
       <div class="bs-field">Tipo file<span class="fake">Documento di Word (*.docx)</span></div>
       <button class="bs-go" data-bs="do-save" data-id="bs-dosave">${IC.save}Salva</button>`;
-    else if(s.bs==='print')main=`<h3>Stampa</h3><div class="prn"><button class="bs-go big" data-bs="do-print" data-id="bs-doprint">${IC.printer}Stampa</button><div class="prn-prev" aria-hidden="true"><i style="width:60%"></i><i></i><i></i><i style="width:80%"></i><i></i><i style="width:50%"></i></div></div>
+    else if(s.bs==='print')main=`<h3>Stampa</h3><div class="prn"><button class="bs-go big" data-bs="do-print" data-id="bs-doprint">${IC.printer}Stampa</button><div class="prn-prev" aria-hidden="true" style="${s.page.border?'outline:'+PAGE_BOR[s.page.border].v.replace(/\d+px/,'2px')+';outline-offset:-4px':''}"><i style="width:60%"></i><i></i><i></i><i style="width:80%"></i><i></i><i style="width:50%"></i></div></div>
       <div class="bs-field">Copie<span class="fake">1</span></div><div class="bs-field">Stampante<span class="fake">Stampante di casa · Pronta</span></div><div class="bs-field">Impostazioni<span class="fake">Stampa tutte le pagine</span></div>`;
     else{const lab=(nav.find(n=>n&&n[0]===s.bs)||[0,''])[1];main=`<h3>${esc(lab)}</h3><p class="muted">In questo corso non usiamo questa parte. Prova «Salva con nome» o «Stampa».</p>`}
     host.innerHTML=`<div class="w-bs" role="dialog" aria-label="Menu File"><nav class="bs-nav">${navH}</nav><div class="bs-main">${main}</div></div>`;
@@ -913,115 +1076,151 @@ class Sim{
     this.hintOn=id;$$('.hint',this.el).forEach(x=>x.classList.remove('hint'));if(!id)return;
     let el;
     if(id.startsWith('word:')){const w=id.slice(5);el=$$('.wd',this.el).find(x=>clean(x.textContent)===w)}
-    else el=$(`.w-bs [data-id="${id}"]`,this.el)||$(`.w-menu [data-id="${id}"]`,this.el)||$(`.w-ribbon [data-id="${id}"]`,this.el)||$(`[data-id="${id}"]`,this.el);
+    else{const q=`[data-id="${id.replace(/"/g,'')}"]`;el=$('.w-bs '+q,this.el)||$('.w-menu '+q,this.el)||$('.w-ribbon '+q,this.el)||$(q,this.el)}
     if(!el)return;el.classList.add('hint');
     if(quiet)return;
     const sc=el.closest('.w-ribbon,.w-tabs');
     if(sc){const r=el.getBoundingClientRect(),cr=sc.getBoundingClientRect();sc.scrollLeft+=(r.left-cr.left)-(cr.width/2-r.width/2)}
     const cv=el.closest('.w-canvas');if(cv){cv.scrollTop+=el.getBoundingClientRect().top-cv.getBoundingClientRect().top-cv.clientHeight/2}
-    const r=this.el.getBoundingClientRect();if(r.top<0||r.top>window.innerHeight*.6)this.el.scrollIntoView({block:'start',behavior:prefs.rm?'auto':'smooth'});
+    const ae=document.activeElement;if(ae&&(ae.id==='sim-type'||ae.classList.contains('w-cellin')))return;
+    const head=document.querySelector('.lhead'),top=(head?head.getBoundingClientRect().bottom:0)+12,er=el.getBoundingClientRect();
+    if(er.top<top||er.bottom>window.innerHeight-24){const y=window.scrollY+er.top-Math.max(top,(window.innerHeight-er.height)/2);window.scrollTo({top:Math.max(0,y),behavior:prefs.rm?'auto':'smooth'})}
   }
 }
 
 /* ---------- Lezioni ---------- */
 const H=(s,word,then)=>s.sim.selText()===word?then:'word:'+word;
 const wordFmt=(sim,txt,k,v)=>sim.s.doc.some(p=>p.type==='text'&&p.words.some(w=>clean(w.t)===txt&&(v===undefined?!!w[k]:(typeof v==='function'?v(w[k]):w[k]===v))));
+const PF=(text,f,o)=>{const p=P(text,o);Object.assign(p.words[0],f);return p};
+const TB=rows=>({type:'table',rows:rows.length,cols:rows[0].length,borders:'all',cells:rows.map(r=>r.map(t=>P(t)))});
+const cellAt=(s,di,r,c)=>{const t=s.s.doc[di];return t&&t.type==='table'&&t.cells[r]&&t.cells[r][c]};
+const filled=(s,di)=>{const t=s.s.doc[di];return t&&t.type==='table'?t.cells.flat().filter(c=>c.words.length).length:0};
+const firstEmpty=(s,di,from)=>{const t=s.s.doc[di];if(!t||t.type!=='table')return null;for(let r=from;r<t.rows;r++)for(let c=0;c<t.cols;c++)if(!t.cells[r][c].words.length)return 'cell-'+r+'-'+c;return null};
 const inTab=(sim,tab,id)=>sim.s.bs?'bs-back':sim.s.tab===tab?id:'tab-'+tab;
 const LESSONS=[
- {id:'finestra',t:'Conoscere Word',d:'Le parti della finestra e le schede.',i:'window',
+ {id:'finestra',t:'La finestra di Word',d:'Barra del titolo, schede e foglio.',i:'window',
   doc:[P('Benvenuto in Word!',{style:'title'}),P('Questo è un documento di prova. Qui puoi scrivere lettere, liste e appunti.')],
   steps:[
-   {x:'In alto c’è la <b>barra del titolo</b>. Mostra il nome del documento. Un documento nuovo si chiama «Documento1».',spot:'title'},
-   {x:'Sotto trovi la <b>barra multifunzione</b>. Contiene tutti i comandi, divisi in <b>schede</b>: Home, Inserisci, Layout e altre. Puoi scorrerla con il dito.',spot:'ribbon'},
-   {x:'Questo è il <b>foglio</b>. È il posto dove scrivi il tuo testo.',spot:'page'},
-   {x:'Proviamo. Tocca la scheda <b>Inserisci</b>.',check:s=>s.s.tab==='Inserisci',hint:s=>s.s.bs?'bs-back':'tab-Inserisci',ok:'La scheda Inserisci contiene i comandi per aggiungere tabelle, immagini e altro.'},
-   {x:'Ora torna alla scheda <b>Home</b>. È quella che userai di più.',check:s=>s.s.tab==='Home',hint:s=>s.s.bs?'bs-back':'tab-Home',ok:'Nella scheda Home ci sono i comandi per scrivere e sistemare il testo.'},
+   {x:'Guarda la striscia blu in alto: è la <strong>barra del titolo</strong>. Mostra il nome del file. Un documento nuovo si chiama sempre «Documento1».',spot:'title'},
+   {x:'Sotto c’è la <strong>barra multifunzione</strong>, lo scaffale dei comandi. È divisa in <strong>schede</strong>, come i cassetti di un mobile. Scorrila con il dito per vederla tutta.',spot:'ribbon'},
+   {x:'Il riquadro bianco è il <strong>foglio</strong>. Qui nasce il tuo documento: lettere, liste, inviti.',spot:'page'},
+   {x:'Apri un cassetto: tocca la scheda <b>Inserisci</b>.',check:s=>s.s.tab==='Inserisci',hint:s=>s.s.bs?'bs-back':'tab-Inserisci',ok:'Nella scheda <b>Inserisci</b> trovi tabelle, immagini e simboli da aggiungere al foglio.'},
+   {x:'Ora torna alla scheda <b>Home</b>: è quella che userai più spesso.',check:s=>s.s.tab==='Home',hint:s=>s.s.bs?'bs-back':'tab-Home',ok:'In <b>Home</b> ci sono i comandi per scrivere e sistemare il testo.'},
   ]},
  {id:'scrivere',t:'Scrivere il testo',d:'Scrivere, andare a capo, cancellare.',i:'textbox',typing:true,
   doc:[P('Il mio primo documento',{style:'h1'})],
   steps:[
-   {x:'Tocca il riquadro <b>Scrivi qui</b>, sotto il foglio, e scrivi il tuo nome.',check:s=>s.s.draft.trim().length>=2,hint:()=>'type',ok:'Vedi? Le lettere compaiono sul foglio. La lineetta che lampeggia si chiama <b>cursore</b>: indica dove stai scrivendo.'},
-   {x:'Premi <b>Invio</b> per andare a capo.',check:s=>s.since('enter'),hint:()=>'enter',ok:'Con Invio inizi una nuova riga. In Word ogni blocco di testo si chiama <b>paragrafo</b>.'},
-   {x:'Scrivi una parola e poi cancellala con il tasto <b>⌫</b> (Backspace) della tastiera.',check:s=>s.since('type')&&s.since('delete'),hint:()=>'type',ok:'Il tasto ⌫ cancella la lettera a sinistra del cursore.'},
+   {x:'Tocca il foglio, nella riga <em>Tocca qui e scrivi…</em>, e scrivi il tuo nome.',check:s=>s.s.draft.trim().length>=2||s.s.doc.slice(1).some(p=>p.type==='text'&&p.words.length),hint:()=>'type',ok:'Le lettere compaiono sul foglio. La lineetta che lampeggia è il <strong>cursore</strong>: segna il punto in cui stai scrivendo.'},
+   {x:'Premi il tasto <b>Invio ↵</b> della tastiera per andare a capo.',check:s=>s.since('enter'),hint:()=>'type',ok:'Ogni volta che premi Invio, Word inizia un nuovo <strong>paragrafo</strong>.'},
+   {x:'Scrivi una parola, poi cancellala con il tasto <kbd>⌫</kbd> della tastiera.',check:s=>s.since('type')&&s.since('delete'),hint:()=>'type',ok:'Il tasto <kbd>⌫</kbd> (Backspace) cancella la lettera a sinistra del cursore.'},
   ]},
- {id:'selezionare',t:'Selezionare il testo',d:'Scegliere le parole da modificare.',i:'select',
+ {id:'selezionare',t:'Selezionare il testo',d:'Scegliere le parole su cui lavorare.',i:'select',
   doc:[P('Il gatto dorme sul divano.'),P('Fuori piove e fa freddo.')],
   steps:[
-   {x:'Per cambiare un testo devi prima <b>selezionarlo</b>. Tocca la parola <b>gatto</b>.',check:s=>s.sim.selText()==='gatto',hint:()=>'word:gatto',ok:'La parola ora ha lo sfondo azzurro: è selezionata.'},
-   {x:'Puoi selezionare più parole: appoggia il dito su <b>Il</b> e trascinalo fino a <b>dorme</b>. Con la tastiera usa <kbd>Maiusc</kbd> + <kbd>Invio</kbd>.',check:s=>s.sim.selWords().length>=2,hint:()=>'word:il',ok:'Bene! Hai selezionato più parole insieme.'},
-   {x:'Per selezionare <b>tutto</b>: nel gruppo Modifica, a destra, tocca <b>Seleziona</b> e poi <b>Seleziona tutto</b>.',check:s=>s.since('selectall'),hint:s=>s.s.menu==='select'?'m-all':inTab(s,'Home','select'),ok:'Tutto il testo è selezionato. Ottimo per cambiare tutto in un colpo solo.'},
+   {x:'Word cambia solo il testo <strong>selezionato</strong>. Tocca la parola <em>gatto</em>.',check:s=>s.sim.selText()==='gatto',hint:()=>'word:gatto',ok:'Lo sfondo azzurro indica che <em>gatto</em> è selezionata. Ora Word sa su cosa lavorare.'},
+   {x:'Per prendere più parole, tocca <em>Il</em> e poi trascina il dito fino a <em>dorme</em>. Se trascinare è scomodo, tocca <b>Estendi selezione</b> sotto il foglio e poi <em>dorme</em>.',check:s=>s.sim.selWords().length>=2,hint:s=>s.sim.selText()==='il'?'word:dorme':'word:il',ok:'Hai selezionato una frase intera con un solo gesto.'},
+   {x:'Per prendere tutto il documento: nel gruppo Modifica tocca <b>Seleziona</b>, poi <b>Seleziona tutto</b>.',check:s=>s.since('selectall'),hint:s=>s.s.menu==='select'?'m-all':inTab(s,'Home','select'),ok:'Tutto il testo è selezionato: ogni comando ora vale per l’intero documento.'},
   ]},
  {id:'stile-testo',t:'Grassetto, Corsivo, Sottolineato',d:'I tre pulsanti G, C e S.',i:'bold',
   doc:[P('Domani c’è una riunione importante alle 10.'),P('Arriva sempre in orario.'),P('Porta il tuo quaderno.')],
   steps:[
-   {x:'In Word in italiano il <b>Grassetto</b> è la lettera <b>G</b>. Seleziona <b>importante</b> e tocca <b>G</b>.',check:s=>wordFmt(s.sim,'importante','b'),hint:s=>H(s,'importante',inTab(s.sim,'Home','bold')),ok:'Il grassetto rende la parola più marcata. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>G</kbd>.'},
-   {x:'Il <b>Corsivo</b> è la <b>C</b>. Seleziona <b>sempre</b> e tocca <b>C</b>.',check:s=>wordFmt(s.sim,'sempre','i'),hint:s=>H(s,'sempre',inTab(s.sim,'Home','italic')),ok:'Il corsivo inclina le lettere. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>I</kbd>.'},
-   {x:'Il <b>Sottolineato</b> è la <b>S</b>. Seleziona <b>quaderno</b> e tocca <b>S</b>.',check:s=>wordFmt(s.sim,'quaderno','u'),hint:s=>H(s,'quaderno',inTab(s.sim,'Home','underline')),ok:'Ora c’è una riga sotto la parola. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>S</kbd>. Per togliere un effetto, tocca di nuovo lo stesso pulsante.'},
+   {x:'Nel Word italiano il grassetto è la <b>G</b>. Tocca <em>importante</em> e poi <b>G</b>.',check:s=>wordFmt(s.sim,'importante','b'),hint:s=>H(s,'importante',inTab(s.sim,'Home','bold')),ok:'La parola ora spicca. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>G</kbd>.'},
+   {x:'Il corsivo è la <b>C</b>. Tocca <em>sempre</em> e poi <b>C</b>.',check:s=>wordFmt(s.sim,'sempre','i'),hint:s=>H(s,'sempre',inTab(s.sim,'Home','italic')),ok:'Le lettere sono inclinate. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>I</kbd>.'},
+   {x:'Il sottolineato è la <b>S</b>. Tocca <em>quaderno</em> e poi <b>S</b>.',check:s=>wordFmt(s.sim,'quaderno','u'),hint:s=>H(s,'quaderno',inTab(s.sim,'Home','underline')),ok:'Ecco la riga sotto la parola. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>S</kbd>. Per togliere un effetto, tocca di nuovo lo stesso pulsante.'},
   ]},
  {id:'carattere',t:'Dimensione e colore',d:'Testo più grande, colorato, evidenziato.',i:'color',
   doc:[P('Festa di compleanno'),P('Sabato alle 16 nel giardino di casa.')],
   steps:[
-   {x:'Seleziona <b>Festa</b>. Poi nella casella con il numero <b>12</b> scegli un numero più grande, per esempio <b>24</b>.',check:s=>wordFmt(s.sim,'festa','size',v=>v>=16),hint:s=>H(s,'festa',inTab(s.sim,'Home','size')),ok:'Il numero indica la grandezza del testo. Più è alto, più il testo è grande. Puoi usare anche il pulsante con la A e la freccia in su.'},
-   {x:'Con <b>Festa</b> selezionata, tocca <b>Colore carattere</b>: la <b>A</b> con la riga rossa.',check:s=>wordFmt(s.sim,'festa','color'),hint:s=>H(s,'festa',inTab(s.sim,'Home','color')),ok:'Il colore pronto è il rosso. In Word, la freccetta accanto al pulsante apre gli altri colori.'},
-   {x:'Ora seleziona <b>Sabato</b> e tocca l’<b>evidenziatore</b>: la penna con la riga gialla.',check:s=>wordFmt(s.sim,'sabato','hl'),hint:s=>H(s,'sabato',inTab(s.sim,'Home','highlight')),ok:'Come con un evidenziatore vero: la parola risalta subito.'},
+   {x:'Tocca <em>Festa</em>. Poi apri la casella <b>12</b> e scegli un numero più grande, per esempio <b>24</b>.',check:s=>wordFmt(s.sim,'festa','size',v=>v>=16),hint:s=>H(s,'festa',inTab(s.sim,'Home','size')),ok:'Il numero è la grandezza del testo, in punti. Funziona anche il pulsante <b>Aumenta dimensione carattere</b>.'},
+   {x:'Con <em>Festa</em> selezionata, tocca <b>Colore carattere</b>: la A con la riga rossa.',check:s=>wordFmt(s.sim,'festa','color'),hint:s=>H(s,'festa',inTab(s.sim,'Home','color')),ok:'Il colore pronto è il rosso. In Word la freccetta accanto al pulsante apre tutti gli altri colori.'},
+   {x:'Tocca <em>Sabato</em> e poi <b>Colore evidenziazione testo</b>: la penna con la riga gialla.',check:s=>wordFmt(s.sim,'sabato','hl'),hint:s=>H(s,'sabato',inTab(s.sim,'Home','highlight')),ok:'Proprio come un evidenziatore su carta: la parola si nota subito.'},
+  ]},
+ {id:'font',t:'Tipo di carattere',d:'Cambiare la forma delle lettere.',i:'case',
+  doc:[P('Benvenuti',{style:'title'}),P('Mostra di pittura del quartiere'),P('Ingresso libero dalle 10 alle 18')],
+  steps:[
+   {x:'Ogni <strong>tipo di carattere</strong> dà un tono diverso al testo. Tocca <em>Benvenuti</em>, poi apri la casella <b>Aptos</b> e scegli <b>Georgia</b>.',check:s=>wordFmt(s.sim,'benvenuti','font','Georgia'),hint:s=>H(s,'benvenuti',inTab(s.sim,'Home','font')),ok:'Georgia è un carattere elegante, con le <strong>grazie</strong>: i piccoli piedini in fondo alle lettere.'},
+   {x:'Ora tocca <em>Mostra</em> e scegli un carattere semplice e chiaro, come <b>Verdana</b>.',check:s=>wordFmt(s.sim,'mostra','font','Verdana'),hint:s=>H(s,'mostra',inTab(s.sim,'Home','font')),ok:'Un consiglio da tipografo: al massimo due caratteri per foglio, uno per i titoli e uno per il testo.'},
+   {x:'Hai esagerato? Tocca <em>Mostra</em> e poi <b>Cancella formattazione</b>: la A con la gomma rosa.',check:s=>s.since('clear')&&!wordFmt(s.sim,'mostra','font'),hint:s=>H(s,'mostra',inTab(s.sim,'Home','clear')),ok:'La parola è tornata normale, come appena scritta.'},
   ]},
  {id:'allineare',t:'Allineare il testo',d:'Sinistra, centro, destra, giustificato.',i:'center',
   doc:[P('Invito'),P('Caro Luca, ti aspetto sabato per una cena tra amici. Porta solo il tuo buon umore e, se vuoi, qualcosa da bere.'),P('Marta')],
   steps:[
-   {x:'Tocca la parola <b>Invito</b> e poi <b>Centra</b> nel gruppo Paragrafo.',check:s=>s.s.doc[0].align==='center',hint:s=>s.s.curP===0?inTab(s.sim,'Home','center'):'word:invito',ok:'Il titolo è al centro della riga. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>E</kbd>.'},
-   {x:'Tocca una parola del testo lungo e scegli <b>Giustifica</b>.',check:s=>s.s.doc[1].align==='justify',hint:s=>s.s.curP===1?inTab(s.sim,'Home','justify'):'word:caro',ok:'Il testo ora è dritto sia a sinistra sia a destra, come nei libri.'},
-   {x:'Infine sposta la firma <b>Marta</b> a destra con <b>Allinea a destra</b>.',check:s=>s.s.doc[2].align==='right',hint:s=>s.s.curP===2?inTab(s.sim,'Home','right'):'word:marta',ok:'Perfetto: hai impaginato un invito vero e proprio.'},
+   {x:'Tocca <em>Invito</em> e poi <b>Centra</b> nel gruppo Paragrafo.',check:s=>s.s.doc[0].align==='center',hint:s=>s.s.curP===0?inTab(s.sim,'Home','center'):'word:invito',ok:'Il titolo è al centro della riga. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>E</kbd>.'},
+   {x:'Tocca <em>Caro</em> e poi <b>Giustifica</b>.',check:s=>s.s.doc[1].align==='justify',hint:s=>s.s.curP===1?inTab(s.sim,'Home','justify'):'word:caro',ok:'Il testo è dritto su entrambi i lati, come nella pagina di un libro.'},
+   {x:'Tocca la firma <em>Marta</em> e poi <b>Allinea a destra</b>.',check:s=>s.s.doc[2].align==='right',hint:s=>s.s.curP===2?inTab(s.sim,'Home','right'):'word:marta',ok:'Il tuo invito è impaginato come una lettera vera.'},
   ]},
  {id:'elenchi',t:'Elenchi puntati e numerati',d:'Liste ordinate e chiare.',i:'bullets',
   doc:[P('Lista della spesa',{style:'h1'}),P('Pane'),P('Latte'),P('Mele')],
   steps:[
-   {x:'Seleziona le tre righe: tocca <b>Pane</b> e trascina il dito fino a <b>Mele</b>. Poi tocca <b>Elenchi puntati</b>.',check:s=>[1,2,3].every(i=>s.s.doc[i].list==='bullet'),hint:s=>{const sel=s.sim.selParas();return [1,2,3].every(i=>sel.includes(i))?inTab(s.sim,'Home','bullets'):'word:pane'},ok:'Ogni voce ha il suo pallino. Se tocchi una sola riga, l’elenco si applica solo a quella.'},
-   {x:'Con le righe ancora selezionate, tocca <b>Elenchi numerati</b>.',check:s=>[1,2,3].every(i=>s.s.doc[i].list==='number'),hint:s=>{const sel=s.sim.selParas();return [1,2,3].every(i=>sel.includes(i))?inTab(s.sim,'Home','numbering'):'word:pane'},ok:'Ora l’elenco è numerato: 1, 2, 3. Utile per i passaggi in ordine.'},
+   {x:'Tocca <em>Pane</em> e trascina il dito fino a <em>Mele</em> (oppure usa <b>Estendi selezione</b>). Poi tocca <b>Elenchi puntati</b>.',check:s=>[1,2,3].every(i=>s.s.doc[i].list==='bullet'),hint:s=>{const sel=s.sim.selParas();return [1,2,3].every(i=>sel.includes(i))?inTab(s.sim,'Home','bullets'):s.sim.selText()==='pane'?'word:mele':'word:pane'},ok:'Ogni voce ha il suo pallino. La lista è pronta per il supermercato.'},
+   {x:'Con le tre righe ancora selezionate, tocca <b>Elenchi numerati</b>.',check:s=>[1,2,3].every(i=>s.s.doc[i].list==='number'),hint:s=>{const sel=s.sim.selParas();return [1,2,3].every(i=>sel.includes(i))?inTab(s.sim,'Home','numbering'):s.sim.selText()==='pane'?'word:mele':'word:pane'},ok:'Ora le voci sono numerate 1, 2, 3: perfetto per i passaggi in ordine.'},
   ]},
- {id:'stili',t:'Gli stili',d:'Titoli belli con un tocco.',i:'theme',
+ {id:'stili',t:'Gli stili',d:'Titoli ordinati con un tocco.',i:'theme',
   doc:[P('Torta di mele'),P('Una ricetta facile e veloce per tutta la famiglia.'),P('Ingredienti'),P('Tre mele, due uova, farina e zucchero.')],
   steps:[
-   {x:'Gli <b>stili</b> cambiano tutto l’aspetto di un paragrafo. Tocca <b>Torta</b> e scegli <b>Titolo 1</b> nel gruppo Stili.',check:s=>s.s.doc[0].style==='h1',hint:s=>s.s.curP===0?inTab(s.sim,'Home','st-h1'):'word:torta',ok:'Un solo tocco: carattere, colore e dimensione cambiano insieme.'},
-   {x:'Ora tocca <b>Ingredienti</b> e scegli <b>Titolo 2</b>.',check:s=>s.s.doc[2].style==='h2',hint:s=>s.s.curP===2?inTab(s.sim,'Home','st-h2'):'word:ingredienti',ok:'Usare gli stili dà ordine al documento. Word li usa anche per creare il sommario.'},
+   {x:'Uno <strong>stile</strong> cambia carattere, colore e grandezza in un tocco. Tocca <em>Torta</em> e scegli <b>Titolo 1</b> nel gruppo Stili.',check:s=>s.s.doc[0].style==='h1',hint:s=>s.s.curP===0?inTab(s.sim,'Home','st-h1'):'word:torta',ok:'Un tocco solo, e il titolo ha un aspetto professionale.'},
+   {x:'Tocca <em>Ingredienti</em> e scegli <b>Titolo 2</b>.',check:s=>s.s.doc[2].style==='h2',hint:s=>s.s.curP===2?inTab(s.sim,'Home','st-h2'):'word:ingredienti',ok:'Con gli stili il documento è ordinato. Word li usa anche per creare il sommario.'},
+  ]},
+ {id:'pennello',t:'Copia formato',d:'Dare lo stesso aspetto a più parole.',i:'painter',
+  doc:[P('Programma della settimana',{style:'h1'}),PF('Lunedì: piscina alle 17',{b:true,color:'#185ABD'}),P('Martedì: corso di inglese'),P('Mercoledì: cena dai nonni')],
+  steps:[
+   {x:'<em>Lunedì:</em> è in grassetto e blu. Per dare lo stesso aspetto ad altre parole, tocca <em>Lunedì:</em> e poi <b>Copia formato</b>, il pennello nel gruppo Appunti.',check:s=>!!s.s.painter,hint:s=>H(s,'lunedì',inTab(s.sim,'Home','painter')),ok:'Il pennello ha preso l’aspetto della parola. Il prossimo tocco lo appoggia su un’altra.'},
+   {x:'Ora tocca <em>Martedì:</em>. Prenderà subito lo stesso aspetto.',check:s=>wordFmt(s.sim,'martedì','b')&&wordFmt(s.sim,'martedì','color'),hint:s=>s.s.painter?'word:martedì':H(s,'lunedì',inTab(s.sim,'Home','painter')),ok:'Fatto con un tocco, senza rifare grassetto e colore a mano.'},
+   {x:'Ripeti per <em>Mercoledì:</em>: tocca <em>Lunedì:</em>, poi <b>Copia formato</b>, poi <em>Mercoledì:</em>.',check:s=>wordFmt(s.sim,'mercoledì','b')&&wordFmt(s.sim,'mercoledì','color'),hint:s=>s.s.painter?'word:mercoledì':H(s,'lunedì',inTab(s.sim,'Home','painter')),ok:'Ora tutti i giorni hanno lo stesso aspetto. Il foglio sembra subito ordinato e curato.'},
   ]},
  {id:'copia',t:'Copia, Taglia e Incolla',d:'Spostare e duplicare le parole.',i:'paste',
   doc:[P('Mi piace la pizza'),P('Domani mangio anche'),P('Una giornata noiosa e bella')],
   steps:[
-   {x:'Seleziona la parola <b>pizza</b> e tocca <b>Copia</b> nel gruppo Appunti.',check:s=>s.since('copy')&&s.s.clip&&s.s.clip.some(w=>clean(w.t)==='pizza'),hint:s=>H(s,'pizza',inTab(s.sim,'Home','copy')),ok:'La parola è negli <b>Appunti</b>: una memoria nascosta di Word. Sul foglio non cambia niente.'},
-   {x:'Tocca la parola <b>anche</b> nella seconda riga, poi tocca <b>Incolla</b>. La parola arriva subito dopo.',check:s=>s.s.doc[1].words.some(w=>clean(w.t)==='pizza'),hint:s=>H(s,'anche',inTab(s.sim,'Home','paste')),ok:'«Domani mangio anche pizza». Copia + Incolla: <kbd>Ctrl</kbd> + <kbd>C</kbd> e <kbd>Ctrl</kbd> + <kbd>V</kbd>.'},
-   {x:'Ora seleziona <b>noiosa</b> e tocca <b>Taglia</b> (le forbici).',check:s=>!s.s.doc.some(p=>p.type==='text'&&p.words.some(w=>clean(w.t)==='noiosa')),hint:s=>H(s,'noiosa',inTab(s.sim,'Home','cut')),ok:'Taglia toglie la parola dal foglio e la tiene negli Appunti: puoi incollarla da un’altra parte.'},
+   {x:'Tocca <em>pizza</em> e poi <b>Copia</b> nel gruppo Appunti.',check:s=>s.since('copy')&&s.s.clip&&s.s.clip.some(w=>clean(w.t)==='pizza'),hint:s=>H(s,'pizza',inTab(s.sim,'Home','copy')),ok:'La parola è negli <strong>Appunti</strong>, la memoria di Word. Sul foglio non cambia niente.'},
+   {x:'Tocca <em>anche</em> e poi <b>Incolla</b>. La parola copiata arriva subito dopo.',check:s=>s.s.doc[1].words.some(w=>clean(w.t)==='pizza'),hint:s=>H(s,'anche',inTab(s.sim,'Home','paste')),ok:'«Domani mangio anche pizza». <kbd>Ctrl</kbd> + <kbd>C</kbd> copia, <kbd>Ctrl</kbd> + <kbd>V</kbd> incolla.'},
+   {x:'Tocca <em>noiosa</em> e poi <b>Taglia</b>, le forbici.',check:s=>!s.s.doc.some(p=>p.type==='text'&&p.words.some(w=>clean(w.t)==='noiosa')),hint:s=>H(s,'noiosa',inTab(s.sim,'Home','cut')),ok:'La parola è uscita dal foglio ed è negli Appunti, pronta da incollare altrove.'},
   ]},
  {id:'annulla',t:'Annulla e Ripeti',d:'Tornare indietro senza paura.',i:'undo',
   doc:[P('Questa frase contiene un errore da correggere.')],
   steps:[
-   {x:'Facciamo un “errore” apposta: seleziona <b>frase</b> e tocca <b>Taglia</b>.',check:s=>s.since('cut'),hint:s=>H(s,'frase',inTab(s.sim,'Home','cut')),ok:'La parola è sparita. Niente paura!'},
-   {x:'Tocca <b>Annulla</b>: la freccia che torna indietro, a sinistra nella scheda Home o in alto.',check:s=>s.since('undo'),hint:s=>inTab(s.sim,'Home','undo'),ok:'La parola è tornata. Annulla è il tuo migliore amico: <kbd>Ctrl</kbd> + <kbd>Z</kbd>.'},
-   {x:'Hai cambiato idea? Tocca <b>Ripeti</b> per rifare il taglio.',check:s=>s.since('redo'),hint:s=>inTab(s.sim,'Home','redo'),ok:'Ripeti rifà quello che avevi annullato: <kbd>Ctrl</kbd> + <kbd>Y</kbd>.'},
+   {x:'Facciamo un errore apposta: tocca <em>frase</em> e poi <b>Taglia</b>.',check:s=>s.since('cut'),hint:s=>H(s,'frase',inTab(s.sim,'Home','cut')),ok:'La parola è sparita. Niente paura!'},
+   {x:'Tocca <b>Annulla</b>: la freccia curva verso sinistra, nella scheda Home o in alto.',check:s=>s.since('undo'),hint:s=>inTab(s.sim,'Home','undo'),ok:'La parola è tornata al suo posto. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>Z</kbd>.'},
+   {x:'Hai cambiato idea? Tocca <b>Ripeti</b>, la freccia verso destra.',check:s=>s.since('redo'),hint:s=>inTab(s.sim,'Home','redo'),ok:'Ripeti rifà quello che avevi annullato. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>Y</kbd>.'},
   ]},
  {id:'inserire',t:'Tabelle e immagini',d:'Aggiungere oggetti al documento.',i:'table',
   doc:[P('Le mie vacanze',{style:'h1'}),P('Ecco il programma e una foto del mare.')],
   steps:[
-   {x:'Apri la scheda <b>Inserisci</b> e tocca <b>Tabella</b>. Nella griglia scegli quante colonne e righe vuoi, per esempio 3 × 2.',check:s=>s.s.doc.some(p=>p.type==='table'),hint:s=>s.s.menu==='table'?'tg-3x2':inTab(s.sim,'Inserisci','table'),ok:'La tabella è nel foglio. Ogni casella si chiama <b>cella</b>.'},
-   {x:'Ora tocca <b>Immagini</b> e scegli <b>Immagini stock...</b>.',check:s=>s.s.doc.some(p=>p.type==='image'),hint:s=>s.s.menu==='pictures'?'m-stock':inTab(s.sim,'Inserisci','pictures'),ok:'Ecco la foto! «Questo dispositivo» invece apre le foto salvate sul tuo computer.'},
+   {x:'Apri la scheda <b>Inserisci</b> e tocca <b>Tabella</b>. Sulla griglia scegli 3 colonne e 2 righe.',check:s=>s.s.doc.some(p=>p.type==='table'),hint:s=>s.s.menu==='table'?'tg-3x2':inTab(s.sim,'Inserisci','table'),ok:'La tabella è sul foglio. Ogni casella si chiama <strong>cella</strong>.'},
+   {x:'Ora tocca <b>Immagini</b> e scegli <b>Immagini stock...</b>.',check:s=>s.s.doc.some(p=>p.type==='image'),hint:s=>s.s.menu==='pictures'?'m-stock':inTab(s.sim,'Inserisci','pictures'),ok:'Ecco la foto del mare. Con <b>Questo dispositivo...</b> scegli invece una foto salvata sul computer.'},
+  ]},
+ {id:'tabella-testo',t:'Scrivere in una tabella',d:'Righe, colonne e prezzi in ordine.',i:'table',
+  doc:[P('Mercatino di primavera',{style:'h1'}),TB([['Prodotto','Prezzo'],['Marmellata di fragole','4 €'],['Miele di acacia','']])],
+  steps:[
+   {x:'Le tabelle mettono le cose in colonna. Tocca la cella vuota accanto a <em>acacia</em> e scrivi <em>6 €</em>.',check:s=>{const c=cellAt(s,1,2,1);return !!c&&c.words.length>0},hint:()=>'cell-2-1',ok:'Per scrivere in una cella basta toccarla. Se c’è già del testo, tocca lo spazio vuoto accanto alle parole. In alto sono comparse due schede nuove, con la riga verde: servono per la tabella.'},
+   {x:'Serve un’altra riga? Con la tabella attiva apri la scheda <b>Layout tabella</b> e tocca <b>Inserisci sotto</b>.',check:s=>s.s.doc[1].type==='table'&&s.s.doc[1].rows>=4,hint:s=>!s.sim.inTable()?'cell-2-1':s.s.tab==='Layout tabella'?'rowbelow':'tab-Layout tabella',ok:'Ecco una riga nuova, pronta da riempire. Si aggiunge sotto la cella in cui ti trovi.'},
+   {x:'Riempi la riga nuova: tocca una cella vuota e scrivi un prodotto, per esempio <em>Biscotti</em>.',check:s=>filled(s,1)>=7,hint:s=>firstEmpty(s,1,1)||'cell-3-0',ok:'Ora sai aggiungere righe e riempirle, quante ne servono.'},
+   {x:'I prezzi stanno meglio a destra. Tocca <em>4</em> e poi <b>Allinea a destra</b> nella scheda Home.',check:s=>{const c=cellAt(s,1,1,1);return !!c&&c.align==='right'},hint:s=>s.s.curP===s.sim.cellBlock(1,1,1)?inTab(s.sim,'Home','right'):'word:4',ok:'Ogni cella si allinea per conto suo: ripeti per gli altri prezzi e saranno tutti in fila.'},
+   {x:'Ultimo tocco: togliamo le linee. Con la tabella attiva apri <b>Struttura tabella</b>, tocca <b>Bordi</b> e scegli <b>Nessun bordo</b>.',check:s=>s.s.doc[1].type==='table'&&s.s.doc[1].borders==='none',hint:s=>!s.sim.inTable()?'word:4':s.s.menu==='tborders'?'m-tb-none':s.s.tab==='Struttura tabella'?'tborders':'tab-Struttura tabella',ok:'Le righe tratteggiate che vedi ora non si stampano: servono solo a te per vedere le celle. Sul foglio stampato restano le parole in colonna.'},
+  ]},
+ {id:'pagina',t:'Colore e bordo pagina',d:'Dare al foglio un aspetto curato.',i:'pageborder',
+  doc:[P('Festa dei nonni',{style:'title',align:'center'}),P('Domenica 12 alle 16, nella sala del circolo.',{align:'center'}),P('Merenda per tutti!',{align:'center'})],
+  steps:[
+   {x:'Apri la scheda <b>Progettazione</b> e tocca <b>Colore pagina</b>. Scegli <b>Crema</b>.',check:s=>!!s.s.page.color,hint:s=>s.s.menu==='pcolor'?'m-pc-crema':inTab(s.sim,'Progettazione','pcolor'),ok:'Tutto il foglio ha cambiato colore. Attenzione: di solito Word non stampa il colore della pagina, lo vedi solo sullo schermo.'},
+   {x:'Ora tocca <b>Bordi pagina</b> e scegli <b>Doppia linea</b>.',check:s=>s.s.page.border==='double',hint:s=>s.s.menu==='pborder'?'m-pb-double':inTab(s.sim,'Progettazione','pborder'),ok:'Una cornice rende il foglio subito più elegante. Il bordo pagina, a differenza del colore, si stampa.'},
   ]},
  {id:'salvare',t:'Salvare il documento',d:'Dare un nome al file e conservarlo.',i:'save',
   doc:[P('Gentile signora Rossi,'),P('le scrivo per confermare l’appuntamento di lunedì.'),P('Cordiali saluti')],
   steps:[
-   {x:'Per salvare tocca la scheda <b>File</b>, la prima a sinistra.',check:s=>!!s.s.bs,hint:()=>'tab-File',ok:'Si è aperto il menu File, chiamato anche Backstage.'},
-   {x:'Tocca <b>Salva con nome</b>.',check:s=>s.s.bs==='saveas',hint:s=>s.s.bs?'bs-saveas':'tab-File',ok:'Qui scegli dove salvare e con quale nome.'},
-   {x:'Nella casella <b>Nome file</b> scrivi <b>Lettera</b> e poi tocca <b>Salva</b>.',check:s=>s.s.saved&&/lettera/i.test(s.s.fileName),hint:s=>s.s.bs==='saveas'?($('#bs-name',s.sim.el)&&/lettera/i.test($('#bs-name',s.sim.el).value)?'bs-dosave':'bs-name'):s.s.bs?'bs-saveas':'tab-File',ok:'Guarda in alto: il nome ora è «Lettera». Le volte dopo basta il dischetto <b>Salva</b>. Con «Salvataggio automatico» attivo, Word salva da solo su OneDrive.'},
+   {x:'Tocca la scheda <b>File</b>, la prima a sinistra.',check:s=>!!s.s.bs,hint:()=>'tab-File',ok:'Si è aperto il menu File, detto anche <strong>Backstage</strong>.'},
+   {x:'Nella colonna blu tocca <b>Salva con nome</b>.',check:s=>s.s.bs==='saveas',hint:s=>s.s.bs?'bs-saveas':'tab-File',ok:'Qui scegli dove salvare il file e con quale nome.'},
+   {x:'Nella casella <b>Nome file</b> scrivi <em>Lettera</em>, poi tocca <b>Salva</b>.',check:s=>s.s.saved&&/lettera/i.test(s.s.fileName),hint:s=>s.s.bs==='saveas'?($('#bs-name',s.sim.el)&&/lettera/i.test($('#bs-name',s.sim.el).value)?'bs-dosave':'bs-name'):s.s.bs?'bs-saveas':'tab-File',ok:'In alto ora leggi «Lettera». Le volte dopo basta il pulsante <b>Salva</b>, il dischetto.'},
   ]},
  {id:'stampare',t:'Stampare',d:'Mandare il documento alla stampante.',i:'printer',
   doc:[P('Ricetta della nonna',{style:'h1'}),P('Ingredienti e passaggi per preparare il ragù della domenica.')],
   steps:[
-   {x:'Tocca la scheda <b>File</b>.',check:s=>!!s.s.bs,hint:()=>'tab-File',ok:'Bene, sei nel menu File.'},
-   {x:'Tocca <b>Stampa</b> nella colonna a sinistra.',check:s=>s.s.bs==='print',hint:s=>s.s.bs?'bs-print':'tab-File',ok:'A destra vedi l’anteprima: il foglio come uscirà dalla stampante.'},
-   {x:'Controlla il numero di <b>copie</b> e tocca il grande pulsante <b>Stampa</b>.',check:s=>s.s.printed,hint:s=>s.s.bs==='print'?'bs-doprint':s.s.bs?'bs-print':'tab-File',ok:'Fatto! Sul computer vero il foglio esce dalla stampante. Hai finito tutte le basi di Word.'},
+   {x:'Tocca la scheda <b>File</b>.',check:s=>!!s.s.bs,hint:()=>'tab-File',ok:'Sei nel menu File.'},
+   {x:'Nella colonna blu tocca <b>Stampa</b>.',check:s=>s.s.bs==='print',hint:s=>s.s.bs?'bs-print':'tab-File',ok:'A destra vedi l’anteprima: il foglio come uscirà dalla stampante.'},
+   {x:'Controlla le <strong>Copie</strong> e tocca il grande pulsante <b>Stampa</b>.',check:s=>s.s.printed,hint:s=>s.s.bs==='print'?'bs-doprint':s.s.bs?'bs-print':'tab-File',ok:'Fatto! Hai completato tutte le basi di Word.'},
   ]},
 ];
 
 /* ---------- Progresso ---------- */
-let done=new Set(store.get('done',[]));
+let done=new Set((Array.isArray(store.get('done',[]))?store.get('done',[]):[]).filter(id=>LESSONS.some(l=>l.id===id)));
 const saveDone=()=>store.set('done',[...done]);
 
 /* ---------- Router ---------- */
@@ -1038,8 +1237,8 @@ function go(v,arg){
 }
 $('#tabbar').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
 
-function topbar(){return `<header class="top"><div class="brand"><span class="brand-mark" aria-hidden="true">W</span>Scuola di Word</div><button class="pill-btn" data-acc aria-haspopup="dialog">${UI.access}Accessibilità</button></header>`}
-app.addEventListener('click',e=>{if(e.target.closest('[data-acc]'))$('#acc').showModal()});
+function topbar(){return `<header class="top"><div class="brand"><span class="brand-mark" aria-hidden="true">W</span><span class="brand-t">Impara Word<br>da smartphone</span></div><button class="pill-btn" data-acc aria-haspopup="dialog">${UI.access}Accessibilità</button></header>`}
+app.addEventListener('click',e=>{if(!e.target.closest('[data-acc]'))return;const d=$('#acc');try{d.showModal()}catch(_){d.setAttribute('open','')}});
 
 function renderHome(){
   const n=LESSONS.length,k=LESSONS.filter(l=>done.has(l.id)).length;
@@ -1048,8 +1247,8 @@ function renderHome(){
   <section class="hero" aria-labelledby="h-t">
     <div class="mini" aria-hidden="true"><div class="mini-bar">Documento1 · Word</div><div class="mini-rib"><span class="mb" style="font-weight:800">G</span><span style="font-style:italic;font-family:Georgia,serif">C</span><span style="text-decoration:underline">S</span></div>
       <div class="mini-page">Ricordati la riunione <span class="mw">importante</span> di domani.<div class="ln" style="width:92%"></div><div class="ln" style="width:70%"></div></div></div>
-    <h1 id="h-t">Impara Word, un passo alla volta</h1>
-    <p>Lezioni brevi con una copia di Word 365 in italiano da toccare con mano. Puoi sbagliare: c’è sempre <b>Annulla</b>.</p>
+    <h1 id="h-t">Word in tasca, un comando alla volta</h1>
+    <p class="rich" style="line-height:1.8">Lezioni da due minuti su una copia di Word 365 in italiano. Tocchi i veri pulsanti e vedi subito il risultato sul foglio. Se sbagli, c’è sempre <b>Annulla</b>.</p>
     <div class="progress"><div class="progress-row"><span>I tuoi progressi</span><span>${k} di ${n} lezioni</span></div><div class="bar" role="progressbar" aria-label="Lezioni completate" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${k}"><i style="width:0%"></i></div></div>
     ${next>=0?`<button class="btn wide" data-start="${next}">${k?'Continua':'Inizia'}: ${esc(LESSONS[next].t)} ${UI.next}</button>`:`<button class="btn wide" data-go2="quiz">Hai finito! Mettiti alla prova con il quiz ${UI.next}</button>`}
   </section>
@@ -1078,7 +1277,7 @@ function startLesson(i){
   L=LESSONS[i];L.idx=i;si=0;
   app.innerHTML=`<div class="screen">
    <div class="lhead"><div class="lhead-row"><button class="icon-btn" data-back aria-label="Torna alle lezioni">${UI.back}</button><h1>${esc(L.t)}</h1><span class="count" id="cnt"></span></div><div class="steps" id="dots" aria-hidden="true"></div></div>
-   <section class="coach" aria-labelledby="c-l"><span class="lbl" id="c-l">Cosa fare</span><p class="txt" id="ctxt" aria-live="polite"></p><div class="actions" id="cact"></div></section>
+   <section class="coach" aria-labelledby="c-l"><span class="lbl" id="c-l">Cosa fare</span><p class="txt rich" id="ctxt" aria-live="polite"></p><div class="actions" id="cact"></div><div class="legend rich" aria-hidden="true"><span><b>Home</b> pulsante da toccare</span><span><em>parola</em> testo del foglio</span></div></section>
    <div id="simHost"></div>
    <p class="hint-scroll">Sulla barra dei comandi scorri con il dito verso sinistra per vederne altri ${UI.arrow}</p>
   </div>`;
@@ -1108,17 +1307,17 @@ function renderStep(){
 function onSimChange(){
   if(view!=='lesson'||!L)return;const st=L.steps[si];if(!st||!st.check||stepDone)return;
   if(st.check(ctx())){stepDone=true;clearTimeout(hintTimer);sim.clearHint();success(st.ok);}
-  else if(sim.hintOn){sim.showHint(st.hint(ctx()),false)}
+  else if(sim.hintOn){sim.showHint(st.hint(ctx()),true)}
 }
 function nextStep(){if(si<L.steps.length-1){si++;renderStep();$('.coach').scrollIntoView({block:'nearest',behavior:prefs.rm?'auto':'smooth'})}else finishLesson()}
 function confetti(){const cols=['#185ABD','#FFE14D','#E0201B','#17723F','#2E86C1'];let h='';for(let i=0;i<14;i++){const a=Math.random()*Math.PI*2,d=50+Math.random()*60;h+=`<i style="background:${cols[i%5]};--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d-30}px;--r:${Math.random()*540-270}deg"></i>`}return `<div class="confetti" aria-hidden="true">${h}</div>`}
 const PRAISE=['Ottimo!','Bravo!','Perfetto!','Ci sei!','Benissimo!'];
 function success(msg){
   const last=si===L.steps.length-1,title=PRAISE[Math.floor(Math.random()*PRAISE.length)];
-  $('#sheetHost').innerHTML=`<div class="sheet" role="status"><div class="sheet-in">${confetti()}<div class="sheet-top">${OKMARK}<div><h2>${title}</h2><p>${msg}</p></div></div>
+  $('#sheetHost').innerHTML=`<div class="sheet" role="status"><div class="sheet-in">${confetti()}<div class="sheet-top">${OKMARK}<div><h2>${title}</h2><p class="rich" style="line-height:1.8">${msg}</p></div></div>
    <button class="btn wide" id="sheetNext">${last?'Completa la lezione':'Avanti'} ${UI.next}</button></div></div>`;
   $('#sheetNext').onclick=()=>nextStep();
-  setTimeout(()=>{const b=$('#sheetNext');b&&b.focus({preventScroll:true})},prefs.rm?0:400);
+  setTimeout(()=>{const ae=document.activeElement;if(ae&&(ae.tagName==='TEXTAREA'||ae.tagName==='INPUT'))return;const b=$('#sheetNext');b&&b.focus({preventScroll:true})},prefs.rm?0:400);
   announce(title+' '+plain(msg));if(prefs.tts)speak(title+'. '+msg);
 }
 function closeSheet(){$('#sheetHost').innerHTML=''}
@@ -1135,7 +1334,7 @@ function finishLesson(){
 /* ---------- Prova libera ---------- */
 function renderPractice(){
   app.innerHTML=`<div class="screen">${topbar()}
-   <section class="coach"><span class="lbl">Prova libera</span><h1 style="font-size:1.35rem">Il tuo foglio per esercitarti</h1><p class="txt" style="font-size:1rem">Qui non ci sono compiti. Prova tutti i comandi che vuoi. Tocca una parola per selezionarla, poi scegli un comando. Scrivi nuove righe nel riquadro in basso.</p>
+   <section class="coach"><span class="lbl">Prova libera</span><h1 style="font-size:1.35rem">Il tuo foglio per esercitarti</h1><p class="txt rich" style="font-size:1rem;line-height:1.8">Un documento tutto tuo, senza compiti. Tocca una parola per selezionarla, poi scegli un comando dalla barra. Per scrivere, tocca la riga vuota in fondo al foglio.</p>
    <div class="actions"><button class="chip" data-new>${UI.reset}Nuovo foglio</button></div></section>
    <div id="simHost"></div>
    <p class="hint-scroll">Scorri la barra dei comandi per vederne altri ${UI.arrow}</p></div>`;
@@ -1155,6 +1354,9 @@ const QUIZ=[
  {q:'Quale combinazione di tasti copia il testo selezionato?',o:['Ctrl + V','Ctrl + Z','Ctrl + C','Ctrl + G'],a:2,e:'Ctrl+C copia, Ctrl+V incolla.'},
  {q:'Vuoi dare un nome al tuo documento. Cosa tocchi?',o:['File › Salva con nome','Home › Stili','Inserisci › Immagini','Visualizza › Zoom'],a:0,e:'Da File › Salva con nome scegli il nome e la cartella.'},
  {q:'Il pulsante «Centra» serve a…',o:['ingrandire il testo','mettere il testo al centro della riga','creare un elenco','cercare una parola'],a:1,e:'Centra allinea il paragrafo al centro. Ottimo per i titoli.'},
+ {q:'Come togli le linee di una tabella?',o:['Home › Cancella formattazione','Struttura tabella › Bordi › Nessun bordo','File › Stampa','Inserisci › Forme'],a:1,e:'Le schede Struttura tabella e Layout tabella compaiono solo quando tocchi una tabella.'},
+ {q:'A cosa serve «Copia formato», il pennello?',o:['A copiare il testo','A dare a una parola lo stesso aspetto di un’altra','A cancellare il testo','A colorare la pagina'],a:1,e:'Copia l’aspetto (grassetto, colore, carattere), non le parole.'},
+ {q:'Vuoi aggiungere una riga sotto in una tabella. Quale comando usi?',o:['Layout tabella › Inserisci sotto','Home › Invio','Inserisci › Tabella','Layout › Margini'],a:0,e:'Inserisci sotto aggiunge una riga sotto la cella in cui ti trovi.'},
  {q:'A cosa servono gli stili «Titolo 1» e «Titolo 2»?',o:['A stampare','A dare ai titoli un aspetto ordinato e uguale','A salvare il file','A inserire immagini'],a:1,e:'Gli stili cambiano carattere, colore e grandezza in un tocco solo.'},
 ];
 let qi=0,qs=0;
@@ -1162,8 +1364,8 @@ function renderQuiz(){qi=0;qs=0;quizQ()}
 function quizQ(){
   if(qi>=QUIZ.length){
     const best=Math.max(store.get('best',0),qs);store.set('best',best);
-    const msg=qs>=9?'Sei un esperto delle basi di Word!':qs>=6?'Ottimo lavoro! Ripassa le domande sbagliate.':'Buon inizio. Rivedi le lezioni e riprova.';
-    app.innerHTML=`<div class="screen">${topbar()}<div class="done-card">${qs>=6?confetti()+OKMARK:''}<h1 tabindex="-1">Quiz finito</h1><p class="score">${qs}/${QUIZ.length}</p><p>${msg}</p><p class="kbd-note">Il tuo record: ${best}/${QUIZ.length}</p>
+    const msg=qs>=QUIZ.length-1?'Sei un esperto delle basi di Word!':qs>=QUIZ.length*.6?'Ottimo lavoro! Ripassa le domande sbagliate.':'Buon inizio. Rivedi le lezioni e riprova.';
+    app.innerHTML=`<div class="screen">${topbar()}<div class="done-card">${qs>=QUIZ.length*.6?confetti()+OKMARK:''}<h1 tabindex="-1">Quiz finito</h1><p class="score">${qs}/${QUIZ.length}</p><p>${msg}</p><p class="kbd-note">Il tuo record: ${best}/${QUIZ.length}</p>
       <button class="btn wide" data-again>${UI.reset}Rifai il quiz</button><button class="btn ghost wide" data-go2="home">Vai alle lezioni</button></div></div>`;
     app.onclick=e=>{if(e.target.closest('[data-again]'))go('quiz');const g=e.target.closest('[data-go2]');if(g)go(g.dataset.go2)};
     announce(`Quiz finito. Hai risposto bene a ${qs} domande su ${QUIZ.length}.`);return;
@@ -1204,7 +1406,7 @@ function renderKeys(){
 document.addEventListener('keydown',e=>{
   if(!(view==='lesson'||view==='practice')||!sim.s)return;
   if(!(e.ctrlKey||e.metaKey)||e.altKey)return;
-  const tag=(e.target.tagName||'').toLowerCase();if(tag==='input'||tag==='select')return;
+  const tag=(e.target.tagName||'').toLowerCase();if(tag==='input'||tag==='select'||tag==='textarea'||e.target.isContentEditable)return;if($('#acc').open)return;
   const m={g:'bold',i:'italic',s:'underline',c:'copy',x:'cut',v:'paste',z:'undo',y:'redo',e:'center'}[e.key.toLowerCase()];
   if(m){e.preventDefault();sim.cmd(m)}
 });
