@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#185ABD">
+<title>Scuola di Word</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lexend:wght@500;600;700&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+/* Layout: app a colonna singola per telefono (max 560px), barra in basso, simulatore di Word come "oggetto" al centro di ogni lezione */
+:root{
+  --bg:#EDF1F7; --surface:#FFFFFF; --surface-2:#F6F8FC; --ink:#14213D; --muted:#4B5774; --line:#D3DAE6;
+  --accent:#1B55C2; --accent-ink:#FFFFFF; --accent-soft:#DCE6FA;
+  --marker:#FFE14D; --marker-ink:#14213D;
+  --ok:#17723F; --ok-soft:#DDF2E4; --bad:#B42318; --bad-soft:#FBE4E1;
+  --shadow:0 1px 2px rgba(20,33,61,.06),0 6px 20px rgba(20,33,61,.08);
+  /* Word */
+  --w-title:#185ABD; --w-title-ink:#FFFFFF; --w-ribbon:#F7F7F7; --w-ink:#242424; --w-sub:#616161; --w-line:#E0E0E0;
+  --w-hover:#E6E6E6; --w-on:#C7DCF5; --w-on-ink:#0F3E86; --w-canvas:#E9E9E9; --w-page:#FFFFFF; --w-page-ink:#1B1B1B;
+  --w-sel:#C6D9F3; --w-bs:#185ABD; --w-bs-ink:#FFFFFF; --w-head:#0F4761;
+  --f-display:"Lexend","Atkinson Hyperlegible",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-word:"Segoe UI","Segoe UI Variable",system-ui,-apple-system,Roboto,sans-serif;
+  --f-doc:Aptos,Calibri,Carlito,"Segoe UI",Arial,sans-serif;
+  --dur:1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1422; --surface:#172238; --surface-2:#1C2942; --ink:#ECF1FA; --muted:#A9B5CC; --line:#2B3A57;
+  --accent:#86ABF7; --accent-ink:#0B1426; --accent-soft:#1F3463;
+  --ok:#63D394; --ok-soft:#163626; --bad:#FF8E80; --bad-soft:#3D1C1A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3);
+  --w-title:#1F1F1F; --w-title-ink:#F2F2F2; --w-ribbon:#2B2B2B; --w-ink:#F0F0F0; --w-sub:#BDBDBD; --w-line:#3D3D3D;
+  --w-hover:#3A3A3A; --w-on:#25466F; --w-on-ink:#CFE2FF; --w-canvas:#1A1A1A; --w-sel:#C6D9F3; --w-bs:#1E4E9C;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1422; --surface:#172238; --surface-2:#1C2942; --ink:#ECF1FA; --muted:#A9B5CC; --line:#2B3A57;
+  --accent:#86ABF7; --accent-ink:#0B1426; --accent-soft:#1F3463;
+  --ok:#63D394; --ok-soft:#163626; --bad:#FF8E80; --bad-soft:#3D1C1A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3);
+  --w-title:#1F1F1F; --w-title-ink:#F2F2F2; --w-ribbon:#2B2B2B; --w-ink:#F0F0F0; --w-sub:#BDBDBD; --w-line:#3D3D3D;
+  --w-hover:#3A3A3A; --w-on:#25466F; --w-on-ink:#CFE2FF; --w-canvas:#1A1A1A; --w-sel:#C6D9F3; --w-bs:#1E4E9C;
+  color-scheme:dark}
+/* Contrasto elevato: vince su chiaro e scuro */
+:root.hc{
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#FFFFFF; --ink:#000000; --muted:#000000; --line:#000000;
+  --accent:#0030A8; --accent-ink:#FFFFFF; --accent-soft:#E3EAFF; --ok:#005A1E; --ok-soft:#FFFFFF; --bad:#9A0000; --bad-soft:#FFFFFF;
+  --shadow:none; --w-title:#0030A8; --w-ribbon:#FFFFFF; --w-ink:#000000; --w-sub:#000000; --w-line:#000000; --w-hover:#FFF3A0;
+  --w-on:#000000; --w-on-ink:#FFFFFF; --w-canvas:#FFFFFF; --w-bs:#0030A8; color-scheme:light}
+:root.fs2{font-size:112.5%} :root.fs3{font-size:128%}
+:root.rm{--dur:0}
+@media (prefers-reduced-motion: reduce){:root{--dur:0}}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.55;-webkit-tap-highlight-color:transparent;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.hc :focus-visible{outline:4px solid #000;box-shadow:0 0 0 7px #FFE14D}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+
+.app{max-width:560px;margin:0 auto;padding-block:12px 120px}
+.screen{display:flex;flex-direction:column;gap:20px}
+.screen.in{animation:screenIn calc(.42s * var(--dur)) cubic-bezier(.2,.8,.2,1) both}
+@keyframes screenIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Testata */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:6px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:1.15rem}
+.brand-mark{width:36px;height:36px;border-radius:9px;background:var(--w-title);color:#fff;display:grid;place-items:center;font-family:var(--f-word);font-weight:700;font-size:1.1rem;position:relative;overflow:hidden}
+.brand-mark::after{content:"";position:absolute;right:0;top:0;bottom:0;width:38%;background:rgba(255,255,255,.18)}
+.pill-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:.95rem}
+.pill-btn svg{width:20px;height:20px}
+
+/* Hero */
+.hero{background:var(--surface);border-radius:20px;padding:20px;box-shadow:var(--shadow);display:grid;gap:16px;border:1px solid var(--line)}
+.hero h1{font-size:1.65rem;line-height:1.2}
+.hero p{color:var(--muted)}
+.mini{border-radius:12px;overflow:hidden;border:1px solid var(--w-line);background:var(--w-canvas);font-family:var(--f-word)}
+.mini-bar{background:var(--w-title);color:var(--w-title-ink);font-size:.72rem;padding:5px 10px;display:flex;justify-content:center}
+.mini-rib{background:var(--w-ribbon);display:flex;gap:6px;padding:6px 10px;border-bottom:1px solid var(--w-line)}
+.mini-rib span{width:24px;height:22px;border-radius:4px;display:grid;place-items:center;font-weight:700;font-size:.8rem;color:var(--w-ink)}
+.mini-rib .mb{animation:miniBtn calc(6s * var(--dur)) infinite}
+@keyframes miniBtn{0%,30%{background:transparent}34%,60%{background:var(--w-on)}64%,100%{background:transparent}}
+.mini-page{background:#fff;color:#1b1b1b;margin:10px 18px 0;padding:14px 16px 18px;font-family:var(--f-doc);font-size:.88rem;line-height:1.5;border-radius:2px 2px 0 0;box-shadow:0 0 0 1px rgba(0,0,0,.05)}
+.mini-page .ln{height:7px;border-radius:4px;background:#e3e6eb;margin-top:8px}
+.mw{position:relative;padding:0 2px;border-radius:2px;animation:miniWord calc(6s * var(--dur)) infinite}
+@keyframes miniWord{0%,18%{background:transparent;font-weight:400}22%,32%{background:#C6D9F3;font-weight:400}36%,62%{background:#C6D9F3;font-weight:700}70%,100%{background:#FFE14D;font-weight:700}}
+:root.rm .mw,:root.rm .mini-rib .mb{animation:none}
+:root.rm .mw{background:#FFE14D;font-weight:700}
+
+.progress{display:grid;gap:8px}
+.progress-row{display:flex;justify-content:space-between;font-size:.92rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{height:10px;border-radius:99px;background:var(--accent-soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width calc(.8s * var(--dur)) cubic-bezier(.2,.8,.2,1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 22px;border-radius:14px;border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:1.05rem;transition:transform calc(.15s * var(--dur))}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.soft{background:var(--accent-soft);color:var(--ink)}
+.btn svg{width:20px;height:20px}
+.btn.wide{width:100%}
+
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sec-h h2{font-size:1.25rem}
+.sec-h span{color:var(--muted);font-size:.9rem}
+
+/* Elenco lezioni */
+.lessons{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.lesson{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;text-align:left;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);transition:transform calc(.18s * var(--dur)),box-shadow calc(.18s * var(--dur))}
+.lesson:active{transform:scale(.985)}
+.lesson .ico{width:48px;height:48px;border-radius:12px;background:var(--w-ribbon);border:1px solid var(--w-line);display:grid;place-items:center;color:var(--w-ink);font-family:var(--f-word)}
+.lesson .ico svg{width:26px;height:26px}
+.lesson .num{font-size:.78rem;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.lesson .t{font-weight:700;font-size:1.05rem;line-height:1.3;display:block}
+.lesson .d{color:var(--muted);font-size:.93rem;line-height:1.35;display:block}
+.lesson .st{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.lesson.done .st{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.lesson.done .st svg{width:18px;height:18px}
+.lesson.next{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.mid{min-width:0}
+
+/* Barra in basso */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabbar-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:58px;justify-content:center;border:0;background:none;border-radius:12px;font-size:.8rem;font-weight:700;color:var(--muted)}
+.tb svg{width:24px;height:24px}
+.tb[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
+.tb[aria-current="page"] svg{animation:tbPop calc(.35s * var(--dur))}
+@keyframes tbPop{40%{transform:scale(1.18)}}
+
+/* Lezione */
+.lhead{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--bg);padding-block:8px;display:grid;gap:8px;margin-inline:-4px;padding-inline:4px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:16;background:var(--bg)}
+.lhead-row{display:flex;align-items:center;gap:10px}
+.icon-btn{width:46px;height:46px;flex:none;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center}
+.icon-btn svg{width:22px;height:22px}
+.lhead h1{font-size:1.15rem;line-height:1.25;flex:1;min-width:0}
+.lhead .count{font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.steps{display:flex;gap:5px}
+.steps i{flex:1;height:6px;border-radius:9px;background:var(--line);transition:background calc(.4s * var(--dur))}
+.steps i.on{background:var(--accent)}
+.steps i.cur{background:linear-gradient(90deg,var(--accent) 50%,var(--line) 50%);background-size:200% 100%;animation:stepCur calc(1.2s * var(--dur)) both}
+@keyframes stepCur{from{background-position:100% 0}to{background-position:50% 0}}
+
+.coach{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px;box-shadow:var(--shadow)}
+.coach .lbl{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.coach .txt{font-size:1.12rem;line-height:1.5}
+.coach .txt b{background:linear-gradient(transparent 55%,var(--marker) 55%);color:inherit;padding:0 2px}
+.hc .coach .txt b{background:var(--marker);color:#000}
+.coach .txt.in{animation:txtIn calc(.4s * var(--dur)) both}
+@keyframes txtIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.coach .actions{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface-2);font-weight:700;font-size:.95rem}
+.chip svg{width:19px;height:19px}
+.chip.speaking{border-color:var(--accent);color:var(--accent)}
+.kbd-note{font-size:.92rem;color:var(--muted)}
+kbd{font-family:var(--f-word);font-size:.85em;padding:2px 7px;border-radius:6px;border:1.5px solid var(--line);border-bottom-width:3px;background:var(--surface);white-space:nowrap;color:var(--ink)}
+
+/* ===== Simulatore Word ===== */
+.sim{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--w-line);background:var(--w-canvas);font-family:var(--f-word);color:var(--w-ink);box-shadow:var(--shadow);font-size:.82rem;line-height:1.3;isolation:isolate}
+.sim [data-region]{transition:opacity calc(.3s * var(--dur)),box-shadow calc(.3s * var(--dur))}
+.sim.spotting [data-region]:not(.spot){opacity:.28}
+.sim [data-region].spot{box-shadow:inset 0 0 0 3px var(--marker);position:relative;z-index:2}
+.w-title{background:var(--w-title);color:var(--w-title-ink);display:flex;align-items:center;gap:6px;padding:4px 8px;min-height:40px}
+.w-qa{display:flex;align-items:center;gap:2px}
+.w-auto{display:flex;align-items:center;gap:5px;font-size:.68rem;opacity:.95;margin-right:2px}
+.w-auto i{width:24px;height:12px;border:1.5px solid currentColor;border-radius:9px;position:relative}
+.w-auto i::after{content:"";position:absolute;left:2px;top:1.5px;width:6px;height:6px;border-radius:50%;background:currentColor}
+.w-qb{width:32px;height:32px;border:0;background:transparent;color:inherit;border-radius:5px;display:grid;place-items:center}
+.w-qb svg{width:17px;height:17px}
+.w-qb:hover{background:rgba(255,255,255,.16)}
+.w-name{flex:1;min-width:0;text-align:center;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.w-name em{font-style:normal;opacity:.85}
+.w-name.flash{animation:nameFlash calc(1.2s * var(--dur))}
+@keyframes nameFlash{30%{background:rgba(255,255,255,.28);border-radius:6px}}
+.w-av{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:.68rem;font-weight:700;flex:none}
+
+.w-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;background:var(--w-ribbon);padding:2px 6px 0;border-bottom:1px solid var(--w-line)}
+.w-tabs::-webkit-scrollbar{display:none}
+.w-tab{position:relative;flex:none;border:0;background:transparent;color:var(--w-ink);padding:9px 10px 10px;font-size:.82rem;border-radius:5px 5px 0 0;min-height:40px}
+.w-tab:hover{background:var(--w-hover)}
+.w-tab[aria-selected="true"]{font-weight:700;color:var(--w-on-ink)}
+.w-tab[aria-selected="true"]::after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:3px;border-radius:3px;background:var(--w-title);animation:tabLine calc(.3s * var(--dur)) cubic-bezier(.2,.8,.2,1)}
+:root[data-theme="dark"] .w-tab[aria-selected="true"]::after{background:#4F8CF0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .w-tab[aria-selected="true"]::after{background:#4F8CF0}}
+@keyframes tabLine{from{transform:scaleX(0)}}
+.w-tab.file{color:var(--w-title)}
+:root[data-theme="dark"] .w-tab.file{color:#7FAEF7}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .w-tab.file{color:#7FAEF7}}
+
+.w-ribbon{background:var(--w-ribbon);display:flex;align-items:stretch;overflow-x:auto;padding:6px 4px 0;border-bottom:1px solid var(--w-line);scroll-behavior:smooth;scrollbar-width:thin;min-height:112px}
+:root.rm .w-ribbon{scroll-behavior:auto}
+.w-group{flex:none;display:flex;flex-direction:column;padding:0 7px;border-right:1px solid var(--w-line);animation:grpIn calc(.32s * var(--dur)) both}
+.w-group:nth-child(2){animation-delay:calc(.04s * var(--dur))}.w-group:nth-child(3){animation-delay:calc(.08s * var(--dur))}.w-group:nth-child(4){animation-delay:calc(.12s * var(--dur))}.w-group:nth-child(5){animation-delay:calc(.16s * var(--dur))}
+@keyframes grpIn{from{opacity:0;transform:translateX(10px)}}
+.w-gbody{display:flex;gap:4px;align-items:flex-start;flex:1}
+.w-gname{font-size:.7rem;color:var(--w-sub);text-align:center;padding:4px 0 5px;white-space:nowrap}
+.w-col{display:flex;flex-direction:column;gap:2px}
+.w-row{display:flex;gap:1px;align-items:center}
+.wb{position:relative;border:1px solid transparent;background:transparent;color:var(--w-ink);border-radius:5px;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-width:34px;min-height:32px;padding:0 5px;transition:background calc(.15s * var(--dur)),transform calc(.12s * var(--dur))}
+.wb:hover{background:var(--w-hover)}
+.wb:active{transform:scale(.92)}
+.wb[aria-pressed="true"]{background:var(--w-on);color:var(--w-on-ink);border-color:transparent}
+.wb svg{width:18px;height:18px;flex:none}
+.wb.lab{justify-content:flex-start;font-size:.78rem;padding:0 7px 0 5px}
+.wb.big{flex-direction:column;min-width:54px;min-height:78px;padding:4px 6px;font-size:.76rem;gap:4px;line-height:1.15;text-align:center}
+.wb.big svg{width:30px;height:30px}
+.gl{font-family:"Segoe UI",Arial,sans-serif;font-size:1rem;width:18px;text-align:center;line-height:1}
+.gl-b{font-weight:800}.gl-i{font-style:italic;font-family:Georgia,"Times New Roman",serif;font-size:1.05rem}.gl-u{text-decoration:underline;text-underline-offset:2px}
+.w-sel{height:30px;border:1px solid var(--w-line);border-radius:4px;background:var(--w-page);color:#1B1B1B;font-size:.78rem;padding:0 4px;font-family:var(--f-word)}
+:root[data-theme="dark"] .w-sel{background:#1F1F1F;color:#F0F0F0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .w-sel{background:#1F1F1F;color:#F0F0F0}}
+.w-sel.fn{width:7.2rem}.w-sel.fs{width:3.6rem}
+.w-gallery{display:flex;gap:4px;padding:2px;border:1px solid var(--w-line);border-radius:5px;background:var(--w-page)}
+.w-style{border:1px solid transparent;background:#fff;color:#1b1b1b;border-radius:3px;width:76px;height:64px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:4px 6px;font-size:.7rem;text-align:left}
+.w-style .pv{font-family:var(--f-doc);font-size:.95rem;white-space:nowrap;overflow:hidden;max-width:100%}
+.w-style[aria-pressed="true"]{border-color:#185ABD;background:#E8F0FC}
+.w-style:active{transform:scale(.95)}
+
+.wb.hint,.w-style.hint,.w-tab.hint,.w-mi.hint,.bs-nav button.hint,.bs-go.hint,.w-type button.hint{background:var(--marker)!important;color:var(--marker-ink)!important;box-shadow:0 0 0 3px #14213D;z-index:3;animation:hint calc(1.1s * var(--dur)) infinite}
+.wd.hint{background:var(--marker);box-shadow:0 0 0 2px #14213D;border-radius:2px;animation:hint calc(1.1s * var(--dur)) infinite}
+.w-type input.hint{box-shadow:0 0 0 3px var(--marker),0 0 0 5px #14213D}
+@keyframes hint{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+.w-tip{position:absolute;left:10px;right:10px;z-index:6;background:var(--w-page);color:#1b1b1b;border:1px solid #c8c8c8;border-radius:6px;padding:9px 11px;box-shadow:0 8px 24px rgba(0,0,0,.18);font-size:.8rem;pointer-events:none;opacity:0;transform:translateY(-6px);transition:opacity calc(.2s * var(--dur)),transform calc(.2s * var(--dur))}
+.w-tip.show{opacity:1;transform:none}
+.w-tip b{display:block;font-size:.84rem;margin-bottom:2px}
+
+.w-menu{position:absolute;left:8px;right:8px;z-index:7;background:var(--w-page);color:#1b1b1b;border:1px solid #c8c8c8;border-radius:8px;box-shadow:0 12px 32px rgba(0,0,0,.22);padding:6px;animation:menuIn calc(.2s * var(--dur)) cubic-bezier(.2,.8,.2,1);transform-origin:top center}
+@keyframes menuIn{from{opacity:0;transform:scaleY(.85) translateY(-6px)}}
+.w-menu h4{margin:4px 6px 6px;font-size:.78rem;color:#555;font-weight:600}
+.w-mi{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:transparent;color:#1b1b1b;border-radius:5px;min-height:44px;padding:0 10px;font-size:.85rem}
+.w-mi:hover{background:#ededed}
+.w-mi svg{width:18px;height:18px}
+.tgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;padding:2px 6px 8px}
+.tgrid button{aspect-ratio:1;max-width:100%;border:1px solid #9a9a9a;background:#fff;border-radius:2px;min-height:30px}
+.tgrid button.on{background:#FFE7A8;border-color:#C9871A}
+
+.w-canvas{background:var(--w-canvas);padding:14px 12px 18px;height:18rem;overflow-y:auto;position:relative}
+.w-page{background:var(--w-page);color:var(--w-page-ink);min-height:100%;padding:22px 20px 26px;box-shadow:0 1px 3px rgba(0,0,0,.15);font-family:var(--f-doc);font-size:.95rem;line-height:1.45;border-radius:1px}
+.w-page.shake{animation:shake calc(.4s * var(--dur))}
+@keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.pp{margin:0 0 .5em;min-height:1.2em;word-wrap:break-word;transition:text-align calc(.2s * var(--dur))}
+.pp.al-center{text-align:center}.pp.al-right{text-align:right}.pp.al-justify{text-align:justify}
+.pp.h1{font-family:"Aptos Display",var(--f-doc);font-size:1.32rem;color:var(--w-head);margin-top:.2em}
+.pp.h2{font-family:"Aptos Display",var(--f-doc);font-size:1.12rem;color:var(--w-head)}
+.pp.title{font-family:"Aptos Display",var(--f-doc);font-size:1.75rem;line-height:1.2;letter-spacing:-.01em}
+.pp.lst{display:flex;gap:.6em;padding-left:.9em}
+.pp.lst .mk{flex:none;min-width:1.1em;animation:mkIn calc(.35s * var(--dur)) both}
+@keyframes mkIn{from{opacity:0;transform:translateX(-8px)}}
+.pp.al-change{animation:alc calc(.45s * var(--dur))}
+@keyframes alc{from{opacity:.3}}
+.wd{border-radius:2px;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;transition:background calc(.12s * var(--dur)),font-size calc(.25s * var(--dur)),color calc(.25s * var(--dur))}
+.wd.sel,.sp.sel{background:var(--w-sel)}
+.wd:focus-visible{outline:2px solid #185ABD;outline-offset:1px}
+.wd.pop{display:inline-block;animation:pop calc(.45s * var(--dur)) cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.22)}100%{transform:scale(1)}}
+.wd.new{display:inline-block;animation:newW calc(.5s * var(--dur)) both}
+@keyframes newW{from{opacity:0;transform:translateY(-10px)}}
+.caret{display:inline-block;width:1.5px;height:1.15em;background:#000;vertical-align:text-bottom;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+:root.rm .caret{animation:none}
+.w-tbl{border-collapse:collapse;width:100%;margin:0 0 .6em;animation:objIn calc(.5s * var(--dur)) cubic-bezier(.2,.8,.2,1) both}
+.w-tbl td{border:1px solid #000;height:1.6em}
+.w-img{display:block;width:78%;margin:0 auto .6em;border-radius:2px;animation:objIn calc(.5s * var(--dur)) cubic-bezier(.2,.8,.2,1) both}
+@keyframes objIn{from{opacity:0;transform:scale(.85)}}
+
+.w-type{display:flex;gap:6px;padding:8px;background:var(--w-ribbon);border-top:1px solid var(--w-line)}
+.w-type label{display:flex;flex-direction:column;flex:1;min-width:0;font-size:.72rem;color:var(--w-sub);gap:2px}
+.w-type input{height:42px;border:1px solid var(--w-line);border-radius:6px;padding:0 10px;background:var(--w-page);color:#1b1b1b;font-family:var(--f-doc);font-size:1rem;width:100%}
+.w-type button{align-self:flex-end;height:42px;border-radius:6px;border:1px solid var(--w-line);background:var(--w-page);color:#1b1b1b;padding:0 12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.w-type button svg{width:16px;height:16px}
+
+.w-status{display:flex;justify-content:space-between;gap:8px;background:var(--w-ribbon);color:var(--w-sub);font-size:.68rem;padding:5px 10px;border-top:1px solid var(--w-line);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
+
+/* Backstage (File) */
+.w-bs{position:absolute;inset:0;z-index:8;display:grid;grid-template-columns:7.4rem 1fr;background:var(--w-page);color:#1b1b1b;animation:bsIn calc(.35s * var(--dur)) cubic-bezier(.2,.8,.2,1)}
+@keyframes bsIn{from{opacity:0;transform:translateX(-24px)}}
+.bs-nav{background:var(--w-bs);color:var(--w-bs-ink);display:flex;flex-direction:column;padding:6px 0;overflow-y:auto}
+.bs-nav button{border:0;background:transparent;color:inherit;text-align:left;padding:0 12px;min-height:38px;font-size:.82rem;display:flex;align-items:center;gap:8px}
+.bs-nav button[aria-current="true"]{background:rgba(255,255,255,.22);font-weight:700}
+.bs-nav button:hover{background:rgba(255,255,255,.12)}
+.bs-nav hr{border:0;border-top:1px solid rgba(255,255,255,.3);margin:6px 10px}
+.bs-nav .back svg{width:20px;height:20px}
+.bs-main{padding:16px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;animation:txtIn calc(.3s * var(--dur)) both}
+.bs-main h3{font-family:var(--f-word);font-weight:400;font-size:1.5rem;letter-spacing:0}
+.bs-main .muted{color:#555;font-size:.8rem}
+.bs-field{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:#444}
+.bs-field input,.bs-field .fake{height:40px;border:1px solid #8a8a8a;border-radius:4px;padding:0 10px;font-size:.92rem;background:#fff;color:#1b1b1b;display:flex;align-items:center}
+.bs-go{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:5px;border:0;background:#185ABD;color:#fff;font-weight:600}
+.bs-go svg{width:20px;height:20px}
+.bs-go.big{flex-direction:column;min-height:84px;width:96px;justify-content:center;border:1px solid #c8c8c8;background:#fff;color:#1b1b1b}
+.bs-go.big svg{width:36px;height:36px;color:#185ABD}
+.bs-loc{display:flex;flex-direction:column;gap:2px}
+.bs-loc div{display:flex;align-items:center;gap:8px;padding:8px;border-radius:4px;font-size:.84rem}
+.bs-loc div.on{background:#E1EBF8}
+.bs-loc svg{width:20px;height:20px;color:#185ABD}
+.prn{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.prn-prev{width:84px;aspect-ratio:.707;border:1px solid #bbb;background:#fff;padding:8px 7px;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.prn-prev i{height:3px;background:#cfd4dc;border-radius:2px}
+.prn-prev.fly{animation:fly calc(1.4s * var(--dur)) cubic-bezier(.5,0,.3,1) both}
+@keyframes fly{0%{transform:none}35%{transform:translateY(-10px) rotate(-2deg)}100%{transform:translateY(40px) scale(.6);opacity:0}}
+
+/* Foglio di conferma */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none;padding:0 max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.sheet-in{pointer-events:auto;max-width:560px;margin:0 auto;background:var(--surface);border:2px solid var(--ok);border-radius:20px;padding:16px;box-shadow:0 -6px 40px rgba(0,0,0,.25);display:grid;gap:12px;animation:sheetUp calc(.45s * var(--dur)) cubic-bezier(.2,1.2,.4,1) both;position:relative}
+@keyframes sheetUp{from{transform:translateY(120%)}}
+.sheet-top{display:flex;gap:14px;align-items:center}
+.okmark{width:52px;height:52px;flex:none;position:relative}
+.okmark svg{width:52px;height:52px}
+.okmark circle{fill:var(--ok-soft);stroke:var(--ok);stroke-width:3;stroke-dasharray:160;stroke-dashoffset:160;animation:draw calc(.5s * var(--dur)) ease-out forwards}
+.okmark path{fill:none;stroke:var(--ok);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:draw calc(.35s * var(--dur)) calc(.35s * var(--dur)) ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.sheet h2{font-size:1.25rem;color:var(--ok)}
+.sheet p{font-size:1rem}
+.confetti{position:absolute;left:40px;top:40px;width:0;height:0}
+.confetti i{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0;animation:conf calc(1s * var(--dur)) cubic-bezier(.1,.7,.3,1) forwards}
+@keyframes conf{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r))}}
+:root.rm .confetti{display:none}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:45;max-width:min(92vw,480px);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;font-size:.98rem;box-shadow:0 8px 30px rgba(0,0,0,.25);animation:toast calc(.3s * var(--dur)) both}
+@keyframes toast{from{opacity:0;transform:translate(-50%,10px)}}
+
+/* Quiz */
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:14px;box-shadow:var(--shadow)}
+.qcard h2{font-size:1.25rem;line-height:1.35}
+.qmeta{font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;min-height:56px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface-2);font-size:1.02rem;transition:transform calc(.15s * var(--dur)),border-color calc(.2s * var(--dur)),background calc(.2s * var(--dur))}
+.opt .letter{width:30px;height:30px;flex:none;border-radius:8px;background:var(--surface);border:1.5px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.opt:active{transform:scale(.98)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft);animation:pop2 calc(.4s * var(--dur))}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);animation:shake calc(.4s * var(--dur))}
+@keyframes pop2{40%{transform:scale(1.03)}}
+.opt[disabled]{cursor:default}
+.qfb{border-radius:12px;padding:12px 14px;font-size:1rem;animation:txtIn calc(.3s * var(--dur)) both}
+.qfb.ok{background:var(--ok-soft);color:var(--ink);border:1.5px solid var(--ok)}
+.qfb.no{background:var(--bad-soft);color:var(--ink);border:1.5px solid var(--bad)}
+.score{font-family:var(--f-display);font-size:3.2rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1}
+
+/* Tasti rapidi */
+.keys{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.key{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.key .n{font-weight:700}
+.key .dsc{color:var(--muted);font-size:.92rem;display:block}
+.combo{display:flex;gap:4px;align-items:center;font-size:1rem}
+.note{background:var(--surface-2);border:1px dashed var(--line);border-radius:14px;padding:14px;font-size:.96rem;color:var(--muted)}
+
+/* Dialog accessibilità */
+dialog{border:0;padding:0;border-radius:22px;background:var(--surface);color:var(--ink);width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 40px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog[open]{animation:dlg calc(.3s * var(--dur)) cubic-bezier(.2,.8,.2,1)}
+@keyframes dlg{from{opacity:0;transform:translateY(20px) scale(.98)}}
+dialog::backdrop{background:rgba(10,16,30,.55)}
+.dlg{padding:20px;display:grid;gap:18px}
+.dlg-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dlg-h h2{font-size:1.3rem}
+.set{display:grid;gap:8px}
+.set>span{font-weight:700}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg button{min-height:46px;border:0;border-radius:10px;background:transparent;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:8px 12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);width:100%;text-align:left}
+.sw small{display:block;color:var(--muted);font-size:.88rem;font-weight:400}
+.sw b{display:block}
+.sw .track{width:52px;height:30px;flex:none;border-radius:99px;background:var(--line);position:relative;transition:background calc(.2s * var(--dur))}
+.sw .track::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform calc(.25s * var(--dur)) cubic-bezier(.3,1.4,.5,1)}
+.sw[aria-checked="true"] .track{background:var(--accent)}
+.sw[aria-checked="true"] .track::after{transform:translateX(22px)}
+
+.done-card{text-align:center;display:grid;gap:14px;justify-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 18px;box-shadow:var(--shadow)}
+.done-card .okmark,.done-card .okmark svg{width:84px;height:84px}
+.hint-scroll{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.hint-scroll svg{width:16px;height:16px;animation:nudge calc(1.6s * var(--dur)) infinite}
+@keyframes nudge{50%{transform:translateX(5px)}}
+</style>
+</head>
+<body>
+
+<div class="app" id="app"></div>
+
+<nav class="tabbar" aria-label="Sezioni" id="tabbar">
+  <div class="tabbar-in">
+    <button class="tb" data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>Lezioni</button>
+    <button class="tb" data-go="practice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 17l1-3 6-6 2 2-6 6z"/></svg>Prova libera</button>
+    <button class="tb" data-go="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.2-2.5 3.8M12 17.2v.1"/></svg>Quiz</button>
+    <button class="tb" data-go="keys"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>Tasti rapidi</button>
+  </div>
+</nav>
+
+<div id="live" class="sr" aria-live="polite"></div>
+<div id="sheetHost"></div>
+<div id="toastHost"></div>
+
+<dialog id="acc" aria-labelledby="accT">
+  <div class="dlg">
+    <div class="dlg-h"><h2 id="accT">Accessibilità</h2><button class="icon-btn" id="accClose" aria-label="Chiudi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="set"><span id="l-fs">Grandezza del testo</span>
+      <div class="seg" role="group" aria-labelledby="l-fs">
+        <button data-fs="1" style="font-size:.95rem">A</button><button data-fs="2" style="font-size:1.15rem">A</button><button data-fs="3" style="font-size:1.4rem">A</button>
+      </div></div>
+    <div class="set"><span id="l-th">Aspetto</span>
+      <div class="seg" role="group" aria-labelledby="l-th">
+        <button data-th="auto">Automatico</button><button data-th="light">Chiaro</button><button data-th="dark">Scuro</button>
+      </div></div>
+    <button class="sw" role="switch" data-sw="hc"><span><b>Contrasto elevato</b><small>Colori più netti, bordi più evidenti.</small></span><span class="track"></span></button>
+    <button class="sw" role="switch" data-sw="rm"><span><b>Meno animazioni</b><small>Ferma i movimenti sullo schermo.</small></span><span class="track"></span></button>
+    <button class="sw" role="switch" data-sw="tts"><span><b>Leggi ad alta voce</b><small>Ogni istruzione viene letta da sola.</small></span><span class="track"></span></button>
+    <p class="kbd-note">Con una tastiera puoi usare <kbd>Tab</kbd> per spostarti e <kbd>Invio</kbd> per scegliere. Nel foglio, le scorciatoie di Word funzionano davvero.</p>
+  </div>
+</dialog>
+
+<script>
+(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get(k,d){try{const v=localStorage.getItem('sdw-'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('sdw-'+k,JSON.stringify(v))}catch(e){}}};
+const root=document.documentElement;
+const live=$('#live');
+function announce(t){live.textContent='';setTimeout(()=>{live.textContent=t},30)}
+let toastT;
+function toast(t){const h=$('#toastHost');h.innerHTML='<div class="toast" role="status">'+esc(t)+'</div>';clearTimeout(toastT);toastT=setTimeout(()=>h.innerHTML='',3200)}
+
+/* ---------- Preferenze ---------- */
+const prefs=Object.assign({fs:1,th:'auto',hc:false,rm:false,tts:false},store.get('prefs',{}));
+function applyPrefs(){
+  root.classList.remove('fs2','fs3'); if(prefs.fs>1) root.classList.add('fs'+prefs.fs);
+  root.classList.toggle('hc',prefs.hc); root.classList.toggle('rm',prefs.rm);
+  if(prefs.th==='auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme',prefs.th);
+  $$('[data-fs]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.fs===prefs.fs)));
+  $$('[data-th]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.th===prefs.th)));
+  $$('[data-sw]').forEach(b=>b.setAttribute('aria-checked',String(!!prefs[b.dataset.sw])));
+  store.set('prefs',prefs);
+}
+const hostTheme=root.getAttribute('data-theme');
+if(prefs.th==='auto'&&hostTheme) prefs.th='auto';
+applyPrefs();
+$('#acc').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  if(b.dataset.fs){prefs.fs=+b.dataset.fs;applyPrefs()}
+  else if(b.dataset.th){prefs.th=b.dataset.th;applyPrefs()}
+  else if(b.dataset.sw){prefs[b.dataset.sw]=!prefs[b.dataset.sw];applyPrefs(); if(b.dataset.sw==='tts'&&!prefs.tts) stopSpeak();}
+  else if(b.id==='accClose') $('#acc').close();
+});
+$('#acc').addEventListener('click',e=>{if(e.target.id==='acc')$('#acc').close()});
+
+/* ---------- Voce ---------- */
+const canSpeak='speechSynthesis' in window;
+function plain(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim()}
+function speak(html,btn){
+  if(!canSpeak){toast('La lettura ad alta voce non è disponibile su questo dispositivo.');return}
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(plain(html));u.lang='it-IT';u.rate=.95;
+    const v=speechSynthesis.getVoices().find(v=>/^it/i.test(v.lang)); if(v) u.voice=v;
+    if(btn){btn.classList.add('speaking');u.onend=u.onerror=()=>btn.classList.remove('speaking')}
+    speechSynthesis.speak(u)}catch(e){}
+}
+function stopSpeak(){try{canSpeak&&speechSynthesis.cancel()}catch(e){}}
+
+/* ---------- Icone ---------- */
+const S=(b,vb='0 0 20 20')=>`<svg viewBox="${vb}" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${b}</svg>`;
+const T=(t,x,y,sz,extra='')=>`<text x="${x}" y="${y}" font-size="${sz}" font-family="Segoe UI,Arial,sans-serif" fill="currentColor" stroke="none" ${extra}>${t}</text>`;
+const IC={
+  undo:S('<path d="M7.5 4.5 4 8l3.5 3.5"/><path d="M4.3 8H12a4.5 4.5 0 0 1 0 9H8.5"/>'),
+  redo:S('<path d="M12.5 4.5 16 8l-3.5 3.5"/><path d="M15.7 8H8a4.5 4.5 0 0 0 0 9h3.5"/>'),
+  save:S('<path d="M4 3h10l3 3v11H4z"/><path d="M7 3v4h6V3M7 17v-5h7v5"/>'),
+  paste:S('<rect x="3.5" y="4" width="11" height="13.5" rx="1.4"/><rect x="6.5" y="2.5" width="5" height="3" rx="1"/><rect x="9.5" y="9" width="7.5" height="9" rx="1" fill="var(--w-ribbon)"/><path d="M11.5 12h3.5M11.5 14.5h3.5"/>'),
+  cut:S('<circle cx="6" cy="15" r="2.4"/><circle cx="14" cy="15" r="2.4"/><path d="M7.4 13.1 14 2.8M12.6 13.1 6 2.8"/>'),
+  copy:S('<rect x="7" y="6" width="9" height="11.5" rx="1.3"/><path d="M4 13.5V4.3C4 3.6 4.6 3 5.3 3H12"/>'),
+  painter:S('<rect x="3" y="3" width="11" height="5" rx="1"/><path d="M14 5.5h2.5v4.5H10v2"/><rect x="8.8" y="12" width="2.4" height="6" rx=".8"/>'),
+  grow:S(T('A',2,16,14,'font-weight="600"')+'<path d="M13.5 7 16 4l2.5 3"/>'),
+  shrink:S(T('A',3,16,11,'font-weight="600"')+'<path d="M13.5 4 16 7l2.5-3"/>'),
+  case:S(T('Aa',1.5,15,11,'font-weight="600"')+'<path d="M15.5 7.5l2 2.5 2-2.5"/>'),
+  clear:S(T('A',2,15,13,'font-weight="600"')+'<path d="M11 17.5l4-5 3.2 2.6-3 3.6h-4z" fill="#E36AA0" stroke="#B5406F" stroke-width="1"/>'),
+  strike:S(T('ab',2,14,11)+T('c',13.5,14,11)+'<path d="M1.5 10.5h17"/>'),
+  sub:S(T('x',2,13,13)+T('2',12,17.5,8)),
+  sup:S(T('x',2,16,13)+T('2',12,8,8)),
+  effects:S('<text x="3" y="16" font-size="15" font-family="Segoe UI,Arial" font-weight="700" fill="none" stroke="#3E8DE8" stroke-width="1.6">A</text>'),
+  highlight:S('<path d="M5.5 12.5 12 6l3 3-6.5 6.5H5.5z"/><path d="M11 7l3 3M5.5 15.5l-1.5 1.5"/><rect x="2" y="17.3" width="16" height="2.5" fill="#FFE600" stroke="none"/>'),
+  color:S(T('A',4,14,14,'font-weight="600"')+'<rect x="2" y="16.6" width="16" height="2.8" fill="#E0201B" stroke="none"/>'),
+  bullets:S('<circle cx="4" cy="5" r="1.2" fill="currentColor"/><circle cx="4" cy="10" r="1.2" fill="currentColor"/><circle cx="4" cy="15" r="1.2" fill="currentColor"/><path d="M8 5h9M8 10h9M8 15h9"/>'),
+  numbering:S(T('1',2,7,6)+T('2',2,12,6)+T('3',2,17,6)+'<path d="M8 5h9M8 10h9M8 15h9"/>'),
+  multilevel:S('<path d="M2.5 4.5h2M7 4.5h10.5M5 10h2M9.5 10h8M7.5 15.5h2M12 15.5h5.5"/>'),
+  outdent:S('<path d="M8 4h10M8 8h10M8 12h10M2 16h16M5.5 6.5 2.5 8.5l3 2"/>'),
+  indent:S('<path d="M8 4h10M8 8h10M8 12h10M2 16h16M2.5 6.5l3 2-3 2"/>'),
+  sort:S(T('A',1.5,8.5,7,'font-weight="600"')+T('Z',1.5,17.5,7,'font-weight="600"')+'<path d="M14 3v13M11 13l3 3.5 3-3.5"/>'),
+  pilcrow:S(T('¶',5,16,15)),
+  left:S('<path d="M3 4h14M3 8h9M3 12h14M3 16h9"/>'),
+  center:S('<path d="M3 4h14M5.5 8h9M3 12h14M5.5 16h9"/>'),
+  right:S('<path d="M3 4h14M8 8h9M3 12h14M8 16h9"/>'),
+  justify:S('<path d="M3 4h14M3 8h14M3 12h14M3 16h14"/>'),
+  spacing:S('<path d="M9 5h9M9 10h9M9 15h9M4 3v14M2 5l2-2 2 2M2 15l2 2 2-2"/>'),
+  shading:S('<path d="M4 9l5-5 6 6-5 5z"/><path d="M15.5 12.5s1.5 2 1.5 3a1.5 1.5 0 0 1-3 0c0-1 1.5-3 1.5-3z" fill="#2E75D9" stroke="none"/>'),
+  borders:S('<rect x="3" y="3" width="14" height="14" stroke-dasharray="1.5 1.8"/><path d="M3 17h14"/>'),
+  find:S('<circle cx="8.5" cy="8.5" r="5"/><path d="m12.3 12.3 5 5"/>'),
+  replace:S(T('ab',1.5,8,8)+T('ac',9,18,8)+'<path d="M5 11v3h3"/>'),
+  select:S('<path d="M5 3l10 6.5-4.5 1 2.7 5.2-2 1-2.7-5.2L5 15z"/>'),
+  mic:S('<rect x="7" y="2.5" width="6" height="10" rx="3"/><path d="M4 9.5a6 6 0 0 0 12 0M10 15.5V18"/>'),
+  editor:S('<path d="M3 16.5 13.5 6l2.5 2.5L5.5 19H3z"/><path d="M11 4l2-2 3 3"/>'),
+  table:S('<rect x="2.5" y="3.5" width="15" height="13" rx="1"/><path d="M2.5 7.8h15M2.5 12.2h15M7.5 3.5v13M12.5 3.5v13"/>'),
+  pictures:S('<rect x="2.5" y="3.5" width="15" height="13" rx="1.4"/><circle cx="7" cy="8" r="1.6"/><path d="m2.5 14.5 4.5-4 3.5 3 2.5-2 4.5 4"/>'),
+  shapes:S('<circle cx="7" cy="7" r="4.2"/><rect x="9" y="9" width="8.5" height="8.5" rx=".6"/>'),
+  icons:S('<path d="M10 3l2.1 4.4 4.8.6-3.5 3.3.9 4.7L10 13.7 5.7 16l.9-4.7L3.1 8l4.8-.6z"/>'),
+  cover:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/><path d="M4 7.5h12" stroke-width="3"/>'),
+  blank:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/><path d="M12 2.5v4h4"/>'),
+  pbreak:S('<path d="M4 2.5v5h12v-5M4 17.5v-5h12v5M2 10h2M6 10h2M10 10h2M14 10h2"/>'),
+  link:S('<path d="M8.5 11.5a3 3 0 0 0 4.2 0l3-3a3 3 0 0 0-4.2-4.2l-1 1"/><path d="M11.5 8.5a3 3 0 0 0-4.2 0l-3 3a3 3 0 0 0 4.2 4.2l1-1"/>'),
+  comment:S('<path d="M3 4.5h14v9H8l-4 3v-3H3z"/>'),
+  header:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/><path d="M6.5 5.5h7" stroke-width="2"/>'),
+  footer:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/><path d="M6.5 14.5h7" stroke-width="2"/>'),
+  pagenum:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/>'+T('#',8,15,7)),
+  textbox:S('<rect x="3" y="4" width="14" height="12" rx="1"/>'+T('A',7,14,8)),
+  symbol:S(T('Ω',4,16,14)),
+  equation:S(T('π',5,15,15)),
+  margins:S('<rect x="3.5" y="2.5" width="13" height="15" rx="1"/><path d="M6.5 2.5v15M13.5 2.5v15M3.5 5.5h13M3.5 14.5h13" stroke-dasharray="1.2 1.4"/>'),
+  orient:S('<rect x="2.5" y="3" width="8" height="11" rx="1"/><rect x="8" y="10" width="10" height="7" rx="1"/>'),
+  size:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/><path d="M7 7l6 6M7 7h3M7 7v3M13 13h-3M13 13v-3"/>'),
+  columns:S('<path d="M3 4h6M3 7h6M3 10h6M3 13h6M11 4h6M11 7h6M11 10h6M11 13h6"/>'),
+  pen:S('<path d="M4 16l1-4 8.5-8.5 3 3L8 15z"/><path d="M11.5 5.5l3 3"/>'),
+  theme:S(T('Aa',2,15,11,'font-weight="600"')+'<circle cx="16" cy="5" r="2.5" fill="#2E75D9" stroke="none"/>'),
+  spelling:S(T('abc',1.5,10,8)+'<path d="M8 14l2.5 2.5L17 10"/>'),
+  translate:S(T('A',2,11,9)+T('あ',10,18,8)+'<path d="M10 4h7M13.5 4v-1.5"/>'),
+  read:S('<path d="M2.5 4.5h6a2 2 0 0 1 1.5 1v11a2 2 0 0 0-1.5-1h-6zM17.5 4.5h-6a2 2 0 0 0-1.5 1v11a2 2 0 0 1 1.5-1h6z"/>'),
+  layoutp:S('<rect x="4" y="2.5" width="12" height="15" rx="1"/><path d="M7 6h6M7 9h6M7 12h4"/>'),
+  zoom:S('<circle cx="8.5" cy="8.5" r="5"/><path d="m12.3 12.3 5 5M6.5 8.5h4M8.5 6.5v4"/>'),
+  window:S('<rect x="2.5" y="3.5" width="15" height="13" rx="1.2"/><path d="M2.5 7h15"/>'),
+  help:S('<circle cx="10" cy="10" r="7.5"/><path d="M8 8a2 2 0 0 1 3.9.6c0 1.4-1.9 1.7-1.9 3M10 14.2v.1"/>'),
+  mail:S('<rect x="2.5" y="4.5" width="15" height="11" rx="1"/><path d="m3 5 7 6 7-6"/>'),
+  toc:S('<path d="M3 4h9M5 8h12M5 12h12M3 16h9"/>'),
+  footnote:S(T('ab',2,13,9)+T('1',13,8,7)+'<path d="M2.5 17h15"/>'),
+  printer:S('<path d="M5.5 7.5V2.5h9v5"/><rect x="2.5" y="7.5" width="15" height="7" rx="1.4"/><rect x="5.5" y="12" width="9" height="5.5"/>'),
+  folder:S('<path d="M2.5 5.5a1 1 0 0 1 1-1h4l2 2h7a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1z"/>'),
+  cloud:S('<path d="M5.5 15.5a3.5 3.5 0 0 1-.4-7 5 5 0 0 1 9.6 1.4 3 3 0 0 1 .3 5.6z"/>'),
+  pc:S('<rect x="2.5" y="3.5" width="15" height="10" rx="1"/><path d="M7 17h6M10 13.5V17"/>'),
+  newdoc:S('<path d="M5 2.5h7l4 4v11H5z"/><path d="M12 2.5v4h4"/>'),
+  home:S('<path d="M3 9.5 10 3.5l7 6V17h-5v-5H8v5H3z"/>'),
+  back:S('<path d="M8.5 4.5 3 10l5.5 5.5M3.5 10H17"/>'),
+  enter:S('<path d="M16 4v6.5a1.5 1.5 0 0 1-1.5 1.5H4M7.5 8.5 4 12l3.5 3.5"/>'),
+  info:S('<circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.2v.1"/>'),
+  share:S('<path d="M10 12.5V3M6.5 6.5 10 3l3.5 3.5M4 10.5V17h12v-6.5"/>'),
+  export:S('<path d="M5 2.5h7l4 4v11H5z"/><path d="M8 11h6M11.5 8.5 14 11l-2.5 2.5"/>'),
+  close:S('<path d="M5 5l10 10M15 5 5 15"/>'),
+  gear:S('<circle cx="10" cy="10" r="2.6"/><path d="M10 2.5v2.2M10 15.3v2.2M2.5 10h2.2M15.3 10h2.2M4.7 4.7l1.6 1.6M13.7 13.7l1.6 1.6M4.7 15.3l1.6-1.6M13.7 6.3l1.6-1.6"/>'),
+  user:S('<circle cx="10" cy="7" r="3.5"/><path d="M3.5 17.5a6.5 6.5 0 0 1 13 0"/>'),
+  stock:S('<rect x="2.5" y="4.5" width="15" height="12" rx="1.4"/><path d="m2.5 14 4.5-4 3.5 3 2.5-2 4.5 4"/><path d="M6 2.5h8"/>'),
+  globe:S('<circle cx="10" cy="10" r="7.5"/><path d="M2.5 10h15M10 2.5c2.5 2.5 2.5 12.5 0 15M10 2.5c-2.5 2.5-2.5 12.5 0 15"/>'),
+};
+const UI={
+  speaker:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.3 6.5a8 8 0 0 1 0 11"/></svg>',
+  target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+  next:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  access:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7" r="1.4" fill="currentColor"/><path d="M7 10l5 1 5-1M12 11v3.5l-2.5 4M12 14.5l2.5 4"/></svg>',
+  reset:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+};
+const OKMARK='<div class="okmark" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7.5 7.5L38 19"/></svg></div>';
+
+/* ---------- Comandi della barra multifunzione ---------- */
+const CMD={
+  undo:{l:'Annulla',k:'CTRL+Z',d:'Torna indietro: cancella l’ultima cosa che hai fatto.'},
+  redo:{l:'Ripeti',k:'CTRL+Y',d:'Rifà la cosa che hai appena annullato.'},
+  paste:{l:'Incolla',k:'CTRL+V',d:'Inserisce il testo copiato o tagliato.'},
+  cut:{l:'Taglia',k:'CTRL+X',d:'Toglie il testo selezionato e lo mette negli Appunti.'},
+  copy:{l:'Copia',k:'CTRL+C',d:'Copia il testo selezionato negli Appunti.'},
+  painter:{l:'Copia formato',d:'Copia l’aspetto di un testo per applicarlo a un altro.'},
+  font:{l:'Tipo di carattere',d:'Sceglie la forma delle lettere.'},
+  size:{l:'Dimensione carattere',d:'Sceglie quanto è grande il testo.'},
+  grow:{l:'Aumenta dimensione carattere',k:'CTRL+>',d:'Rende il testo un po’ più grande.'},
+  shrink:{l:'Riduci dimensione carattere',k:'CTRL+<',d:'Rende il testo un po’ più piccolo.'},
+  case:{l:'Maiuscole/minuscole',d:'Cambia tra lettere maiuscole e minuscole.'},
+  clear:{l:'Cancella formattazione',d:'Toglie grassetto, colori e dimensioni: torna al testo normale.'},
+  bold:{l:'Grassetto',k:'CTRL+G',d:'Rende il testo più scuro e marcato.',g:'G',gc:'gl-b'},
+  italic:{l:'Corsivo',k:'CTRL+I',d:'Inclina il testo.',g:'C',gc:'gl-i'},
+  underline:{l:'Sottolineato',k:'CTRL+S',d:'Mette una riga sotto il testo.',g:'S',gc:'gl-u'},
+  strike:{l:'Barrato',d:'Traccia una riga in mezzo al testo.'},
+  sub:{l:'Pedice',k:'CTRL+=',d:'Scrive in piccolo sotto la riga.'},
+  sup:{l:'Apice',k:'CTRL+MAIUSC++',d:'Scrive in piccolo sopra la riga.'},
+  effects:{l:'Effetti di testo e tipografia',d:'Aggiunge ombre, bagliori e contorni.'},
+  highlight:{l:'Colore evidenziazione testo',d:'Colora lo sfondo del testo, come un evidenziatore giallo.'},
+  color:{l:'Colore carattere',d:'Cambia il colore delle lettere. Il colore pronto è il rosso.'},
+  bullets:{l:'Elenchi puntati',d:'Crea un elenco con un pallino davanti a ogni riga.'},
+  numbering:{l:'Elenchi numerati',d:'Crea un elenco con i numeri 1, 2, 3.'},
+  multilevel:{l:'Elenco a più livelli',d:'Crea un elenco con sottovoci.'},
+  outdent:{l:'Riduci rientro',d:'Sposta il paragrafo verso sinistra.'},
+  indent:{l:'Aumenta rientro',d:'Sposta il paragrafo verso destra.'},
+  sort:{l:'Ordina',d:'Mette in ordine alfabetico o numerico.'},
+  pilcrow:{l:'Mostra tutto',k:'CTRL+MAIUSC+8',d:'Mostra i segni nascosti, come gli a capo.'},
+  left:{l:'Allinea a sinistra',d:'Allinea il testo al margine sinistro.'},
+  center:{l:'Centra',k:'CTRL+E',d:'Mette il testo al centro della riga.'},
+  right:{l:'Allinea a destra',d:'Allinea il testo al margine destro.'},
+  justify:{l:'Giustifica',d:'Allinea il testo su entrambi i lati, come nei libri.'},
+  spacing:{l:'Interlinea e spaziatura paragrafo',d:'Cambia lo spazio tra le righe.'},
+  shading:{l:'Sfondo',d:'Colora lo sfondo del paragrafo.'},
+  borders:{l:'Bordi',d:'Aggiunge bordi al paragrafo.'},
+  find:{l:'Trova',k:'CTRL+MAIUSC+T',d:'Cerca una parola nel documento.'},
+  replace:{l:'Sostituisci',k:'CTRL+MAIUSC+S',d:'Cerca una parola e la cambia con un’altra.'},
+  select:{l:'Seleziona',d:'Apre le scelte per selezionare testo o oggetti.'},
+  mic:{l:'Dettatura',d:'Scrivi parlando nel microfono.'},
+  editor:{l:'Editor',d:'Controlla l’ortografia e la grammatica.'},
+  table:{l:'Tabella',d:'Inserisce una tabella con righe e colonne.'},
+  pictures:{l:'Immagini',d:'Inserisce una foto o un disegno.'},
+  'st-normal':{l:'Normale',d:'Lo stile del testo semplice.'},
+  'st-nospace':{l:'Nessuna spaziatura',d:'Testo semplice senza spazio tra i paragrafi.'},
+  'st-h1':{l:'Titolo 1',d:'Stile per i titoli principali.'},
+  'st-h2':{l:'Titolo 2',d:'Stile per i sottotitoli.'},
+  'st-title':{l:'Titolo',d:'Stile per il titolo del documento.'},
+};
+const SIZES=[8,9,10,11,12,14,16,18,20,22,24,26,28,36];
+const FONTS=['Aptos','Arial','Calibri','Georgia','Times New Roman','Verdana'];
+const b=(id,o={})=>Object.assign({id},o);
+const RIB={
+ Home:[
+  {n:'Annulla',cols:[[b('undo')],[b('redo')]]},
+  {n:'Appunti',big:[b('paste')],cols:[[b('cut',{lab:1})],[b('copy',{lab:1})],[b('painter',{lab:1})]],stack:1},
+  {n:'Carattere',rows:[[b('font',{k:'font'}),b('size',{k:'size'}),b('grow'),b('shrink'),b('case'),b('clear')],[b('bold'),b('italic'),b('underline'),b('strike'),b('sub'),b('sup'),b('effects'),b('highlight'),b('color')]]},
+  {n:'Paragrafo',rows:[[b('bullets'),b('numbering'),b('multilevel'),b('outdent'),b('indent'),b('sort'),b('pilcrow')],[b('left'),b('center'),b('right'),b('justify'),b('spacing'),b('shading'),b('borders')]]},
+  {n:'Stili',gallery:['st-normal','st-nospace','st-h1','st-h2','st-title']},
+  {n:'Modifica',cols:[[b('find',{lab:1})],[b('replace',{lab:1})],[b('select',{lab:1})]],stack:1},
+  {n:'Voce',big:[b('mic')]},
+  {n:'Editor',big:[b('editor')]},
+ ],
+ Inserisci:[
+  {n:'Pagine',big:[b('x-cover',{l:'Frontespizio',i:'cover'}),b('x-blank',{l:'Pagina vuota',i:'blank'}),b('x-break',{l:'Interruzione di pagina',i:'pbreak'})]},
+  {n:'Tabelle',big:[b('table')]},
+  {n:'Illustrazioni',big:[b('pictures'),b('x-shapes',{l:'Forme',i:'shapes'}),b('x-icons',{l:'Icone',i:'icons'})]},
+  {n:'Collegamenti',big:[b('x-link',{l:'Collegamento',i:'link'})]},
+  {n:'Commenti',big:[b('x-comment',{l:'Commento',i:'comment'})]},
+  {n:'Intestazione e piè di pagina',big:[b('x-header',{l:'Intestazione',i:'header'}),b('x-footer',{l:'Piè di pagina',i:'footer'}),b('x-pnum',{l:'Numero di pagina',i:'pagenum'})]},
+  {n:'Testo',big:[b('x-textbox',{l:'Casella di testo',i:'textbox'})]},
+  {n:'Simboli',big:[b('x-eq',{l:'Equazione',i:'equation'}),b('x-sym',{l:'Simbolo',i:'symbol'})]},
+ ],
+ Disegno:[{n:'Strumenti di disegno',big:[b('x-pen',{l:'Penna',i:'pen'}),b('x-hl',{l:'Evidenziatore',i:'highlight'})]},{n:'Converti',big:[b('x-ink',{l:'Input penna in forma',i:'shapes'})]}],
+ Progettazione:[{n:'Formattazione documento',big:[b('x-theme',{l:'Temi',i:'theme'}),b('x-colors',{l:'Colori',i:'shading'}),b('x-fonts',{l:'Tipi di carattere',i:'case'})]},{n:'Sfondo pagina',big:[b('x-wm',{l:'Filigrana',i:'layoutp'}),b('x-pcol',{l:'Colore pagina',i:'shading'}),b('x-pb',{l:'Bordi pagina',i:'borders'})]}],
+ Layout:[{n:'Imposta pagina',big:[b('x-marg',{l:'Margini',i:'margins'}),b('x-orient',{l:'Orientamento',i:'orient'}),b('x-size',{l:'Dimensioni',i:'size'}),b('x-col',{l:'Colonne',i:'columns'})]},{n:'Paragrafo',big:[b('x-ind',{l:'Rientro',i:'indent'}),b('x-sp',{l:'Spaziatura',i:'spacing'})]}],
+ Riferimenti:[{n:'Sommario',big:[b('x-toc',{l:'Sommario',i:'toc'})]},{n:'Note a piè di pagina',big:[b('x-fn',{l:'Inserisci nota a piè di pagina',i:'footnote'})]}],
+ Lettere:[{n:'Crea',big:[b('x-env',{l:'Buste',i:'mail'}),b('x-lab',{l:'Etichette',i:'layoutp'})]},{n:'Avvia stampa unione',big:[b('x-mm',{l:'Inizia stampa unione',i:'mail'}),b('x-rec',{l:'Seleziona destinatari',i:'user'})]}],
+ Revisione:[{n:'Strumenti di correzione',big:[b('x-ed',{l:'Editor',i:'spelling'}),b('x-th',{l:'Thesaurus',i:'read'}),b('x-wc',{l:'Conteggio parole',i:'toc'})]},{n:'Lingua',big:[b('x-tr',{l:'Traduci',i:'translate'})]},{n:'Commenti',big:[b('x-nc',{l:'Nuovo commento',i:'comment'})]}],
+ Visualizza:[{n:'Visualizzazioni',big:[b('x-rd',{l:'Modalità lettura',i:'read'}),b('x-pl',{l:'Layout di stampa',i:'layoutp'}),b('x-web',{l:'Layout Web',i:'globe'})]},{n:'Zoom',big:[b('x-zoom',{l:'Zoom',i:'zoom'}),b('x-100',{l:'100%',i:'zoom'})]}],
+ Guida:[{n:'Guida',big:[b('x-help',{l:'Guida',i:'help'}),b('x-sup',{l:'Contatta il supporto',i:'user'}),b('x-fb',{l:'Commenti e suggerimenti',i:'comment'})]}],
+};
+const TABS=['File','Home','Inserisci','Disegno','Progettazione','Layout','Riferimenti','Lettere','Revisione','Visualizza','Guida'];
+const STY={'st-normal':'normal','st-nospace':'nospace','st-h1':'h1','st-h2':'h2','st-title':'title'};
+const STY_PV={'st-normal':'AaBbCcDd','st-nospace':'AaBbCcDd','st-h1':'AaBbCc','st-h2':'AaBbCcD','st-title':'AaB'};
+const STY_CSS={'st-normal':'','st-nospace':'','st-h1':'color:#0F4761;font-size:1.05rem','st-h2':'color:#0F4761','st-title':'font-size:1.3rem'};
+
+const IMG='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8EC5FF"/><stop offset="1" stop-color="#E6F3FF"/></linearGradient></defs><rect width="320" height="180" fill="url(#s)"/><circle cx="250" cy="50" r="22" fill="#FFD34D"/><path d="M0 120 C60 100 110 112 160 104 S260 92 320 110 V180 H0Z" fill="#2E86C1"/><path d="M0 140 C70 128 140 140 200 132 S290 124 320 132 V180 H0Z" fill="#1B5E91"/><path d="M0 160 C80 150 200 158 320 150 V180 H0Z" fill="#F2D49B"/></svg>');
+
+/* ---------- Simulatore ---------- */
+function P(text,o){return Object.assign({type:'text',style:'normal',align:'left',list:null,words:text?text.split(/\s+/).filter(Boolean).map(t=>({t})):[]},o||{})}
+const clean=t=>String(t).toLowerCase().replace(/[.,;:!?«»"]/g,'');
+
+class Sim{
+  constructor(){this.el=document.createElement('section');this.el.className='sim';this.el.setAttribute('aria-label','Simulazione di Microsoft Word');this.onChange=()=>{};this.hintOn=null;this.bind()}
+  load(cfg){
+    this.s={doc:JSON.parse(JSON.stringify(cfg.doc)),sel:null,curP:cfg.curP||0,tab:cfg.tab||'Home',clip:null,undo:[],redo:[],
+      fileName:'Documento1',saved:false,printed:false,bs:null,menu:null,typing:!!cfg.typing,draft:'',events:[],mark:0};
+    this.hintOn=null;this.spotReg=null;this.build();
+  }
+  build(){
+    const s=this.s;
+    this.el.innerHTML=`
+    <div class="w-title" data-region="title">
+      <div class="w-qa"><span class="w-auto" aria-hidden="true"><i></i>Salv. autom.</span>
+      <button class="w-qb" data-cmd="save" data-id="qa-save" aria-label="Salva">${IC.save}</button>
+      <button class="w-qb" data-cmd="undo" data-id="qa-undo" aria-label="Annulla">${IC.undo}</button>
+      <button class="w-qb" data-cmd="redo" data-id="qa-redo" aria-label="Ripeti">${IC.redo}</button></div>
+      <div class="w-name" aria-live="polite"></div><span class="w-av" aria-hidden="true">TU</span>
+    </div>
+    <div data-region="ribbon">
+      <div class="w-tabs" role="tablist" aria-label="Schede della barra multifunzione">${TABS.map(t=>`<button class="w-tab${t==='File'?' file':''}" role="tab" data-tab="${t}" data-id="tab-${t}" aria-selected="false">${t}</button>`).join('')}</div>
+      <div class="w-ribbon" role="toolbar" aria-label="Comandi"></div>
+    </div>
+    <div class="w-tip" aria-hidden="true"></div>
+    <div class="w-menuhost"></div>
+    <div class="w-canvas" data-region="page"><div class="w-page" role="document" aria-label="Foglio del documento"></div></div>
+    ${s.typing?`<div class="w-type"><label>Scrivi qui<input id="sim-type" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" data-id="type"></label><button data-cmd="enter" data-id="enter" aria-label="Invio: vai a capo">${IC.enter}Invio</button></div>`:''}
+    <div class="w-status" aria-hidden="true"><span class="st-l"></span><span>Italiano (Italia) · 100%</span></div>
+    <div class="w-bshost"></div>`;
+    this.renderTabs();this.renderRibbon();this.renderDoc();this.renderTitle();this.refresh();
+  }
+  bind(){
+    const el=this.el;
+    el.addEventListener('click',e=>{
+      const t=e.target.closest('[data-tab],[data-cmd],[data-mi],[data-bs],[data-tg]'); if(!t) return;
+      if(t.dataset.tab) this.setTab(t.dataset.tab);
+      else if(t.dataset.cmd) this.cmd(t.dataset.cmd);
+      else if(t.dataset.mi) this.menuItem(t.dataset.mi);
+      else if(t.dataset.bs) this.bsGo(t.dataset.bs);
+      else if(t.dataset.tg){const [c,r]=t.dataset.tg.split('x').map(Number);this.insertTable(r,c)}
+    });
+    el.addEventListener('change',e=>{
+      if(e.target.dataset.sel==='font') this.setFont(e.target.value);
+      if(e.target.dataset.sel==='size') this.setSize(+e.target.value);
+    });
+    el.addEventListener('input',e=>{
+      if(e.target.id==='sim-type'){const prev=this.s.draft;this.s.draft=e.target.value; if(this.s.draft.length<prev.length) this.ev('delete'); else this.ev('type'); this.renderDoc(true); this.onChange()}
+      if(e.target.id==='bs-name'){this.s.nameDraft=e.target.value}
+    });
+    el.addEventListener('keydown',e=>{
+      if(e.target.id==='sim-type'&&e.key==='Enter'){e.preventDefault();this.cmd('enter')}
+      if(e.target.id==='bs-name'&&e.key==='Enter'){e.preventDefault();this.bsGo('do-save')}
+      if(e.target.classList.contains('wd')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();const i=+e.target.dataset.i;
+        if(e.shiftKey&&this.s.sel){this.setSel(Math.min(this.s.sel.a,i),Math.max(this.s.sel.b,i))}else this.setSel(i,i);this.selDone()}
+      if(e.key==='Escape'&&(this.s.menu||this.s.bs)){this.closeMenu();if(this.s.bs){this.s.bs=null;this.renderBs();this.onChange()}}
+    });
+    let drag=null;
+    el.addEventListener('pointerdown',e=>{
+      const w=e.target.closest('.wd'); if(!w) return;
+      if(this.s.menu) this.closeMenu();
+      e.preventDefault(); const i=+w.dataset.i; const sel=this.s.sel;
+      drag={start:i,moved:false,was:sel&&sel.a===i&&sel.b===i};
+      this.setSel(i,i);
+      try{w.releasePointerCapture&&w.releasePointerCapture(e.pointerId)}catch(_){}
+    });
+    el.addEventListener('pointermove',e=>{
+      if(!drag) return; const x=document.elementFromPoint(e.clientX,e.clientY); const w=x&&x.closest&&x.closest('.wd'); if(!w||!this.el.contains(w)) return;
+      const i=+w.dataset.i; if(i!==drag.start) drag.moved=true; this.setSel(Math.min(drag.start,i),Math.max(drag.start,i));
+    });
+    const up=()=>{ if(!drag) return; if(!drag.moved&&drag.was){this.s.sel=null;this.paintSel()} drag=null; this.selDone() };
+    el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up);
+    el.addEventListener('click',e=>{ if(this.s&&this.s.menu&&!e.target.closest('.w-menu,[data-cmd]')) this.closeMenu() });
+  }
+  ev(n){this.s.events.push(n)}
+  since(n){return this.s.events.slice(this.s.mark).includes(n)}
+  flat(){const out=[];this.s.doc.forEach((p,pi)=>{if(p.type==='text')p.words.forEach((w,wi)=>out.push([pi,wi]))});return out}
+  selPairs(){const s=this.s;if(!s.sel)return[];return this.flat().slice(s.sel.a,s.sel.b+1)}
+  selWords(){return this.selPairs().map(([p,w])=>this.s.doc[p].words[w])}
+  selText(){return this.selWords().map(w=>clean(w.t)).join(' ')}
+  selParas(){const ps=[...new Set(this.selPairs().map(x=>x[0]))];return ps.length?ps:[this.s.curP]}
+  setSel(a,b){this.s.sel={a,b};const f=this.flat();if(f[b])this.s.curP=f[b][0];this.paintSel()}
+  paintSel(){
+    const s=this.s;$$('.wd',this.el).forEach(w=>{const i=+w.dataset.i;w.classList.toggle('sel',!!s.sel&&i>=s.sel.a&&i<=s.sel.b)});
+    $$('.sp',this.el).forEach(sp=>{const i=+sp.dataset.i;sp.classList.toggle('sel',!!s.sel&&i>=s.sel.a&&i<s.sel.b)});
+  }
+  selDone(){const t=this.selText();this.ev('sel');this.refresh();if(t)announce('Selezionato: '+t);this.onChange()}
+  snap(){this.s.undo.push(JSON.stringify(this.s.doc));this.s.redo=[]}
+  nudge(msg){const pg=$('.w-page',this.el);pg.classList.remove('shake');void pg.offsetWidth;pg.classList.add('shake');toast(msg);announce(msg)}
+  tip(id){
+    const c=CMD[id];if(!c)return;const tip=$('.w-tip',this.el);const rib=$('[data-region="ribbon"]',this.el);
+    tip.style.top=(rib.offsetTop+rib.offsetHeight+6)+'px';
+    tip.innerHTML=`<b>${esc(c.l)}${c.k?' ('+esc(c.k)+')':''}</b>${esc(c.d)}`;tip.classList.add('show');
+    clearTimeout(this.tipT);this.tipT=setTimeout(()=>tip.classList.remove('show'),2600);
+  }
+  setTab(t){
+    const s=this.s; this.closeMenu();
+    if(t==='File'){s.bs='home';this.ev('file');this.renderBs();announce('Menu File aperto');this.onChange();return}
+    s.tab=t;this.ev('tab:'+t);this.renderTabs();this.renderRibbon();$('.w-ribbon',this.el).scrollLeft=0;this.refresh();announce('Scheda '+t);this.onChange();
+  }
+  renderTabs(){$$('.w-tab',this.el).forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===this.s.tab)))}
+  btn(it){
+    const id=it.id,c=CMD[id]||{l:it.l},icon=c.g?`<span class="gl ${c.gc}" aria-hidden="true">${c.g}</span>`:(IC[it.i||id]||IC.layoutp);
+    const lab=c.l||it.l, key=c.k?` (${c.k})`:'';
+    if(it.k==='font') return `<select class="w-sel fn" data-sel="font" data-id="font" aria-label="Tipo di carattere">${FONTS.map(f=>`<option ${f==='Aptos'?'selected':''}>${f}</option>`).join('')}</select>`;
+    if(it.k==='size') return `<select class="w-sel fs" data-sel="size" data-id="size" aria-label="Dimensione carattere">${SIZES.map(n=>`<option ${n===12?'selected':''}>${n}</option>`).join('')}</select>`;
+    const toggle=['bold','italic','underline','strike','sub','sup','left','center','right','justify','bullets','numbering'].includes(id);
+    return `<button class="wb${it.big?' big':''}${it.lab?' lab':''}" data-cmd="${id}" data-id="${id}" aria-label="${esc(lab+key)}"${toggle?' aria-pressed="false"':''}>${icon}${it.big||it.lab?`<span>${esc(lab)}</span>`:''}</button>`;
+  }
+  renderRibbon(){
+    const groups=RIB[this.s.tab]||[];
+    const html=groups.map(g=>{
+      let body='';
+      if(g.big) body+=g.big.map(x=>this.btn(Object.assign({big:1},x))).join('');
+      if(g.cols) body+=`<div class="w-col">${g.cols.map(r=>`<div class="w-row">${r.map(x=>this.btn(x)).join('')}</div>`).join('')}</div>`;
+      if(g.rows) body+=`<div class="w-col" style="gap:4px">${g.rows.map(r=>`<div class="w-row">${r.map(x=>this.btn(x)).join('')}</div>`).join('')}</div>`;
+      if(g.gallery) body+=`<div class="w-gallery">${g.gallery.map(id=>`<button class="w-style" data-cmd="${id}" data-id="${id}" aria-pressed="false" aria-label="Stile ${CMD[id].l}"><span class="pv" style="${STY_CSS[id]}">${STY_PV[id]}</span><span>${CMD[id].l}</span></button>`).join('')}</div>`;
+      return `<div class="w-group" role="group" aria-label="${esc(g.n)}"><div class="w-gbody">${body}</div><div class="w-gname" aria-hidden="true">${esc(g.n)}</div></div>`;
+    }).join('');
+    $('.w-ribbon',this.el).innerHTML=html;
+  }
+  renderTitle(){
+    const s=this.s,n=$('.w-name',this.el);n.innerHTML=`${esc(s.fileName)} <em>· ${s.saved?'Salvato':'Word'}</em>`;
+  }
+  renderDoc(typingOnly){
+    const s=this.s,pg=$('.w-page',this.el);let idx=0,num=0,html='';
+    s.doc.forEach((p,pi)=>{
+      if(p.type==='table'){num=0;html+=`<table class="w-tbl" aria-label="Tabella ${p.cols} colonne per ${p.rows} righe">${Array.from({length:p.rows},()=>'<tr>'+'<td></td>'.repeat(p.cols)+'</tr>').join('')}</table>`;return}
+      if(p.type==='image'){num=0;html+=`<img class="w-img" src="${IMG}" alt="Immagine inserita: un paesaggio di mare">`;return}
+      const cls=['pp',p.style!=='normal'?p.style:'','al-'+p.align,p.list?'lst':''].filter(Boolean).join(' ');
+      let mk='';if(p.list==='bullet'){mk='<span class="mk" aria-hidden="true">•</span>';num=0}else if(p.list==='number'){num++;mk=`<span class="mk" aria-hidden="true">${num}.</span>`}else num=0;
+      const words=p.words.map((w,wi)=>{
+        const i=idx++;const st=[];
+        if(w.b)st.push('font-weight:700');if(w.i)st.push('font-style:italic');
+        const dec=[w.u?'underline':'',w.s?'line-through':''].filter(Boolean).join(' ');if(dec)st.push('text-decoration:'+dec);
+        if(w.size)st.push(`font-size:${(w.size*0.08).toFixed(2)}rem`);if(w.color)st.push('color:'+w.color);if(w.hl)st.push('background:'+w.hl);
+        if(w.font)st.push(`font-family:'${w.font}',var(--f-doc)`);if(w.sub)st.push('vertical-align:sub;font-size:.7em');if(w.sup)st.push('vertical-align:super;font-size:.7em');
+        const sp=wi<p.words.length-1?`<span class="sp" data-i="${i}"> </span>`:'';
+        return `<span class="wd${w._new?' new':''}" data-i="${i}" tabindex="0" role="button" style="${st.join(';')}">${esc(w.t)}</span>${sp}`;
+      }).join('');
+      p.words.forEach(w=>delete w._new);
+      html+=`<p class="${cls}" data-p="${pi}">${mk}<span>${words}${(s.typing&&pi===s.doc.length-1&&!s.draft)?'<span class="caret"></span>':''}</span></p>`;
+    });
+    if(s.typing&&s.draft) html+=`<p class="pp">${esc(s.draft)}<span class="caret"></span></p>`;
+    pg.innerHTML=html;this.paintSel();
+    const n=this.flat().length+(s.draft?s.draft.split(/\s+/).filter(Boolean).length:0);
+    $('.st-l',this.el).textContent=`Pagina 1 di 1   ${n} parole`;
+    if(this.hintOn) this.showHint(this.hintOn,true);
+  }
+  pop(idxs){requestAnimationFrame(()=>idxs.forEach(i=>{const w=$(`.wd[data-i="${i}"]`,this.el);if(w){w.classList.remove('pop');void w.offsetWidth;w.classList.add('pop')}}))}
+  refresh(){
+    const s=this.s,ws=this.selWords(),ps=this.selParas().map(i=>s.doc[i]).filter(p=>p&&p.type==='text');
+    const all=k=>ws.length>0&&ws.every(w=>w[k]);
+    const set=(id,v)=>$$(`[data-cmd="${id}"]`,this.el).forEach(x=>x.hasAttribute('aria-pressed')&&x.setAttribute('aria-pressed',String(!!v)));
+    set('bold',all('b'));set('italic',all('i'));set('underline',all('u'));set('strike',all('s'));set('sub',all('sub'));set('sup',all('sup'));
+    const al=ps[0]?ps[0].align:'left';['left','center','right','justify'].forEach(a=>set(a,al===a));
+    set('bullets',ps[0]&&ps[0].list==='bullet');set('numbering',ps[0]&&ps[0].list==='number');
+    const st=ps[0]?ps[0].style:'normal';Object.keys(STY).forEach(k=>set(k,STY[k]===st));
+    const sz=$('[data-sel="size"]',this.el);if(sz)sz.value=String((ws[0]&&ws[0].size)||12);
+    const fn=$('[data-sel="font"]',this.el);if(fn)fn.value=(ws[0]&&ws[0].font)||'Aptos';
+  }
+  changed(ev,msg,popIt){this.ev(ev);this.renderDoc();this.refresh();if(popIt&&this.s.sel){const a=[];for(let i=this.s.sel.a;i<=this.s.sel.b;i++)a.push(i);this.pop(a)}if(msg){announce(msg)}this.onChange()}
+  needSel(){if(!this.s.sel||!this.selWords().length){this.nudge('Prima seleziona il testo: tocca una parola nel foglio.');return true}return false}
+  cmd(id){
+    const s=this.s;this.tip(id);
+    const fmt={bold:'b',italic:'i',underline:'u',strike:'s',sub:'sub',sup:'sup'};
+    if(fmt[id]){if(this.needSel())return;const k=fmt[id],ws=this.selWords(),on=!ws.every(w=>w[k]);this.snap();ws.forEach(w=>{w[k]=on;if(on&&k==='sub')w.sup=false;if(on&&k==='sup')w.sub=false});this.changed(id,(on?'Applicato ':'Tolto ')+CMD[id].l,true);return}
+    if(id==='grow'||id==='shrink'){if(this.needSel())return;this.snap();this.selWords().forEach(w=>{const c=w.size||12;let i=SIZES.indexOf(c);if(i<0)i=4;w.size=SIZES[Math.max(0,Math.min(SIZES.length-1,i+(id==='grow'?1:-1)))]});this.changed('size',CMD[id].l,true);return}
+    if(id==='color'){if(this.needSel())return;this.snap();this.selWords().forEach(w=>w.color='#E0201B');this.changed('color','Testo colorato di rosso',true);return}
+    if(id==='highlight'){if(this.needSel())return;this.snap();const ws=this.selWords(),on=!ws.every(w=>w.hl);ws.forEach(w=>w.hl=on?'#FFF200':null);this.changed('highlight',on?'Testo evidenziato in giallo':'Evidenziazione tolta',true);return}
+    if(id==='clear'){if(this.needSel())return;this.snap();this.selWords().forEach(w=>['b','i','u','s','sub','sup','size','color','hl','font'].forEach(k=>delete w[k]));this.changed('clear','Formattazione cancellata',true);return}
+    if(['left','center','right','justify'].includes(id)){this.snap();this.selParas().forEach(i=>{if(s.doc[i])s.doc[i].align=id});this.changed('align:'+id,CMD[id].l);this.flashParas();return}
+    if(id==='bullets'||id==='numbering'){this.snap();const t=id==='bullets'?'bullet':'number',ps=this.selParas().filter(i=>s.doc[i]&&s.doc[i].type==='text');const on=!ps.every(i=>s.doc[i].list===t);ps.forEach(i=>s.doc[i].list=on?t:null);this.changed(id,on?CMD[id].l+' applicato':'Elenco tolto');return}
+    if(STY[id]){this.snap();this.selParas().forEach(i=>{if(s.doc[i])s.doc[i].style=STY[id]});this.changed('style:'+STY[id],'Stile '+CMD[id].l);this.flashParas();return}
+    if(id==='copy'){if(this.needSel())return;s.clip=JSON.parse(JSON.stringify(this.selWords()));this.ev('copy');announce('Copiato negli Appunti: '+this.selText());toast('Copiato: «'+s.clip.map(w=>w.t).join(' ')+'»');this.onChange();return}
+    if(id==='cut'){if(this.needSel())return;this.snap();s.clip=JSON.parse(JSON.stringify(this.selWords()));const txt=this.selText();this.selPairs().reverse().forEach(([p,w])=>s.doc[p].words.splice(w,1));s.sel=null;this.changed('cut','Tagliato: '+txt);toast('Tagliato: «'+txt+'». Ora è negli Appunti.');return}
+    if(id==='paste'){
+      if(!s.clip){this.nudge('Gli Appunti sono vuoti. Prima usa Copia o Taglia.');return}
+      this.snap();let p,w;const pairs=this.selPairs();
+      if(pairs.length){[p,w]=pairs[pairs.length-1];w++}else{p=s.curP;while(s.doc[p]&&s.doc[p].type!=='text')p--;if(p<0)p=0;w=s.doc[p].words.length}
+      const ins=JSON.parse(JSON.stringify(s.clip)).map(x=>Object.assign(x,{_new:1}));s.doc[p].words.splice(w,0,...ins);s.sel=null;this.changed('paste','Incollato: '+ins.map(x=>x.t).join(' '));return}
+    if(id==='undo'){if(!s.undo.length){toast('Non c’è niente da annullare.');return}s.redo.push(JSON.stringify(s.doc));s.doc=JSON.parse(s.undo.pop());s.sel=null;this.tip('undo');this.changed('undo','Annullato');return}
+    if(id==='redo'){if(!s.redo.length){toast('Non c’è niente da ripetere.');return}s.undo.push(JSON.stringify(s.doc));s.doc=JSON.parse(s.redo.pop());s.sel=null;this.tip('redo');this.changed('redo','Ripetuto');return}
+    if(id==='select'){this.openMenu('select');return}
+    if(id==='table'){this.openMenu('table');return}
+    if(id==='pictures'){this.openMenu('pictures');return}
+    if(id==='save'){if(!s.saved){s.bs='saveas';this.ev('file');this.renderBs();this.onChange()}else{toast('Documento salvato.');this.ev('save')}return}
+    if(id==='enter'){if(!s.typing)return;const inp=$('#sim-type',this.el);const t=s.draft.trim();this.snap();
+      if(t){s.doc.push(P(t,{words:t.split(/\s+/).map(x=>({t:x,_new:1}))}))}else s.doc.push(P(''));
+      s.draft='';if(inp){inp.value='';inp.focus()}this.changed('enter','A capo');return}
+    const lbl=(CMD[id]&&CMD[id].l)||(this.findItem(id)||{}).l||'Questo comando';
+    toast(`«${lbl}»: in questo corso usiamo solo i comandi di base.`);
+  }
+  findItem(id){for(const t in RIB)for(const g of RIB[t])for(const x of (g.big||[]))if(x.id===id)return x}
+  flashParas(){requestAnimationFrame(()=>this.selParas().forEach(i=>{const p=$(`.pp[data-p="${i}"]`,this.el);if(p){p.classList.remove('al-change');void p.offsetWidth;p.classList.add('al-change')}}))}
+  setFont(f){if(this.needSel()){this.refresh();return}this.snap();this.selWords().forEach(w=>w.font=f==='Aptos'?null:f);this.changed('font','Carattere '+f,true)}
+  setSize(n){this.tip('size');if(this.needSel()){this.refresh();return}this.snap();this.selWords().forEach(w=>w.size=n);this.changed('size','Dimensione '+n,true)}
+  openMenu(m){
+    const s=this.s;s.menu=m;this.ev('menu:'+m);const host=$('.w-menuhost',this.el);const rib=$('[data-region="ribbon"]',this.el);
+    let h='';
+    if(m==='select')h=`<h4>Seleziona</h4><button class="w-mi" data-mi="all" data-id="m-all">${IC.select}Seleziona tutto</button><button class="w-mi" data-mi="x">${IC.shapes}Seleziona oggetti</button><button class="w-mi" data-mi="x">${IC.case}Seleziona tutto il testo con formattazione simile</button>`;
+    if(m==='table'){h=`<h4 id="tg-l">Inserisci tabella</h4><div class="tgrid">`;for(let r=1;r<=5;r++)for(let c=1;c<=6;c++)h+=`<button data-tg="${c}x${r}" data-id="tg-${c}x${r}" aria-label="${c} colonne, ${r} righe"></button>`;h+=`</div>`}
+    if(m==='pictures')h=`<h4>Inserisci immagine da</h4><button class="w-mi" data-mi="img" data-id="m-dev">${IC.pc}Questo dispositivo...</button><button class="w-mi" data-mi="img" data-id="m-stock">${IC.stock}Immagini stock...</button><button class="w-mi" data-mi="img" data-id="m-online">${IC.globe}Immagini online...</button>`;
+    host.innerHTML=`<div class="w-menu" role="menu" style="top:${rib.offsetTop+rib.offsetHeight-4}px">${h}</div>`;
+    const menu=$('.w-menu',host);
+    if(m==='table'){$$('[data-tg]',menu).forEach(bt=>{const hv=()=>{const[c,r]=bt.dataset.tg.split('x').map(Number);$$('[data-tg]',menu).forEach(x=>{const[cc,rr]=x.dataset.tg.split('x').map(Number);x.classList.toggle('on',cc<=c&&rr<=r)});$('#tg-l',menu).textContent=`Tabella ${c}x${r}`};bt.addEventListener('pointerenter',hv);bt.addEventListener('focus',hv)})}
+    const first=$('button',menu);first&&first.focus({preventScroll:true});
+    if(this.hintOn)this.showHint(this.hintOn,true);
+    this.onChange();
+  }
+  closeMenu(){if(!this.s||!this.s.menu)return;this.s.menu=null;$('.w-menuhost',this.el).innerHTML=''}
+  menuItem(m){
+    const s=this.s;
+    if(m==='all'){this.closeMenu();const n=this.flat().length;if(n)this.setSel(0,n-1);this.ev('selectall');this.selDone();return}
+    if(m==='img'){this.closeMenu();this.snap();s.doc.splice(this.insAt(),0,{type:'image'});this.changed('image','Immagine inserita');return}
+    this.closeMenu();toast('In questo corso usiamo solo «Seleziona tutto».');
+  }
+  insAt(){const ps=this.selParas();return Math.min(this.s.doc.length,Math.max(...ps)+1)}
+  insertTable(r,c){this.closeMenu();this.snap();this.s.doc.splice(this.insAt(),0,{type:'table',rows:r,cols:c});this.changed('table',`Tabella ${c} colonne per ${r} righe inserita`)}
+  bsGo(k){
+    const s=this.s;
+    if(k==='back'){s.bs=null;this.renderBs();announce('Tornato al documento');this.onChange();return}
+    if(k==='save'&&!s.saved)k='saveas';
+    if(k==='save'){s.bs=null;this.renderBs();this.ev('save');toast('Documento salvato.');this.onChange();return}
+    if(k==='do-save'){const inp=$('#bs-name',this.el);const n=(inp&&inp.value.trim())||'';if(!n){toast('Scrivi un nome per il file.');inp&&inp.focus();return}
+      s.fileName=n;s.saved=true;s.bs=null;this.ev('saved');this.renderBs();this.renderTitle();const nm=$('.w-name',this.el);nm.classList.add('flash');toast(`Salvato come «${n}.docx» in Documenti.`);announce('Documento salvato con il nome '+n);this.onChange();return}
+    if(k==='do-print'){const pv=$('.prn-prev',this.el);if(pv)pv.classList.add('fly');s.printed=true;this.ev('printed');announce('Stampa inviata alla stampante');
+      setTimeout(()=>{toast('Il documento è stato inviato alla stampante.');},300);setTimeout(()=>{if(s.bs==='print'){s.bs=null;this.renderBs()}this.onChange()},prefs.rm?50:1300);return}
+    if(k==='new'){toast('Nuovo documento: in questo corso continuiamo con il foglio aperto.');}
+    s.bs=k;this.ev('bs:'+k);this.renderBs();this.onChange();
+  }
+  renderBs(){
+    const s=this.s,host=$('.w-bshost',this.el);if(!s.bs){host.innerHTML='';return}
+    const nav=[['home','Home',IC.home],['new','Nuovo',IC.newdoc],['open','Apri',IC.folder],null,['info','Informazioni',IC.info],['save','Salva',IC.save],['saveas','Salva con nome',IC.save],['print','Stampa',IC.printer],['share','Condividi',IC.share],['export','Esporta',IC.export],['close','Chiudi',IC.close],null,['account','Account',IC.user],['options','Opzioni',IC.gear]];
+    const navH=`<button class="back" data-bs="back" data-id="bs-back" aria-label="Torna al documento">${IC.back}</button>`+nav.map(n=>n?`<button data-bs="${n[0]}" data-id="bs-${n[0]}" ${s.bs===n[0]?'aria-current="true"':''}>${n[1]}</button>`:'<hr>').join('');
+    let main='';
+    if(s.bs==='home')main=`<h3>Buongiorno</h3><p class="muted">Da qui gestisci il file: salvarlo, stamparlo, aprirne uno nuovo.</p><div class="bs-loc"><div>${IC.newdoc}Documento vuoto</div><div>${IC.folder}Recenti: ${esc(s.fileName)}</div></div>`;
+    else if(s.bs==='saveas')main=`<h3>Salva con nome</h3><div class="bs-loc"><div>${IC.cloud}OneDrive - Personale</div><div class="on">${IC.pc}Questo PC</div><div>${IC.folder}Sfoglia</div></div>
+      <label class="bs-field">Nome file<input id="bs-name" data-id="bs-name" value="${esc(s.nameDraft!=null?s.nameDraft:s.fileName)}" autocomplete="off"></label>
+      <div class="bs-field">Tipo file<span class="fake">Documento di Word (*.docx)</span></div>
+      <button class="bs-go" data-bs="do-save" data-id="bs-dosave">${IC.save}Salva</button>`;
+    else if(s.bs==='print')main=`<h3>Stampa</h3><div class="prn"><button class="bs-go big" data-bs="do-print" data-id="bs-doprint">${IC.printer}Stampa</button><div class="prn-prev" aria-hidden="true"><i style="width:60%"></i><i></i><i></i><i style="width:80%"></i><i></i><i style="width:50%"></i></div></div>
+      <div class="bs-field">Copie<span class="fake">1</span></div><div class="bs-field">Stampante<span class="fake">Stampante di casa · Pronta</span></div><div class="bs-field">Impostazioni<span class="fake">Stampa tutte le pagine</span></div>`;
+    else{const lab=(nav.find(n=>n&&n[0]===s.bs)||[0,''])[1];main=`<h3>${esc(lab)}</h3><p class="muted">In questo corso non usiamo questa parte. Prova «Salva con nome» o «Stampa».</p>`}
+    host.innerHTML=`<div class="w-bs" role="dialog" aria-label="Menu File"><nav class="bs-nav">${navH}</nav><div class="bs-main">${main}</div></div>`;
+    s.nameDraft=null;
+    if(this.hintOn)this.showHint(this.hintOn,true);
+  }
+  spot(reg){this.spotReg=reg;this.el.classList.toggle('spotting',!!reg);$$('[data-region]',this.el).forEach(r=>r.classList.toggle('spot',r.dataset.region===reg))}
+  clearHint(){this.hintOn=null;$$('.hint',this.el).forEach(x=>x.classList.remove('hint'))}
+  showHint(id,quiet){
+    this.hintOn=id;$$('.hint',this.el).forEach(x=>x.classList.remove('hint'));if(!id)return;
+    let el;
+    if(id.startsWith('word:')){const w=id.slice(5);el=$$('.wd',this.el).find(x=>clean(x.textContent)===w)}
+    else el=$(`.w-bs [data-id="${id}"]`,this.el)||$(`.w-menu [data-id="${id}"]`,this.el)||$(`.w-ribbon [data-id="${id}"]`,this.el)||$(`[data-id="${id}"]`,this.el);
+    if(!el)return;el.classList.add('hint');
+    if(quiet)return;
+    const sc=el.closest('.w-ribbon,.w-tabs');
+    if(sc){const r=el.getBoundingClientRect(),cr=sc.getBoundingClientRect();sc.scrollLeft+=(r.left-cr.left)-(cr.width/2-r.width/2)}
+    const cv=el.closest('.w-canvas');if(cv){cv.scrollTop+=el.getBoundingClientRect().top-cv.getBoundingClientRect().top-cv.clientHeight/2}
+    const r=this.el.getBoundingClientRect();if(r.top<0||r.top>window.innerHeight*.6)this.el.scrollIntoView({block:'start',behavior:prefs.rm?'auto':'smooth'});
+  }
+}
+
+/* ---------- Lezioni ---------- */
+const H=(s,word,then)=>s.sim.selText()===word?then:'word:'+word;
+const wordFmt=(sim,txt,k,v)=>sim.s.doc.some(p=>p.type==='text'&&p.words.some(w=>clean(w.t)===txt&&(v===undefined?!!w[k]:(typeof v==='function'?v(w[k]):w[k]===v))));
+const inTab=(sim,tab,id)=>sim.s.bs?'bs-back':sim.s.tab===tab?id:'tab-'+tab;
+const LESSONS=[
+ {id:'finestra',t:'Conoscere Word',d:'Le parti della finestra e le schede.',i:'window',
+  doc:[P('Benvenuto in Word!',{style:'title'}),P('Questo è un documento di prova. Qui puoi scrivere lettere, liste e appunti.')],
+  steps:[
+   {x:'In alto c’è la <b>barra del titolo</b>. Mostra il nome del documento. Un documento nuovo si chiama «Documento1».',spot:'title'},
+   {x:'Sotto trovi la <b>barra multifunzione</b>. Contiene tutti i comandi, divisi in <b>schede</b>: Home, Inserisci, Layout e altre. Puoi scorrerla con il dito.',spot:'ribbon'},
+   {x:'Questo è il <b>foglio</b>. È il posto dove scrivi il tuo testo.',spot:'page'},
+   {x:'Proviamo. Tocca la scheda <b>Inserisci</b>.',check:s=>s.s.tab==='Inserisci',hint:s=>s.s.bs?'bs-back':'tab-Inserisci',ok:'La scheda Inserisci contiene i comandi per aggiungere tabelle, immagini e altro.'},
+   {x:'Ora torna alla scheda <b>Home</b>. È quella che userai di più.',check:s=>s.s.tab==='Home',hint:s=>s.s.bs?'bs-back':'tab-Home',ok:'Nella scheda Home ci sono i comandi per scrivere e sistemare il testo.'},
+  ]},
+ {id:'scrivere',t:'Scrivere il testo',d:'Scrivere, andare a capo, cancellare.',i:'textbox',typing:true,
+  doc:[P('Il mio primo documento',{style:'h1'})],
+  steps:[
+   {x:'Tocca il riquadro <b>Scrivi qui</b>, sotto il foglio, e scrivi il tuo nome.',check:s=>s.s.draft.trim().length>=2,hint:()=>'type',ok:'Vedi? Le lettere compaiono sul foglio. La lineetta che lampeggia si chiama <b>cursore</b>: indica dove stai scrivendo.'},
+   {x:'Premi <b>Invio</b> per andare a capo.',check:s=>s.since('enter'),hint:()=>'enter',ok:'Con Invio inizi una nuova riga. In Word ogni blocco di testo si chiama <b>paragrafo</b>.'},
+   {x:'Scrivi una parola e poi cancellala con il tasto <b>⌫</b> (Backspace) della tastiera.',check:s=>s.since('type')&&s.since('delete'),hint:()=>'type',ok:'Il tasto ⌫ cancella la lettera a sinistra del cursore.'},
+  ]},
+ {id:'selezionare',t:'Selezionare il testo',d:'Scegliere le parole da modificare.',i:'select',
+  doc:[P('Il gatto dorme sul divano.'),P('Fuori piove e fa freddo.')],
+  steps:[
+   {x:'Per cambiare un testo devi prima <b>selezionarlo</b>. Tocca la parola <b>gatto</b>.',check:s=>s.sim.selText()==='gatto',hint:()=>'word:gatto',ok:'La parola ora ha lo sfondo azzurro: è selezionata.'},
+   {x:'Puoi selezionare più parole: appoggia il dito su <b>Il</b> e trascinalo fino a <b>dorme</b>. Con la tastiera usa <kbd>Maiusc</kbd> + <kbd>Invio</kbd>.',check:s=>s.sim.selWords().length>=2,hint:()=>'word:il',ok:'Bene! Hai selezionato più parole insieme.'},
+   {x:'Per selezionare <b>tutto</b>: nel gruppo Modifica, a destra, tocca <b>Seleziona</b> e poi <b>Seleziona tutto</b>.',check:s=>s.since('selectall'),hint:s=>s.s.menu==='select'?'m-all':inTab(s,'Home','select'),ok:'Tutto il testo è selezionato. Ottimo per cambiare tutto in un colpo solo.'},
+  ]},
+ {id:'stile-testo',t:'Grassetto, Corsivo, Sottolineato',d:'I tre pulsanti G, C e S.',i:'bold',
+  doc:[P('Domani c’è una riunione importante alle 10.'),P('Arriva sempre in orario.'),P('Porta il tuo quaderno.')],
+  steps:[
+   {x:'In Word in italiano il <b>Grassetto</b> è la lettera <b>G</b>. Seleziona <b>importante</b> e tocca <b>G</b>.',check:s=>wordFmt(s.sim,'importante','b'),hint:s=>H(s,'importante',inTab(s.sim,'Home','bold')),ok:'Il grassetto rende la parola più marcata. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>G</kbd>.'},
+   {x:'Il <b>Corsivo</b> è la <b>C</b>. Seleziona <b>sempre</b> e tocca <b>C</b>.',check:s=>wordFmt(s.sim,'sempre','i'),hint:s=>H(s,'sempre',inTab(s.sim,'Home','italic')),ok:'Il corsivo inclina le lettere. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>I</kbd>.'},
+   {x:'Il <b>Sottolineato</b> è la <b>S</b>. Seleziona <b>quaderno</b> e tocca <b>S</b>.',check:s=>wordFmt(s.sim,'quaderno','u'),hint:s=>H(s,'quaderno',inTab(s.sim,'Home','underline')),ok:'Ora c’è una riga sotto la parola. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>S</kbd>. Per togliere un effetto, tocca di nuovo lo stesso pulsante.'},
+  ]},
+ {id:'carattere',t:'Dimensione e colore',d:'Testo più grande, colorato, evidenziato.',i:'color',
+  doc:[P('Festa di compleanno'),P('Sabato alle 16 nel giardino di casa.')],
+  steps:[
+   {x:'Seleziona <b>Festa</b>. Poi nella casella con il numero <b>12</b> scegli un numero più grande, per esempio <b>24</b>.',check:s=>wordFmt(s.sim,'festa','size',v=>v>=16),hint:s=>H(s,'festa',inTab(s.sim,'Home','size')),ok:'Il numero indica la grandezza del testo. Più è alto, più il testo è grande. Puoi usare anche il pulsante con la A e la freccia in su.'},
+   {x:'Con <b>Festa</b> selezionata, tocca <b>Colore carattere</b>: la <b>A</b> con la riga rossa.',check:s=>wordFmt(s.sim,'festa','color'),hint:s=>H(s,'festa',inTab(s.sim,'Home','color')),ok:'Il colore pronto è il rosso. In Word, la freccetta accanto al pulsante apre gli altri colori.'},
+   {x:'Ora seleziona <b>Sabato</b> e tocca l’<b>evidenziatore</b>: la penna con la riga gialla.',check:s=>wordFmt(s.sim,'sabato','hl'),hint:s=>H(s,'sabato',inTab(s.sim,'Home','highlight')),ok:'Come con un evidenziatore vero: la parola risalta subito.'},
+  ]},
+ {id:'allineare',t:'Allineare il testo',d:'Sinistra, centro, destra, giustificato.',i:'center',
+  doc:[P('Invito'),P('Caro Luca, ti aspetto sabato per una cena tra amici. Porta solo il tuo buon umore e, se vuoi, qualcosa da bere.'),P('Marta')],
+  steps:[
+   {x:'Tocca la parola <b>Invito</b> e poi <b>Centra</b> nel gruppo Paragrafo.',check:s=>s.s.doc[0].align==='center',hint:s=>s.s.curP===0?inTab(s.sim,'Home','center'):'word:invito',ok:'Il titolo è al centro della riga. Scorciatoia: <kbd>Ctrl</kbd> + <kbd>E</kbd>.'},
+   {x:'Tocca una parola del testo lungo e scegli <b>Giustifica</b>.',check:s=>s.s.doc[1].align==='justify',hint:s=>s.s.curP===1?inTab(s.sim,'Home','justify'):'word:caro',ok:'Il testo ora è dritto sia a sinistra sia a destra, come nei libri.'},
+   {x:'Infine sposta la firma <b>Marta</b> a destra con <b>Allinea a destra</b>.',check:s=>s.s.doc[2].align==='right',hint:s=>s.s.curP===2?inTab(s.sim,'Home','right'):'word:marta',ok:'Perfetto: hai impaginato un invito vero e proprio.'},
+  ]},
+ {id:'elenchi',t:'Elenchi puntati e numerati',d:'Liste ordinate e chiare.',i:'bullets',
+  doc:[P('Lista della spesa',{style:'h1'}),P('Pane'),P('Latte'),P('Mele')],
+  steps:[
+   {x:'Seleziona le tre righe: tocca <b>Pane</b> e trascina il dito fino a <b>Mele</b>. Poi tocca <b>Elenchi puntati</b>.',check:s=>[1,2,3].every(i=>s.s.doc[i].list==='bullet'),hint:s=>{const sel=s.sim.selParas();return [1,2,3].every(i=>sel.includes(i))?inTab(s.sim,'Home','bullets'):'word:pane'},ok:'Ogni voce ha il suo pallino. Se tocchi una sola riga, l’elenco si applica solo a quella.'},
+   {x:'Con le righe ancora selezionate, tocca <b>Elenchi numerati</b>.',check:s=>[1,2,3].every(i=>s.s.doc[i].list==='number'),hint:s=>{const sel=s.sim.selParas();return [1,2,3].every(i=>sel.includes(i))?inTab(s.sim,'Home','numbering'):'word:pane'},ok:'Ora l’elenco è numerato: 1, 2, 3. Utile per i passaggi in ordine.'},
+  ]},
+ {id:'stili',t:'Gli stili',d:'Titoli belli con un tocco.',i:'theme',
+  doc:[P('Torta di mele'),P('Una ricetta facile e veloce per tutta la famiglia.'),P('Ingredienti'),P('Tre mele, due uova, farina e zucchero.')],
+  steps:[
+   {x:'Gli <b>stili</b> cambiano tutto l’aspetto di un paragrafo. Tocca <b>Torta</b> e scegli <b>Titolo 1</b> nel gruppo Stili.',check:s=>s.s.doc[0].style==='h1',hint:s=>s.s.curP===0?inTab(s.sim,'Home','st-h1'):'word:torta',ok:'Un solo tocco: carattere, colore e dimensione cambiano insieme.'},
+   {x:'Ora tocca <b>Ingredienti</b> e scegli <b>Titolo 2</b>.',check:s=>s.s.doc[2].style==='h2',hint:s=>s.s.curP===2?inTab(s.sim,'Home','st-h2'):'word:ingredienti',ok:'Usare gli stili dà ordine al documento. Word li usa anche per creare il sommario.'},
+  ]},
+ {id:'copia',t:'Copia, Taglia e Incolla',d:'Spostare e duplicare le parole.',i:'paste',
+  doc:[P('Mi piace la pizza'),P('Domani mangio anche'),P('Una giornata noiosa e bella')],
+  steps:[
+   {x:'Seleziona la parola <b>pizza</b> e tocca <b>Copia</b> nel gruppo Appunti.',check:s=>s.since('copy')&&s.s.clip&&s.s.clip.some(w=>clean(w.t)==='pizza'),hint:s=>H(s,'pizza',inTab(s.sim,'Home','copy')),ok:'La parola è negli <b>Appunti</b>: una memoria nascosta di Word. Sul foglio non cambia niente.'},
+   {x:'Tocca la parola <b>anche</b> nella seconda riga, poi tocca <b>Incolla</b>. La parola arriva subito dopo.',check:s=>s.s.doc[1].words.some(w=>clean(w.t)==='pizza'),hint:s=>H(s,'anche',inTab(s.sim,'Home','paste')),ok:'«Domani mangio anche pizza». Copia + Incolla: <kbd>Ctrl</kbd> + <kbd>C</kbd> e <kbd>Ctrl</kbd> + <kbd>V</kbd>.'},
+   {x:'Ora seleziona <b>noiosa</b> e tocca <b>Taglia</b> (le forbici).',check:s=>!s.s.doc.some(p=>p.type==='text'&&p.words.some(w=>clean(w.t)==='noiosa')),hint:s=>H(s,'noiosa',inTab(s.sim,'Home','cut')),ok:'Taglia toglie la parola dal foglio e la tiene negli Appunti: puoi incollarla da un’altra parte.'},
+  ]},
+ {id:'annulla',t:'Annulla e Ripeti',d:'Tornare indietro senza paura.',i:'undo',
+  doc:[P('Questa frase contiene un errore da correggere.')],
+  steps:[
+   {x:'Facciamo un “errore” apposta: seleziona <b>frase</b> e tocca <b>Taglia</b>.',check:s=>s.since('cut'),hint:s=>H(s,'frase',inTab(s.sim,'Home','cut')),ok:'La parola è sparita. Niente paura!'},
+   {x:'Tocca <b>Annulla</b>: la freccia che torna indietro, a sinistra nella scheda Home o in alto.',check:s=>s.since('undo'),hint:s=>inTab(s.sim,'Home','undo'),ok:'La parola è tornata. Annulla è il tuo migliore amico: <kbd>Ctrl</kbd> + <kbd>Z</kbd>.'},
+   {x:'Hai cambiato idea? Tocca <b>Ripeti</b> per rifare il taglio.',check:s=>s.since('redo'),hint:s=>inTab(s.sim,'Home','redo'),ok:'Ripeti rifà quello che avevi annullato: <kbd>Ctrl</kbd> + <kbd>Y</kbd>.'},
+  ]},
+ {id:'inserire',t:'Tabelle e immagini',d:'Aggiungere oggetti al documento.',i:'table',
+  doc:[P('Le mie vacanze',{style:'h1'}),P('Ecco il programma e una foto del mare.')],
+  steps:[
+   {x:'Apri la scheda <b>Inserisci</b> e tocca <b>Tabella</b>. Nella griglia scegli quante colonne e righe vuoi, per esempio 3 × 2.',check:s=>s.s.doc.some(p=>p.type==='table'),hint:s=>s.s.menu==='table'?'tg-3x2':inTab(s.sim,'Inserisci','table'),ok:'La tabella è nel foglio. Ogni casella si chiama <b>cella</b>.'},
+   {x:'Ora tocca <b>Immagini</b> e scegli <b>Immagini stock...</b>.',check:s=>s.s.doc.some(p=>p.type==='image'),hint:s=>s.s.menu==='pictures'?'m-stock':inTab(s.sim,'Inserisci','pictures'),ok:'Ecco la foto! «Questo dispositivo» invece apre le foto salvate sul tuo computer.'},
+  ]},
+ {id:'salvare',t:'Salvare il documento',d:'Dare un nome al file e conservarlo.',i:'save',
+  doc:[P('Gentile signora Rossi,'),P('le scrivo per confermare l’appuntamento di lunedì.'),P('Cordiali saluti')],
+  steps:[
+   {x:'Per salvare tocca la scheda <b>File</b>, la prima a sinistra.',check:s=>!!s.s.bs,hint:()=>'tab-File',ok:'Si è aperto il menu File, chiamato anche Backstage.'},
+   {x:'Tocca <b>Salva con nome</b>.',check:s=>s.s.bs==='saveas',hint:s=>s.s.bs?'bs-saveas':'tab-File',ok:'Qui scegli dove salvare e con quale nome.'},
+   {x:'Nella casella <b>Nome file</b> scrivi <b>Lettera</b> e poi tocca <b>Salva</b>.',check:s=>s.s.saved&&/lettera/i.test(s.s.fileName),hint:s=>s.s.bs==='saveas'?($('#bs-name',s.sim.el)&&/lettera/i.test($('#bs-name',s.sim.el).value)?'bs-dosave':'bs-name'):s.s.bs?'bs-saveas':'tab-File',ok:'Guarda in alto: il nome ora è «Lettera». Le volte dopo basta il dischetto <b>Salva</b>. Con «Salvataggio automatico» attivo, Word salva da solo su OneDrive.'},
+  ]},
+ {id:'stampare',t:'Stampare',d:'Mandare il documento alla stampante.',i:'printer',
+  doc:[P('Ricetta della nonna',{style:'h1'}),P('Ingredienti e passaggi per preparare il ragù della domenica.')],
+  steps:[
+   {x:'Tocca la scheda <b>File</b>.',check:s=>!!s.s.bs,hint:()=>'tab-File',ok:'Bene, sei nel menu File.'},
+   {x:'Tocca <b>Stampa</b> nella colonna a sinistra.',check:s=>s.s.bs==='print',hint:s=>s.s.bs?'bs-print':'tab-File',ok:'A destra vedi l’anteprima: il foglio come uscirà dalla stampante.'},
+   {x:'Controlla il numero di <b>copie</b> e tocca il grande pulsante <b>Stampa</b>.',check:s=>s.s.printed,hint:s=>s.s.bs==='print'?'bs-doprint':s.s.bs?'bs-print':'tab-File',ok:'Fatto! Sul computer vero il foglio esce dalla stampante. Hai finito tutte le basi di Word.'},
+  ]},
+];
+
+/* ---------- Progresso ---------- */
+let done=new Set(store.get('done',[]));
+const saveDone=()=>store.set('done',[...done]);
+
+/* ---------- Router ---------- */
+const app=$('#app');let view='home',sim=new Sim();
+function go(v,arg){
+  stopSpeak();closeSheet();view=v;
+  $$('.tb').forEach(b=>b.toggleAttribute('aria-current',false));
+  const tb=$(`.tb[data-go="${v}"]`);if(tb)tb.setAttribute('aria-current','page');
+  $('#tabbar').hidden=(v==='lesson');
+  ({home:renderHome,lesson:()=>startLesson(arg),practice:renderPractice,quiz:renderQuiz,keys:renderKeys})[v]();
+  window.scrollTo(0,0);
+  const scr=$('.screen',app);if(scr){scr.classList.add('in')}
+  const h=$('h1',app);if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}
+}
+$('#tabbar').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+
+function topbar(){return `<header class="top"><div class="brand"><span class="brand-mark" aria-hidden="true">W</span>Scuola di Word</div><button class="pill-btn" data-acc aria-haspopup="dialog">${UI.access}Accessibilità</button></header>`}
+app.addEventListener('click',e=>{if(e.target.closest('[data-acc]'))$('#acc').showModal()});
+
+function renderHome(){
+  const n=LESSONS.length,k=LESSONS.filter(l=>done.has(l.id)).length;
+  const next=LESSONS.findIndex(l=>!done.has(l.id));
+  app.innerHTML=`<div class="screen">${topbar()}
+  <section class="hero" aria-labelledby="h-t">
+    <div class="mini" aria-hidden="true"><div class="mini-bar">Documento1 · Word</div><div class="mini-rib"><span class="mb" style="font-weight:800">G</span><span style="font-style:italic;font-family:Georgia,serif">C</span><span style="text-decoration:underline">S</span></div>
+      <div class="mini-page">Ricordati la riunione <span class="mw">importante</span> di domani.<div class="ln" style="width:92%"></div><div class="ln" style="width:70%"></div></div></div>
+    <h1 id="h-t">Impara Word, un passo alla volta</h1>
+    <p>Lezioni brevi con una copia di Word 365 in italiano da toccare con mano. Puoi sbagliare: c’è sempre <b>Annulla</b>.</p>
+    <div class="progress"><div class="progress-row"><span>I tuoi progressi</span><span>${k} di ${n} lezioni</span></div><div class="bar" role="progressbar" aria-label="Lezioni completate" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${k}"><i style="width:0%"></i></div></div>
+    ${next>=0?`<button class="btn wide" data-start="${next}">${k?'Continua':'Inizia'}: ${esc(LESSONS[next].t)} ${UI.next}</button>`:`<button class="btn wide" data-go2="quiz">Hai finito! Mettiti alla prova con il quiz ${UI.next}</button>`}
+  </section>
+  <section aria-labelledby="l-t" style="display:grid;gap:12px">
+    <div class="sec-h"><h2 id="l-t">Lezioni</h2><span>circa 2 minuti l’una</span></div>
+    <ol class="lessons">${LESSONS.map((l,i)=>`<li><button class="lesson${done.has(l.id)?' done':''}${i===next?' next':''}" data-start="${i}">
+      <span class="ico" aria-hidden="true">${CMD[l.i]&&CMD[l.i].g?`<span class="gl ${CMD[l.i].gc}" style="font-size:1.4rem;width:auto">${CMD[l.i].g}</span>`:IC[l.i]}</span>
+      <span class="mid"><span class="num">Lezione ${i+1}</span><span class="t">${esc(l.t)}</span><span class="d">${esc(l.d)}</span></span>
+      <span class="st" aria-label="${done.has(l.id)?'Completata':'Da fare'}">${done.has(l.id)?UI.check:''}</span></button></li>`).join('')}</ol>
+    ${k?`<button class="btn ghost" data-reset>${UI.reset}Ricomincia da capo</button>`:''}
+  </section></div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{const i=$('.bar i',app);if(i)i.style.width=(k/n*100)+'%'}));
+  app.onclick=e=>{
+    const s=e.target.closest('[data-start]');if(s){go('lesson',+s.dataset.start);return}
+    const g=e.target.closest('[data-go2]');if(g){go(g.dataset.go2);return}
+    const r=e.target.closest('[data-reset]');if(r){
+      if(r.dataset.confirm){done=new Set();saveDone();renderHome();toast('Progressi azzerati.')}
+      else{r.dataset.confirm='1';r.innerHTML=UI.reset+'Tocca ancora per confermare';r.style.borderColor='var(--bad)'}
+    }
+  };
+}
+
+/* ---------- Lezione ---------- */
+let L=null,si=0,stepDone=false,hintTimer;
+function startLesson(i){
+  L=LESSONS[i];L.idx=i;si=0;
+  app.innerHTML=`<div class="screen">
+   <div class="lhead"><div class="lhead-row"><button class="icon-btn" data-back aria-label="Torna alle lezioni">${UI.back}</button><h1>${esc(L.t)}</h1><span class="count" id="cnt"></span></div><div class="steps" id="dots" aria-hidden="true"></div></div>
+   <section class="coach" aria-labelledby="c-l"><span class="lbl" id="c-l">Cosa fare</span><p class="txt" id="ctxt" aria-live="polite"></p><div class="actions" id="cact"></div></section>
+   <div id="simHost"></div>
+   <p class="hint-scroll">Sulla barra dei comandi scorri con il dito verso sinistra per vederne altri ${UI.arrow}</p>
+  </div>`;
+  sim.load({doc:L.doc,typing:L.typing});$('#simHost').appendChild(sim.el);
+  sim.onChange=onSimChange;
+  app.onclick=e=>{
+    if(e.target.closest('[data-back]'))go('home');
+    const a=e.target.closest('[data-act]');if(!a)return;
+    if(a.dataset.act==='listen')speak($('#ctxt').innerHTML,a);
+    if(a.dataset.act==='show'){const st=L.steps[si];if(st.hint){sim.showHint(st.hint({sim,s:sim.s,since:n=>sim.since(n)}));announce('Ti mostro dove toccare: il punto evidenziato in giallo.')}}
+    if(a.dataset.act==='next')nextStep();
+  };
+  renderStep();
+}
+function ctx(){return{sim,s:sim.s,since:n=>sim.since(n)}}
+function renderStep(){
+  const st=L.steps[si];stepDone=false;sim.s.mark=sim.s.events.length;sim.clearHint();closeSheet();
+  sim.spot(st.spot||null);
+  $('#cnt').textContent=`Passo ${si+1} di ${L.steps.length}`;
+  $('#dots').innerHTML=L.steps.map((_,i)=>`<i class="${i<si?'on':i===si?'cur':''}"></i>`).join('');
+  const t=$('#ctxt');t.classList.remove('in');void t.offsetWidth;t.innerHTML=st.x;t.classList.add('in');
+  $('#cact').innerHTML=`<button class="chip" data-act="listen">${UI.speaker}Ascolta</button>`+(st.check?`<button class="chip" data-act="show">${UI.target}Mostrami dove</button>`:`<button class="btn" data-act="next" style="min-height:44px">Avanti ${UI.next}</button>`);
+  if(prefs.tts)speak(st.x,$('[data-act="listen"]'));
+  clearTimeout(hintTimer);
+  if(st.check){hintTimer=setTimeout(()=>{if(!stepDone&&view==='lesson'&&L.steps[si]===st)sim.showHint(st.hint(ctx()),true)},12000)}
+}
+function onSimChange(){
+  if(view!=='lesson'||!L)return;const st=L.steps[si];if(!st||!st.check||stepDone)return;
+  if(st.check(ctx())){stepDone=true;clearTimeout(hintTimer);sim.clearHint();success(st.ok);}
+  else if(sim.hintOn){sim.showHint(st.hint(ctx()),false)}
+}
+function nextStep(){if(si<L.steps.length-1){si++;renderStep();$('.coach').scrollIntoView({block:'nearest',behavior:prefs.rm?'auto':'smooth'})}else finishLesson()}
+function confetti(){const cols=['#185ABD','#FFE14D','#E0201B','#17723F','#2E86C1'];let h='';for(let i=0;i<14;i++){const a=Math.random()*Math.PI*2,d=50+Math.random()*60;h+=`<i style="background:${cols[i%5]};--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d-30}px;--r:${Math.random()*540-270}deg"></i>`}return `<div class="confetti" aria-hidden="true">${h}</div>`}
+const PRAISE=['Ottimo!','Bravo!','Perfetto!','Ci sei!','Benissimo!'];
+function success(msg){
+  const last=si===L.steps.length-1,title=PRAISE[Math.floor(Math.random()*PRAISE.length)];
+  $('#sheetHost').innerHTML=`<div class="sheet" role="status"><div class="sheet-in">${confetti()}<div class="sheet-top">${OKMARK}<div><h2>${title}</h2><p>${msg}</p></div></div>
+   <button class="btn wide" id="sheetNext">${last?'Completa la lezione':'Avanti'} ${UI.next}</button></div></div>`;
+  $('#sheetNext').onclick=()=>nextStep();
+  setTimeout(()=>{const b=$('#sheetNext');b&&b.focus({preventScroll:true})},prefs.rm?0:400);
+  announce(title+' '+plain(msg));if(prefs.tts)speak(title+'. '+msg);
+}
+function closeSheet(){$('#sheetHost').innerHTML=''}
+function finishLesson(){
+  closeSheet();done.add(L.id);saveDone();stopSpeak();
+  const nx=LESSONS.findIndex(l=>!done.has(l.id));
+  app.innerHTML=`<div class="screen"><div class="done-card">${confetti()}${OKMARK}<h1 tabindex="-1">Lezione completata!</h1><p>Hai imparato: <b>${esc(L.t)}</b>.</p>
+   ${nx>=0?`<button class="btn wide" data-start="${nx}">Prossima: ${esc(LESSONS[nx].t)} ${UI.next}</button>`:`<button class="btn wide" data-go2="quiz">Fai il quiz finale ${UI.next}</button>`}
+   <button class="btn ghost wide" data-go2="home">Torna alle lezioni</button></div></div>`;
+  $('.screen',app).classList.add('in');$('h1',app).focus();window.scrollTo(0,0);
+  app.onclick=e=>{const s=e.target.closest('[data-start]');if(s)go('lesson',+s.dataset.start);const g=e.target.closest('[data-go2]');if(g)go(g.dataset.go2)};
+}
+
+/* ---------- Prova libera ---------- */
+function renderPractice(){
+  app.innerHTML=`<div class="screen">${topbar()}
+   <section class="coach"><span class="lbl">Prova libera</span><h1 style="font-size:1.35rem">Il tuo foglio per esercitarti</h1><p class="txt" style="font-size:1rem">Qui non ci sono compiti. Prova tutti i comandi che vuoi. Tocca una parola per selezionarla, poi scegli un comando. Scrivi nuove righe nel riquadro in basso.</p>
+   <div class="actions"><button class="chip" data-new>${UI.reset}Nuovo foglio</button></div></section>
+   <div id="simHost"></div>
+   <p class="hint-scroll">Scorri la barra dei comandi per vederne altri ${UI.arrow}</p></div>`;
+  const load=()=>{sim.load({doc:[P('Le mie note',{style:'h1'}),P('Oggi ho imparato a usare Word. Posso cambiare il colore, la dimensione e lo stile del testo.'),P('Prova anche le schede Inserisci e File.')],typing:true});sim.onChange=()=>{}};
+  load();$('#simHost').appendChild(sim.el);
+  app.onclick=e=>{if(e.target.closest('[data-new]')){load();toast('Foglio nuovo pronto.')}};
+}
+
+/* ---------- Quiz ---------- */
+const QUIZ=[
+ {q:'Nella versione italiana di Word, quale pulsante mette il testo in grassetto?',o:['G','B','N','C'],a:0,e:'G sta per Grassetto. Nelle versioni inglesi trovi B (Bold).'},
+ {q:'A cosa serve il pulsante «C»?',o:['A copiare','A rendere il testo corsivo','A centrare il testo','A colorare il testo'],a:1,e:'C sta per Corsivo: inclina le lettere.'},
+ {q:'Cosa devi fare prima di cambiare il colore di una parola?',o:['Salvare il file','Selezionarla','Premere Invio','Aprire la scheda File'],a:1,e:'I comandi agiscono sul testo selezionato. Prima selezioni, poi scegli il comando.'},
+ {q:'In quale scheda trovi il comando «Tabella»?',o:['Home','Layout','Inserisci','Revisione'],a:2,e:'La scheda Inserisci contiene tabelle, immagini, forme e simboli.'},
+ {q:'Hai cancellato per sbaglio una frase. Cosa usi?',o:['Annulla','Taglia','Incolla','Stampa'],a:0,e:'Annulla (Ctrl+Z) torna indietro di un passo.'},
+ {q:'Dopo aver usato «Taglia», la parola…',o:['resta dov’era','sparisce e va negli Appunti','viene stampata','diventa in grassetto'],a:1,e:'Taglia toglie il testo e lo tiene negli Appunti, pronto da incollare.'},
+ {q:'Quale combinazione di tasti copia il testo selezionato?',o:['Ctrl + V','Ctrl + Z','Ctrl + C','Ctrl + G'],a:2,e:'Ctrl+C copia, Ctrl+V incolla.'},
+ {q:'Vuoi dare un nome al tuo documento. Cosa tocchi?',o:['File › Salva con nome','Home › Stili','Inserisci › Immagini','Visualizza › Zoom'],a:0,e:'Da File › Salva con nome scegli il nome e la cartella.'},
+ {q:'Il pulsante «Centra» serve a…',o:['ingrandire il testo','mettere il testo al centro della riga','creare un elenco','cercare una parola'],a:1,e:'Centra allinea il paragrafo al centro. Ottimo per i titoli.'},
+ {q:'A cosa servono gli stili «Titolo 1» e «Titolo 2»?',o:['A stampare','A dare ai titoli un aspetto ordinato e uguale','A salvare il file','A inserire immagini'],a:1,e:'Gli stili cambiano carattere, colore e grandezza in un tocco solo.'},
+];
+let qi=0,qs=0;
+function renderQuiz(){qi=0;qs=0;quizQ()}
+function quizQ(){
+  if(qi>=QUIZ.length){
+    const best=Math.max(store.get('best',0),qs);store.set('best',best);
+    const msg=qs>=9?'Sei un esperto delle basi di Word!':qs>=6?'Ottimo lavoro! Ripassa le domande sbagliate.':'Buon inizio. Rivedi le lezioni e riprova.';
+    app.innerHTML=`<div class="screen">${topbar()}<div class="done-card">${qs>=6?confetti()+OKMARK:''}<h1 tabindex="-1">Quiz finito</h1><p class="score">${qs}/${QUIZ.length}</p><p>${msg}</p><p class="kbd-note">Il tuo record: ${best}/${QUIZ.length}</p>
+      <button class="btn wide" data-again>${UI.reset}Rifai il quiz</button><button class="btn ghost wide" data-go2="home">Vai alle lezioni</button></div></div>`;
+    app.onclick=e=>{if(e.target.closest('[data-again]'))go('quiz');const g=e.target.closest('[data-go2]');if(g)go(g.dataset.go2)};
+    announce(`Quiz finito. Hai risposto bene a ${qs} domande su ${QUIZ.length}.`);return;
+  }
+  const q=QUIZ[qi];
+  app.innerHTML=`<div class="screen">${topbar()}
+   <section class="qcard" aria-labelledby="qh"><div class="progress"><div class="progress-row"><span class="qmeta">Domanda ${qi+1} di ${QUIZ.length}</span><span class="qmeta">Punti: ${qs}</span></div><div class="bar"><i style="width:${qi/QUIZ.length*100}%"></i></div></div>
+   <h1 id="qh" style="font-size:1.3rem;line-height:1.35">${esc(q.q)}</h1>
+   <div style="display:flex"><button class="chip" data-listen>${UI.speaker}Ascolta</button></div>
+   <div class="opts" role="group" aria-labelledby="qh">${q.o.map((o,i)=>`<button class="opt" data-o="${i}"><span class="letter" aria-hidden="true">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+   <div id="qfb" aria-live="polite"></div></section></div>`;
+  $('.screen',app).classList.add('in');
+  if(prefs.tts)speak(q.q+'. '+q.o.join('. '));
+  requestAnimationFrame(()=>{const i=$('.bar i',app);if(i)i.style.width=((qi+1)/QUIZ.length*100)+'%'});
+  app.onclick=e=>{
+    if(e.target.closest('[data-listen]'))speak(q.q+'. '+q.o.map((o,i)=>'ABCD'[i]+': '+o).join('. '),e.target.closest('[data-listen]'));
+    const b=e.target.closest('[data-o]');if(b&&!b.disabled){
+      const i=+b.dataset.o,ok=i===q.a;if(ok)qs++;
+      $$('.opt',app).forEach((x,j)=>{x.disabled=true;if(j===q.a)x.classList.add('right');});if(!ok)b.classList.add('wrong');
+      $('#qfb').innerHTML=`<div class="qfb ${ok?'ok':'no'}"><b>${ok?'Giusto!':'Non proprio.'}</b> ${esc(q.e)}</div><button class="btn wide" style="margin-top:12px" data-qn>${qi<QUIZ.length-1?'Prossima domanda':'Vedi il risultato'} ${UI.next}</button>`;
+      if(prefs.tts)speak((ok?'Giusto! ':'Non proprio. ')+q.e);
+      setTimeout(()=>{const n=$('[data-qn]');n&&n.focus({preventScroll:true});n&&n.scrollIntoView({block:'nearest',behavior:prefs.rm?'auto':'smooth'})},250);
+    }
+    if(e.target.closest('[data-qn]')){qi++;quizQ();window.scrollTo(0,0)}
+  };
+}
+
+/* ---------- Tasti rapidi ---------- */
+const KEYS=[['Grassetto','Testo più marcato',['Ctrl','G']],['Corsivo','Testo inclinato',['Ctrl','I']],['Sottolineato','Riga sotto il testo',['Ctrl','S']],['Copia','Copia negli Appunti',['Ctrl','C']],['Taglia','Toglie e mette negli Appunti',['Ctrl','X']],['Incolla','Inserisce dagli Appunti',['Ctrl','V']],['Annulla','Torna indietro di un passo',['Ctrl','Z']],['Ripeti','Rifà quello che hai annullato',['Ctrl','Y']],['Centra','Testo al centro della riga',['Ctrl','E']],['Salva con nome','Sceglie nome e cartella',['F12']],['Cancella','La lettera a sinistra del cursore',['⌫']],['A capo','Inizia un nuovo paragrafo',['Invio']]];
+function renderKeys(){
+  app.innerHTML=`<div class="screen">${topbar()}<div style="display:grid;gap:6px"><h1 style="font-size:1.5rem">Tasti rapidi</h1><p style="color:var(--muted)">Con una tastiera fai prima. Tieni premuto <kbd>Ctrl</kbd> e poi premi la lettera.</p></div>
+   <ul class="keys">${KEYS.map(k=>`<li class="key"><span><span class="n">${k[0]}</span><span class="dsc">${k[1]}</span></span><span class="combo" aria-label="${k[2].join(' più ')}">${k[2].map(x=>`<kbd>${x}</kbd>`).join('<span aria-hidden="true">+</span>')}</span></li>`).join('')}</ul>
+   <p class="note">Sono i tasti di Word in italiano su Windows. Se il tuo Word è in inglese, il grassetto è <kbd>Ctrl</kbd> + <kbd>B</kbd> e il sottolineato <kbd>Ctrl</kbd> + <kbd>U</kbd>. Puoi provarli nella <b>Prova libera</b> con una tastiera collegata.</p></div>`;
+  app.onclick=null;
+}
+
+/* ---------- Scorciatoie vere nel simulatore ---------- */
+document.addEventListener('keydown',e=>{
+  if(!(view==='lesson'||view==='practice')||!sim.s)return;
+  if(!(e.ctrlKey||e.metaKey)||e.altKey)return;
+  const tag=(e.target.tagName||'').toLowerCase();if(tag==='input'||tag==='select')return;
+  const m={g:'bold',i:'italic',s:'underline',c:'copy',x:'cut',v:'paste',z:'undo',y:'redo',e:'center'}[e.key.toLowerCase()];
+  if(m){e.preventDefault();sim.cmd(m)}
+});
+
+go('home');
+})();
+</script>
+</body>
+</html>
